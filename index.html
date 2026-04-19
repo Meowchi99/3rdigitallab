@@ -735,6 +735,16 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 28px; margin-top: 
 .mkg-tab.active { color: var(--c-cyan, #00d4ff); border-bottom-color: var(--c-cyan, #00d4ff); }
 @media (max-width: 720px) { .tk-grid-2 { grid-template-columns: 1fr !important; } }
 
+
+/* MKG widget extras */
+.mkg-tabs { display:flex; gap:0; flex-wrap:wrap; border-bottom:1px solid var(--border); padding:0 12px; background:rgba(0,0,0,0.4); }
+.mkg-tab { background:none; border:none; color:var(--text-dim); padding:14px 18px; cursor:pointer; font-family:inherit; font-size:0.9rem; border-bottom:2px solid transparent; transition:all 0.15s; font-weight:600; }
+.mkg-tab:hover { color:var(--text); }
+.mkg-tab.active { color:var(--c-cyan,#00d4ff); border-bottom-color:var(--c-cyan,#00d4ff); }
+.mkg-panel { min-height:300px; }
+@media (max-width:900px){ #mkg-gen { grid-template-columns: 1fr !important; } .amz-grid-2 { grid-template-columns: 1fr !important; } }
+#mkg-table th, #mkg-table td { vertical-align: top; }
+
 </style>
 </head>
 
@@ -1354,6 +1364,264 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 28px; margin-top: 
       </div>
     </div>
 
+      <!-- ============ AMAZON HUB ============ -->
+      <div class="widget" id="amazon-hub" style="grid-column: 1 / -1;">
+        <div class="widget-head">
+          <div class="widget-title">🛒 Amazon Merch on Demand — Quick Hub</div>
+          <div style="color:var(--text-dim); font-size:0.85rem;">ลิงค์ตรงไปขายและตรวจคู่แข่งบน Amazon</div>
+        </div>
+        <div class="widget-full" style="padding:20px;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-bottom:20px;">
+            <a href="https://merch.amazon.com" target="_blank" rel="noopener" style="text-decoration:none; padding:18px; background:linear-gradient(135deg,#FF9900,#FF6B00); color:#000; border-radius:14px; display:flex; flex-direction:column; gap:6px; box-shadow:0 4px 16px rgba(255,153,0,0.25); transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              <div style="font-size:1.5rem;">🏪</div>
+              <div style="font-weight:800; font-size:1.05rem;">Merch Dashboard</div>
+              <div style="font-size:0.82rem; opacity:0.85;">เปิด merch.amazon.com</div>
+            </a>
+            <a href="https://www.amazon.com/Best-Sellers-Clothing-Shoes-Jewelry-Novelty-T-Shirts/zgbs/fashion/9056987011" target="_blank" rel="noopener" style="text-decoration:none; padding:18px; background:linear-gradient(135deg,#00d4ff,#0099cc); color:#000; border-radius:14px; display:flex; flex-direction:column; gap:6px; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              <div style="font-size:1.5rem;">🏆</div>
+              <div style="font-weight:800; font-size:1.05rem;">Best Sellers T-Shirts</div>
+              <div style="font-size:0.82rem; opacity:0.85;">Top 100 Novelty Tees</div>
+            </a>
+            <a href="https://www.amazon.com/Movers-Shakers-Clothing-Shoes-Jewelry/zgbs/fashion/movers-and-shakers/9056987011" target="_blank" rel="noopener" style="text-decoration:none; padding:18px; background:linear-gradient(135deg,#10b981,#059669); color:#fff; border-radius:14px; display:flex; flex-direction:column; gap:6px; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              <div style="font-size:1.5rem;">📈</div>
+              <div style="font-weight:800; font-size:1.05rem;">Movers &amp; Shakers</div>
+              <div style="font-size:0.82rem; opacity:0.9;">รายการกำลังพุ่งแรง</div>
+            </a>
+            <a href="https://www.amazon.com/gp/new-releases/fashion/9056987011" target="_blank" rel="noopener" style="text-decoration:none; padding:18px; background:linear-gradient(135deg,#8b5cf6,#6d28d9); color:#fff; border-radius:14px; display:flex; flex-direction:column; gap:6px; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+              <div style="font-size:1.5rem;">🆕</div>
+              <div style="font-weight:800; font-size:1.05rem;">New Releases</div>
+              <div style="font-size:0.82rem; opacity:0.9;">เสื้อใหม่ขายดี</div>
+            </a>
+          </div>
+
+          <!-- BSR / Search Lookup -->
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:20px;" class="amz-grid-2">
+            <div style="padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px;">
+              <div style="font-weight:700; margin-bottom:10px; color:var(--c-cyan,#00d4ff);">🔍 Search Amazon</div>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="amz-search-q" placeholder="พิมพ์ keyword (เช่น nurse coffee)" style="flex:1; padding:10px 12px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;" onkeydown="if(event.key==='Enter')amzSearch()" />
+                <button class="btn btn-primary" onclick="amzSearch()" style="padding:10px 18px;">ค้น</button>
+              </div>
+              <div style="color:var(--text-dim); font-size:0.78rem; margin-top:6px;">เปิดผลลัพธ์ amazon.com/s?k=… เพื่อเช็ค competition จริง</div>
+            </div>
+            <div style="padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px;">
+              <div style="font-weight:700; margin-bottom:10px; color:var(--c-yellow,#ffc107);">📊 BSR / Trend Lookup</div>
+              <div style="display:flex; gap:8px;">
+                <select id="amz-bsr-niche" style="flex:1; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;">
+                  <option value="nurse">Nurse</option><option value="teacher">Teacher</option><option value="dad">Dad</option><option value="mom">Mom</option>
+                  <option value="dog">Dog Lover</option><option value="cat">Cat Lover</option><option value="fishing">Fishing</option><option value="camping">Camping</option>
+                  <option value="christmas">Christmas</option><option value="halloween">Halloween</option><option value="valentine">Valentine</option><option value="4th of july">4th of July</option>
+                </select>
+                <button class="btn btn-primary" onclick="amzBsrLookup()" style="padding:10px 18px;">เช็ค BSR</button>
+              </div>
+              <div style="color:var(--text-dim); font-size:0.78rem; margin-top:6px;">ดู Best Sellers ของหมวดที่เลือก</div>
+            </div>
+          </div>
+
+          <!-- Trending Niches Best Sellers -->
+          <div style="font-weight:700; margin-bottom:12px; color:var(--text);">🔥 Top Niches แนะนำ — กดเพื่อดูตัวอย่างจริงบน Amazon</div>
+          <div id="amz-niche-cards" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px;"></div>
+        </div>
+      </div>
+
+      <!-- ============ MERCH KEYWORD GENERATOR (7 tabs) ============ -->
+      <div class="widget" id="merch-keyword-generator" style="grid-column: 1 / -1;">
+        <div class="widget-head">
+          <div class="widget-title">🪄 Merch Keyword Generator — Batch Workflow</div>
+          <div style="color:var(--text-dim); font-size:0.85rem;">อัพโหลดรูปลายเสื้อหลายๆ รูปแล้วให้ AI สร้าง Listing พร้อมเช็ค Trademark</div>
+        </div>
+        <div class="widget-full" style="padding:0;">
+          <div class="mkg-tabs" role="tablist">
+            <button class="mkg-tab active" data-mkg-tab="gen" onclick="mkgTab('gen', this)">🚀 Generator</button>
+            <button class="mkg-tab" data-mkg-tab="add" onclick="mkgTab('add', this)">➕ เพิ่ม Keyword</button>
+            <button class="mkg-tab" data-mkg-tab="rej" onclick="mkgTab('rej', this)">🚫 Rejected Keywords</button>
+            <button class="mkg-tab" data-mkg-tab="tm" onclick="mkgTab('tm', this)">™ Trademark DB</button>
+            <button class="mkg-tab" data-mkg-tab="hist" onclick="mkgTab('hist', this)">📜 History</button>
+            <button class="mkg-tab" data-mkg-tab="set" onclick="mkgTab('set', this)">⚙️ Settings</button>
+            <button class="mkg-tab" data-mkg-tab="api" onclick="mkgTab('api', this)">🔑 AI API</button>
+          </div>
+
+          <!-- ===== GENERATOR ===== -->
+          <div class="mkg-panel" id="mkg-gen" style="padding:20px; display:grid; grid-template-columns: 360px 1fr; gap:18px;">
+            <!-- LEFT: Options -->
+            <div style="display:flex; flex-direction:column; gap:14px;">
+              <div style="padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="font-weight:700;"><span id="mkg-ai-dot" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981; margin-right:8px;"></span>AI พร้อมทำงาน</div>
+                  <a href="#" onclick="mkgTab('api',document.querySelector('[data-mkg-tab=api]'));event.preventDefault();" style="color:var(--c-cyan,#00d4ff); font-size:0.82rem; text-decoration:none;">ตั้งค่า AI →</a>
+                </div>
+              </div>
+
+              <div style="padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px;">
+                <div style="font-weight:700; margin-bottom:12px;">📋 Content Options</div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;"><span><b>Brand Name</b> <span style="color:var(--text-dim); font-size:0.78rem;">(50 ตัวอักษร)</span> <span style="color:var(--c-yellow,#ffc107); font-size:0.78rem;">AI คิดให้</span></span><input type="checkbox" id="mkg-opt-brand" checked onchange="mkgUpdateOpts()" /></label>
+                  <input type="text" id="mkg-brand-input" placeholder="ชื่อแบรนด์ของคุณ (เว้นว่างให้ AI สุ่ม)" maxlength="50" oninput="mkgBrandCount()" style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;" />
+                  <div style="font-size:0.75rem; color:var(--text-dim);"><span id="mkg-brand-cnt">0</span>/50</div>
+                  <label style="display:flex; align-items:center; gap:6px; padding:8px 12px; background:rgba(16,185,129,0.12); border:1px solid #10b981; border-radius:8px; cursor:pointer; font-size:0.85rem;"><input type="checkbox" id="mkg-brand-all" /> <span>✅ ใช้ Brand นี้ทุกสินค้า</span></label>
+
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer; margin-top:6px;"><span><b>Bullet Point 1</b> <span style="color:var(--text-dim); font-size:0.78rem;">(250 chars)</span> <span style="color:var(--c-yellow,#ffc107); font-size:0.78rem;">AI คิดให้</span></span><input type="checkbox" id="mkg-opt-bp1" checked onchange="mkgUpdateOpts()" /></label>
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;"><span><b>Bullet Point 2</b> <span style="color:var(--text-dim); font-size:0.78rem;">(250 chars)</span> <span style="color:var(--c-yellow,#ffc107); font-size:0.78rem;">AI คิดให้</span></span><input type="checkbox" id="mkg-opt-bp2" checked onchange="mkgUpdateOpts()" /></label>
+                  <label style="display:flex; align-items:center; justify-content:space-between; cursor:pointer;"><span><b>Description</b> <span style="color:var(--text-dim); font-size:0.78rem;">(2,000 chars)</span> <span style="color:var(--c-yellow,#ffc107); font-size:0.78rem;">AI คิดให้</span></span><input type="checkbox" id="mkg-opt-desc" checked onchange="mkgUpdateOpts()" /></label>
+                </div>
+              </div>
+
+              <div style="padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px;">
+                <div style="font-weight:700; margin-bottom:12px;">🖼️ เลือกรูปลายเสื้อ</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <button class="btn btn-secondary" onclick="document.getElementById('mkg-files').click()" style="flex:1; min-width:120px; padding:12px; background:linear-gradient(135deg,#00d4ff,#0099cc); color:#000;">📁 เลือกรูป</button>
+                  <button class="btn btn-secondary" onclick="document.getElementById('mkg-folder').click()" style="flex:1; min-width:120px; padding:12px; background:linear-gradient(135deg,#8b5cf6,#6d28d9); color:#fff;">📂 เลือกทั้งโฟลเดอร์</button>
+                </div>
+                <input type="file" id="mkg-files" accept="image/*" multiple style="display:none;" onchange="mkgAddFiles(event)" />
+                <input type="file" id="mkg-folder" webkitdirectory directory multiple style="display:none;" onchange="mkgAddFiles(event)" />
+                <div id="mkg-file-status" style="margin-top:10px; font-size:0.85rem; color:var(--text-dim);">ยังไม่ได้เลือกรูป</div>
+                <div style="display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;">
+                  <button class="btn btn-secondary" onclick="mkgSelectAll()" style="padding:6px 12px; font-size:0.78rem; background:linear-gradient(135deg,#a78bfa,#8b5cf6); color:#fff;">เลือกทั้งหมด</button>
+                  <button class="btn btn-secondary" onclick="mkgDelSel()" style="padding:6px 12px; font-size:0.78rem; background:#ef4444; color:#fff;">🗑 ลบ</button>
+                  <button class="btn btn-secondary" onclick="mkgClearFiles()" style="padding:6px 12px; font-size:0.78rem;">ยกเลิก</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT: Results -->
+            <div>
+              <div style="padding:14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; margin-bottom:14px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+                  <div style="font-weight:700;">🎯 ผลลัพธ์</div>
+                  <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="mkgGenerate()" style="padding:8px 14px; font-size:0.85rem; background:#10b981;">🚀 สร้าง Keyword</button>
+                    <button class="btn btn-secondary" onclick="mkgStop()" style="padding:8px 14px; font-size:0.85rem; background:#ef4444; color:#fff;">⏹ หยุด</button>
+                    <button class="btn btn-secondary" onclick="mkgPause()" style="padding:8px 14px; font-size:0.85rem; background:#f59e0b; color:#fff;">⏸ หยุดชั่วคราว</button>
+                    <button class="btn btn-secondary" onclick="mkgCheckTM()" style="padding:8px 14px; font-size:0.85rem; background:#8b5cf6; color:#fff;">™ ตรวจ TM</button>
+                    <button class="btn btn-secondary" onclick="mkgExport()" style="padding:8px 14px; font-size:0.85rem; background:#0d9488; color:#fff;">📊 Export Excel</button>
+                    <button class="btn btn-secondary" onclick="mkgClearResults()" style="padding:8px 14px; font-size:0.85rem; background:#ef4444; color:#fff;">🗑 ล้าง</button>
+                  </div>
+                </div>
+                <div style="display:flex; gap:18px; margin-top:10px; font-size:0.85rem; color:var(--text-dim); flex-wrap:wrap;">
+                  <div>รูปทั้งหมด: <b id="mkg-stat-total" style="color:var(--text);">0</b></div>
+                  <div>สำเร็จ: <b id="mkg-stat-ok" style="color:#10b981;">0</b></div>
+                  <div>Keywords ที่ผ่าน: <b id="mkg-stat-pass" style="color:#10b981;">0</b></div>
+                  <div>ถูกกรอง: <b id="mkg-stat-rej" style="color:#ef4444;">0</b></div>
+                </div>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:12px; overflow:auto; max-height:520px;">
+                <table id="mkg-table" style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                  <thead>
+                    <tr style="background:rgba(0,0,0,0.5); position:sticky; top:0;">
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">#</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">รูป</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">TITLE (60)</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">BRAND (50)</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">BP1 ▼</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">BP2 ▼</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">DESC ▼</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">สถานะ</th>
+                      <th style="padding:10px; text-align:left; color:var(--text-dim); font-weight:600;">🛒</th>
+                    </tr>
+                  </thead>
+                  <tbody id="mkg-tbody">
+                    <tr><td colspan="9" style="padding:40px; text-align:center; color:var(--text-dim);">เลือกรูปและกด "สร้าง Keyword" เพื่อเริ่มต้น</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== ADD KEYWORD ===== -->
+          <div class="mkg-panel" id="mkg-add" style="padding:20px; display:none;">
+            <div style="font-weight:700; margin-bottom:12px;">➕ เพิ่ม Keyword ส่วนตัว — เก็บไว้ใน localStorage</div>
+            <div style="display:flex; gap:8px; max-width:520px; margin-bottom:12px;">
+              <input type="text" id="mkg-kw-input" placeholder="พิมพ์ keyword แล้วกด Enter" style="flex:1; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text);" onkeydown="if(event.key==='Enter')mkgAddKw()" />
+              <button class="btn btn-primary" onclick="mkgAddKw()" style="padding:10px 18px;">เพิ่ม</button>
+            </div>
+            <div id="mkg-kw-list" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+          </div>
+
+          <!-- ===== REJECTED ===== -->
+          <div class="mkg-panel" id="mkg-rej" style="padding:20px; display:none;">
+            <div style="font-weight:700; margin-bottom:6px;">🚫 Rejected Keywords (คำที่จะถูกกรองทิ้งอัตโนมัติ)</div>
+            <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:12px;">มีคำเริ่มต้น 30+ คำ — เพิ่มได้เอง</div>
+            <div style="display:flex; gap:8px; max-width:520px; margin-bottom:12px;">
+              <input type="text" id="mkg-rej-input" placeholder="พิมพ์คำที่ต้องการกรอง" style="flex:1; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text);" onkeydown="if(event.key==='Enter')mkgAddRej()" />
+              <button class="btn btn-primary" onclick="mkgAddRej()" style="padding:10px 18px;">เพิ่ม</button>
+              <button class="btn btn-secondary" onclick="mkgResetRej()" style="padding:10px 18px;">รีเซ็ตค่าเริ่มต้น</button>
+            </div>
+            <div id="mkg-rej-list" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+          </div>
+
+          <!-- ===== TRADEMARK ===== -->
+          <div class="mkg-panel" id="mkg-tm" style="padding:20px; display:none;">
+            <div style="font-weight:700; margin-bottom:6px;">™ Trademark DB — เช็คเครื่องหมายการค้า 7 สำนักงานทั่วโลก</div>
+            <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:12px;">USPTO · UKIPO · EUIPO · DPMA · INPI · JPO · CIPO</div>
+            <div style="display:flex; gap:8px; max-width:600px; margin-bottom:14px;">
+              <input type="text" id="mkg-tm-input" placeholder="พิมพ์คำที่อยากเช็ค (เช่น Just Do It)" style="flex:1; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text);" onkeydown="if(event.key==='Enter')mkgTmSearch()" />
+              <button class="btn btn-primary" onclick="mkgTmSearch()" style="padding:10px 18px;">เปิดทุกสำนักงาน</button>
+            </div>
+            <div id="mkg-tm-flags" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:18px;"></div>
+            <div style="font-weight:700; margin-bottom:8px;">📌 รายการ TM ส่วนตัว (เพิ่มเองเพื่อ block ภายในระบบ)</div>
+            <div style="display:flex; gap:8px; max-width:520px; margin-bottom:12px;">
+              <input type="text" id="mkg-tm-add" placeholder="เพิ่ม trademark ส่วนตัว" style="flex:1; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text);" onkeydown="if(event.key==='Enter')mkgTmAdd()" />
+              <button class="btn btn-primary" onclick="mkgTmAdd()" style="padding:10px 18px;">เพิ่ม</button>
+            </div>
+            <div id="mkg-tm-list" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+          </div>
+
+          <!-- ===== HISTORY ===== -->
+          <div class="mkg-panel" id="mkg-hist" style="padding:20px; display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div style="font-weight:700;">📜 History — บันทึกการ generate ทั้งหมด</div>
+              <button class="btn btn-secondary" onclick="mkgClearHist()" style="padding:8px 16px; background:#ef4444; color:#fff;">🗑 ล้างประวัติ</button>
+            </div>
+            <div id="mkg-hist-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+          </div>
+
+          <!-- ===== SETTINGS ===== -->
+          <div class="mkg-panel" id="mkg-set" style="padding:20px; display:none;">
+            <div style="font-weight:700; margin-bottom:12px;">⚙️ Settings</div>
+            <div style="display:flex; flex-direction:column; gap:14px; max-width:540px;">
+              <label><div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">Default Style</div>
+                <select id="mkg-set-style" style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;">
+                  <option>Vintage Retro</option><option>Cute Kawaii</option><option>Bold Typography</option><option>Minimalist</option><option>Hand-drawn</option><option>Grunge Distressed</option>
+                </select></label>
+              <label><div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">Default Audience</div>
+                <input type="text" id="mkg-set-audience" placeholder="เช่น nurses, dog moms, fishermen" style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;" /></label>
+              <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="mkg-set-tm" checked /> <span>เช็ค Trademark อัตโนมัติหลัง generate</span></label>
+              <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" id="mkg-set-history" checked /> <span>บันทึก History อัตโนมัติ</span></label>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-primary" onclick="mkgSetSave()" style="padding:10px 22px;">💾 บันทึก</button>
+                <button class="btn btn-secondary" onclick="mkgSetReset()" style="padding:10px 22px;">รีเซ็ต</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== AI API ===== -->
+          <div class="mkg-panel" id="mkg-api" style="padding:20px; display:none;">
+            <div style="font-weight:700; margin-bottom:6px;">🔑 AI API Keys</div>
+            <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:14px;">เก็บใน localStorage เครื่องคุณเท่านั้น — ไม่ส่งออกไปไหน</div>
+            <div style="display:flex; flex-direction:column; gap:14px; max-width:540px;">
+              <label><div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">Provider</div>
+                <select id="mkg-api-prov" style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;">
+                  <option value="mock">Mock / Built-in (ฟรี)</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="claude">Anthropic Claude</option>
+                </select></label>
+              <label><div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">API Key</div>
+                <input type="password" id="mkg-api-key" placeholder="sk-..." style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;" /></label>
+              <label><div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">Merch Informer Key (optional)</div>
+                <input type="password" id="mkg-api-mi" placeholder="" style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;" /></label>
+              <label><div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">Helium 10 Key (optional)</div>
+                <input type="password" id="mkg-api-h10" placeholder="" style="width:100%; padding:10px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:inherit;" /></label>
+              <div style="display:flex; gap:8px;">
+                <button class="btn btn-primary" onclick="mkgApiSave()" style="padding:10px 22px;">💾 บันทึก</button>
+                <button class="btn btn-secondary" onclick="mkgApiClear()" style="padding:10px 22px;">ล้าง</button>
+                <button class="btn btn-secondary" onclick="mkgApiTest()" style="padding:10px 22px;">🧪 ทดสอบ</button>
+              </div>
+              <div id="mkg-api-status" style="padding:10px 14px; border-radius:8px; background:rgba(0,0,0,0.3); border:1px dashed var(--border); color:var(--text-dim); font-size:0.88rem;">⚪ ยังไม่ได้ตั้งค่า — ใช้โหมด Mock ได้</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 <script>
 /* Toast + copy utilities (restored) */
 function showToast(msg, type){
@@ -1813,6 +2081,347 @@ document.addEventListener('DOMContentLoaded', () => {
   tkInitTab1();
   tk6Load();
   console.log('[3RdigitalPOD] Toolkit ready — 6 tabs active');
+});
+
+/* ===========================================================
+   11) AMAZON HUB
+   =========================================================== */
+const AMZ_NICHES = [
+  { name:'Nurse', q:'nurse t shirt', emoji:'👩‍⚕️', col:'#06b6d4' },
+  { name:'Teacher', q:'teacher t shirt', emoji:'👨‍🏫', col:'#8b5cf6' },
+  { name:'Dad', q:'dad t shirt funny', emoji:'👨', col:'#3b82f6' },
+  { name:'Mom', q:'mom t shirt funny', emoji:'👩', col:'#ec4899' },
+  { name:'Dog Lover', q:'dog mom t shirt', emoji:'🐶', col:'#f59e0b' },
+  { name:'Cat Lover', q:'cat mom t shirt', emoji:'🐱', col:'#a855f7' },
+  { name:'Fishing', q:'fishing t shirt', emoji:'🎣', col:'#0ea5e9' },
+  { name:'Camping', q:'camping t shirt funny', emoji:'⛺', col:'#10b981' },
+  { name:'Christmas', q:'christmas t shirt funny', emoji:'🎄', col:'#dc2626' },
+  { name:'Halloween', q:'halloween t shirt', emoji:'🎃', col:'#f97316' },
+  { name:'Valentine', q:'valentine t shirt couple', emoji:'❤️', col:'#e11d48' },
+  { name:'4th of July', q:'4th of july t shirt', emoji:'🇺🇸', col:'#1d4ed8' }
+];
+function amzRenderNiches(){
+  const box = document.getElementById('amz-niche-cards'); if (!box) return;
+  box.innerHTML = AMZ_NICHES.map(n => `<a href="https://www.amazon.com/s?k=${encodeURIComponent(n.q)}&i=fashion&rh=n%3A9056987011" target="_blank" rel="noopener" style="text-decoration:none; padding:14px; background:linear-gradient(135deg,${n.col}33,${n.col}11); border:1px solid ${n.col}66; border-radius:12px; display:flex; flex-direction:column; gap:4px; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+    <div style="font-size:1.4rem;">${n.emoji}</div>
+    <div style="color:var(--text); font-weight:700; font-size:0.92rem;">${n.name}</div>
+    <div style="color:var(--text-dim); font-size:0.74rem;">ดูตัวอย่างจริง 🛒</div>
+  </a>`).join('');
+}
+function amzSearch(){
+  const q = (document.getElementById('amz-search-q').value||'').trim();
+  if (!q) { showToast('พิมพ์ keyword ก่อนค่ะ','error'); return; }
+  const url = 'https://www.amazon.com/s?k=' + encodeURIComponent(q) + '&i=fashion&rh=n%3A9056987011';
+  window.open(url, '_blank', 'noopener');
+}
+function amzBsrLookup(){
+  const v = document.getElementById('amz-bsr-niche').value;
+  const url = 'https://www.amazon.com/s?k=' + encodeURIComponent(v + ' t shirt') + '&s=review-rank&i=fashion&rh=n%3A9056987011';
+  window.open(url, '_blank', 'noopener');
+}
+
+/* ===========================================================
+   12) MKG — TAB SWITCHER + STORE
+   =========================================================== */
+const MKG_KEYS = { kw:'mkg_kw_v1', rej:'mkg_rej_v1', tm:'mkg_tm_v1', hist:'mkg_hist_v1', set:'mkg_set_v1', api:'mkg_api_v1' };
+const MKG_DEFAULT_REJ = ['nike','adidas','disney','marvel','pokemon','starbucks','coca cola','pepsi','apple','google','amazon','facebook','instagram','tiktok','batman','superman','spider man','mickey mouse','star wars','harry potter','frozen','elsa','minecraft','fortnite','nba','nfl','mlb','olympic','super bowl','grammy','oscar','barbie','kardashian','beyonce','taylor swift'];
+const MKG_TM_OFFICES = [
+  { code:'USPTO', name:'🇺🇸 USPTO', url:q=>`https://tmsearch.uspto.gov/bin/showfield?f=toc&state=4801%3Ai0gxz1.1.1&p_search=searchss&p_L=50&BackReference=&p_plural=yes&p_s_PARA1=&p_tagrepl%7E%3A=PARA1%24LD&expr=PARA1+AND+PARA2&p_s_PARA2=${encodeURIComponent(q)}&p_tagrepl%7E%3A=PARA2%24COMB&p_op_ALL=AND&a_default=search&a_search=Submit+Query&a_search=Submit+Query` },
+  { code:'TESS',  name:'🇺🇸 TESS Quick',  url:q=>`https://tmsearch.uspto.gov/search/search-information?searchText=${encodeURIComponent(q)}` },
+  { code:'UKIPO', name:'🇬🇧 UKIPO',  url:q=>`https://trademarks.ipo.gov.uk/ipo-tmtext?detailsRequested=C&wordSearchPhrase=${encodeURIComponent(q)}` },
+  { code:'EUIPO', name:'🇪🇺 EUIPO',  url:q=>`https://www.tmdn.org/tmview/#/tmview/results?text=${encodeURIComponent(q)}` },
+  { code:'DPMA',  name:'🇩🇪 DPMA',   url:q=>`https://register.dpma.de/DPMAregister/marke/einsteiger?searchString=${encodeURIComponent(q)}` },
+  { code:'INPI',  name:'🇫🇷 INPI',   url:q=>`https://data.inpi.fr/recherche_avancee/marques?q=${encodeURIComponent(q)}` },
+  { code:'JPO',   name:'🇯🇵 JPO',    url:q=>`https://www.j-platpat.inpit.go.jp/t0100` },
+  { code:'CIPO',  name:'🇨🇦 CIPO',   url:q=>`https://ised-isde.canada.ca/cipo/trademark-search/srch?lang=eng&queryString=${encodeURIComponent(q)}` }
+];
+
+function mkgPersist(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+function mkgLoad(k,d){ try { const r = localStorage.getItem(k); return r? JSON.parse(r) : d; } catch(e){ return d; } }
+
+const MKG = {
+  files: [],   // {id, name, dataURL, selected}
+  results: [], // {id, fileId, brand, title, bp1, bp2, desc, status}
+  running: false, paused: false, stop: false,
+  kw: mkgLoad(MKG_KEYS.kw, []),
+  rej: mkgLoad(MKG_KEYS.rej, MKG_DEFAULT_REJ.slice()),
+  tm: mkgLoad(MKG_KEYS.tm, []),
+  hist: mkgLoad(MKG_KEYS.hist, []),
+  set: mkgLoad(MKG_KEYS.set, { style:'Vintage Retro', audience:'', tm:true, hist:true }),
+  api: mkgLoad(MKG_KEYS.api, { prov:'mock', key:'', mi:'', h10:'' })
+};
+
+function mkgTab(name, btn){
+  document.querySelectorAll('.mkg-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('[data-mkg-tab]').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('mkg-' + name);
+  if (panel) panel.style.display = (name==='gen') ? 'grid' : 'block';
+  if (btn) btn.classList.add('active');
+  if (name==='add') mkgRenderKw();
+  if (name==='rej') mkgRenderRej();
+  if (name==='tm') mkgRenderTm();
+  if (name==='hist') mkgRenderHist();
+  if (name==='set') mkgSetLoad();
+  if (name==='api') mkgApiLoad();
+}
+
+/* ===== Generator ===== */
+function mkgUpdateOpts(){ /* just for UI feedback — generation reads checkboxes live */ }
+function mkgBrandCount(){ const v = document.getElementById('mkg-brand-input').value || ''; document.getElementById('mkg-brand-cnt').textContent = v.length; }
+
+function mkgAddFiles(e){
+  const files = Array.from(e.target.files || []);
+  if (!files.length) return;
+  let added = 0;
+  files.forEach(f => {
+    if (!f.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      MKG.files.push({ id: Date.now()+'-'+Math.random().toString(36).slice(2,7), name:f.name, dataURL: ev.target.result, selected:true });
+      added++;
+      mkgUpdateFileStatus();
+    };
+    reader.readAsDataURL(f);
+  });
+  e.target.value = '';
+}
+function mkgUpdateFileStatus(){
+  const n = MKG.files.length;
+  const sel = MKG.files.filter(f=>f.selected).length;
+  document.getElementById('mkg-file-status').innerHTML = n? `📁 มี <b style="color:var(--text);">${n}</b> รูป — เลือกไว้ <b style="color:#10b981;">${sel}</b>` : 'ยังไม่ได้เลือกรูป';
+  document.getElementById('mkg-stat-total').textContent = n;
+}
+function mkgSelectAll(){ MKG.files.forEach(f => f.selected = true); mkgUpdateFileStatus(); }
+function mkgDelSel(){ MKG.files = MKG.files.filter(f => !f.selected); mkgUpdateFileStatus(); }
+function mkgClearFiles(){ MKG.files = []; mkgUpdateFileStatus(); }
+
+function mkgRandTitle(brand, niche){
+  const adj = ['Vintage','Retro','Funny','Cute','Premium','Classic','Bold','Soft','Cozy','Minimalist'];
+  const noun = ['Graphic Tee','T-Shirt','Apparel','Gift','Top','Shirt'];
+  return `${brand? brand+' ' : ''}${adj[Math.floor(Math.random()*adj.length)]} ${niche} ${noun[Math.floor(Math.random()*noun.length)]} Gift`.slice(0,60);
+}
+function mkgRandBrand(){
+  const a = ['Vivid','Crafty','Bright','Bold','Heritage','Sunny','Cozy','Pixel'];
+  const b = ['Threads','Apparel','Co.','Studio','Press','Goods','Lab','Tribe'];
+  return a[Math.floor(Math.random()*a.length)] + ' ' + b[Math.floor(Math.random()*b.length)];
+}
+function mkgGuessNiche(name){
+  const lc = (name||'').toLowerCase();
+  const map = { nurse:'Nurse', teach:'Teacher', dog:'Dog Lover', cat:'Cat Lover', fish:'Fishing', camp:'Camping', dad:'Dad', mom:'Mom', christ:'Christmas', halloween:'Halloween', valentine:'Valentine', july:'4th of July', mechanic:'Mechanic' };
+  for (const k in map) if (lc.includes(k)) return map[k];
+  return 'Funny Graphic';
+}
+function mkgIsRejected(text){
+  const lc = (text||'').toLowerCase();
+  return MKG.rej.some(r => lc.includes(r.toLowerCase()));
+}
+
+async function mkgGenerate(){
+  const sel = MKG.files.filter(f => f.selected);
+  if (!sel.length) { showToast('เลือกรูปก่อนค่ะ','error'); return; }
+  if (MKG.running) { showToast('กำลังทำงานอยู่','error'); return; }
+  MKG.running = true; MKG.paused = false; MKG.stop = false;
+  MKG.results = [];
+  const useBrand = document.getElementById('mkg-opt-brand').checked;
+  const useBp1 = document.getElementById('mkg-opt-bp1').checked;
+  const useBp2 = document.getElementById('mkg-opt-bp2').checked;
+  const useDesc = document.getElementById('mkg-opt-desc').checked;
+  const customBrand = document.getElementById('mkg-brand-input').value.trim();
+  const useSameBrand = document.getElementById('mkg-brand-all').checked;
+  let ok = 0, pass = 0, rej = 0;
+
+  for (let i = 0; i < sel.length; i++) {
+    if (MKG.stop) break;
+    while (MKG.paused && !MKG.stop) await new Promise(r => setTimeout(r, 200));
+    const f = sel[i];
+    const niche = mkgGuessNiche(f.name);
+    const brand = useBrand ? (useSameBrand && customBrand ? customBrand : (customBrand || mkgRandBrand())) : '';
+    const title = mkgRandTitle(brand, niche);
+    const bp1 = useBp1 ? `Premium ${niche.toLowerCase()} graphic on soft preshrunk cotton blend tee. Vibrant fade-resistant print built to last wash after wash.`.slice(0,250) : '';
+    const bp2 = useBp2 ? `Perfect gift idea for ${niche.toLowerCase()} lovers, birthdays, holidays, or just because. Modern unisex fit available in multiple sizes.`.slice(0,250) : '';
+    const desc = useDesc ? `Looking for the perfect ${niche.toLowerCase()} shirt? Our exclusive ${niche} design is printed in the USA on quality apparel. Lightweight, soft, and durable. Click "Add to Cart" now and stand out with style.`.slice(0,2000) : '';
+    const isRej = mkgIsRejected(title + ' ' + brand);
+    const status = isRej ? 'rejected' : 'ok';
+    const row = { id: Date.now()+'-'+i, fileId: f.id, fileName: f.name, dataURL: f.dataURL, brand, title, bp1, bp2, desc, status, niche };
+    MKG.results.push(row);
+    if (isRej) rej++; else { ok++; pass++; }
+    mkgRenderTable();
+    document.getElementById('mkg-stat-ok').textContent = ok;
+    document.getElementById('mkg-stat-pass').textContent = pass;
+    document.getElementById('mkg-stat-rej').textContent = rej;
+    await new Promise(r => setTimeout(r, 250));
+  }
+  MKG.running = false;
+  if (MKG.set.hist) {
+    MKG.hist.unshift({ ts: Date.now(), count: MKG.results.length, ok, rej });
+    MKG.hist = MKG.hist.slice(0,50);
+    mkgPersist(MKG_KEYS.hist, MKG.hist);
+  }
+  showToast(`เสร็จสิ้น! สำเร็จ ${ok} รายการ, ถูกกรอง ${rej}`);
+}
+function mkgStop(){ MKG.stop = true; MKG.paused = false; showToast('หยุดแล้ว','error'); }
+function mkgPause(){ MKG.paused = !MKG.paused; showToast(MKG.paused? 'หยุดชั่วคราว' : 'ทำงานต่อ'); }
+
+function mkgRenderTable(){
+  const tb = document.getElementById('mkg-tbody');
+  if (!MKG.results.length) { tb.innerHTML = '<tr><td colspan="9" style="padding:40px; text-align:center; color:var(--text-dim);">ยังไม่มีผลลัพธ์</td></tr>'; return; }
+  tb.innerHTML = MKG.results.map((r,i) => {
+    const stCol = r.status==='ok' ? '#10b981' : '#ef4444';
+    const stTxt = r.status==='ok' ? '✅ ผ่าน' : '🚫 ถูกกรอง';
+    const safe = (s) => (s||'').replace(/</g,'&lt;');
+    return `<tr style="border-top:1px solid var(--border);">
+      <td style="padding:8px;">${i+1}</td>
+      <td style="padding:8px;"><img src="${r.dataURL}" alt="${safe(r.fileName)}" style="width:42px; height:42px; object-fit:cover; border-radius:6px; background:#000;" /></td>
+      <td style="padding:8px; max-width:220px;"><div style="color:var(--text); font-weight:600; font-size:0.85rem; line-height:1.3;">${safe(r.title)}</div><div style="color:var(--text-dim); font-size:0.72rem;">${r.title.length}/60</div></td>
+      <td style="padding:8px; max-width:140px;"><div style="font-size:0.83rem;">${safe(r.brand)}</div><div style="color:var(--text-dim); font-size:0.72rem;">${(r.brand||'').length}/50</div></td>
+      <td style="padding:8px; max-width:200px;"><details><summary style="cursor:pointer; color:var(--c-cyan,#00d4ff); font-size:0.78rem;">ดู (${(r.bp1||'').length})</summary><div style="font-size:0.78rem; line-height:1.4; margin-top:4px;">${safe(r.bp1)}</div></details></td>
+      <td style="padding:8px; max-width:200px;"><details><summary style="cursor:pointer; color:var(--c-cyan,#00d4ff); font-size:0.78rem;">ดู (${(r.bp2||'').length})</summary><div style="font-size:0.78rem; line-height:1.4; margin-top:4px;">${safe(r.bp2)}</div></details></td>
+      <td style="padding:8px; max-width:200px;"><details><summary style="cursor:pointer; color:var(--c-cyan,#00d4ff); font-size:0.78rem;">ดู (${(r.desc||'').length})</summary><div style="font-size:0.78rem; line-height:1.4; margin-top:4px;">${safe(r.desc)}</div></details></td>
+      <td style="padding:8px;"><span style="color:${stCol}; font-weight:700; font-size:0.8rem;">${stTxt}</span></td>
+      <td style="padding:8px;"><a href="https://www.amazon.com/s?k=${encodeURIComponent(r.title)}&i=fashion" target="_blank" rel="noopener" title="ค้น Amazon" style="text-decoration:none; padding:5px 10px; background:#FF9900; color:#000; border-radius:6px; font-size:0.75rem; font-weight:700;">🔍</a></td>
+    </tr>`;
+  }).join('');
+}
+function mkgClearResults(){ MKG.results = []; mkgRenderTable(); document.getElementById('mkg-stat-ok').textContent='0'; document.getElementById('mkg-stat-pass').textContent='0'; document.getElementById('mkg-stat-rej').textContent='0'; }
+
+function mkgCheckTM(){
+  if (!MKG.results.length) { showToast('ยังไม่มีผลลัพธ์ให้ตรวจ','error'); return; }
+  const flagged = MKG.results.filter(r => MKG.tm.some(t => r.title.toLowerCase().includes(t.toLowerCase())));
+  if (flagged.length) { showToast(`พบ ${flagged.length} รายการตรงกับ TM ของคุณ`, 'error'); flagged.forEach(r => r.status = 'rejected'); mkgRenderTable(); }
+  else { showToast('ไม่พบรายการที่ตรง TM ส่วนตัว — ลองเช็คในแท็บ Trademark DB ด้วย'); }
+}
+
+function mkgExport(){
+  if (!MKG.results.length) { showToast('ไม่มีข้อมูล export','error'); return; }
+  const head = ['#','File','Title','Brand','BP1','BP2','Description','Status','Niche','Amazon URL'];
+  const rows = MKG.results.map((r,i) => [i+1, r.fileName, r.title, r.brand, r.bp1, r.bp2, r.desc, r.status, r.niche, 'https://www.amazon.com/s?k=' + encodeURIComponent(r.title)]);
+  const esc = (v) => '"' + String(v||'').replace(/"/g,'""') + '"';
+  const csv = '\uFEFF' + [head.map(esc).join(','), ...rows.map(r => r.map(esc).join(','))].join('\n');
+  const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'merch_listings_' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  showToast('Export สำเร็จ — เปิดด้วย Excel ได้เลย');
+}
+
+/* ===== Add Keyword ===== */
+function mkgAddKw(){
+  const inp = document.getElementById('mkg-kw-input');
+  const v = (inp.value||'').trim(); if (!v) return;
+  if (!MKG.kw.includes(v)) MKG.kw.unshift(v);
+  inp.value = ''; mkgPersist(MKG_KEYS.kw, MKG.kw); mkgRenderKw();
+}
+function mkgDelKw(i){ MKG.kw.splice(i,1); mkgPersist(MKG_KEYS.kw, MKG.kw); mkgRenderKw(); }
+function mkgRenderKw(){
+  const box = document.getElementById('mkg-kw-list'); if (!box) return;
+  if (!MKG.kw.length) { box.innerHTML = '<div style="color:var(--text-dim);">ยังไม่มี keyword — เพิ่มได้เลย</div>'; return; }
+  box.innerHTML = MKG.kw.map((k,i) => `<span style="padding:6px 12px; background:rgba(0,212,255,0.12); border:1px solid var(--c-cyan,#00d4ff); border-radius:14px; color:var(--c-cyan,#00d4ff); font-size:0.85rem; display:inline-flex; gap:6px; align-items:center;">${k} <button onclick="mkgDelKw(${i})" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:1rem; padding:0;">×</button></span>`).join('');
+}
+
+/* ===== Rejected ===== */
+function mkgAddRej(){
+  const inp = document.getElementById('mkg-rej-input');
+  const v = (inp.value||'').trim().toLowerCase(); if (!v) return;
+  if (!MKG.rej.includes(v)) MKG.rej.unshift(v);
+  inp.value = ''; mkgPersist(MKG_KEYS.rej, MKG.rej); mkgRenderRej();
+}
+function mkgDelRej(i){ MKG.rej.splice(i,1); mkgPersist(MKG_KEYS.rej, MKG.rej); mkgRenderRej(); }
+function mkgResetRej(){ MKG.rej = MKG_DEFAULT_REJ.slice(); mkgPersist(MKG_KEYS.rej, MKG.rej); mkgRenderRej(); showToast('รีเซ็ตเป็นค่าเริ่มต้นแล้ว'); }
+function mkgRenderRej(){
+  const box = document.getElementById('mkg-rej-list'); if (!box) return;
+  box.innerHTML = MKG.rej.map((k,i) => `<span style="padding:6px 12px; background:rgba(239,68,68,0.12); border:1px solid #ef4444; border-radius:14px; color:#fca5a5; font-size:0.85rem; display:inline-flex; gap:6px; align-items:center;">${k} <button onclick="mkgDelRej(${i})" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:1rem; padding:0;">×</button></span>`).join('');
+}
+
+/* ===== Trademark ===== */
+function mkgTmSearch(){
+  const v = (document.getElementById('mkg-tm-input').value||'').trim();
+  if (!v) { showToast('พิมพ์คำที่จะเช็คก่อนค่ะ','error'); return; }
+  MKG_TM_OFFICES.forEach(o => window.open(o.url(v), '_blank', 'noopener'));
+  showToast('เปิด ' + MKG_TM_OFFICES.length + ' สำนักงาน TM แล้ว');
+}
+function mkgRenderTm(){
+  const flags = document.getElementById('mkg-tm-flags');
+  if (flags) flags.innerHTML = MKG_TM_OFFICES.map(o => `<button onclick="(function(){const v=document.getElementById('mkg-tm-input').value.trim(); if(!v){showToast('พิมพ์คำก่อน','error');return;} window.open('${o.url('__Q__')}'.replace('__Q__', encodeURIComponent(v)), '_blank', 'noopener');})()" class="btn btn-secondary" style="padding:10px 12px; font-size:0.85rem;">${o.name}</button>`).join('');
+  const list = document.getElementById('mkg-tm-list');
+  if (list) list.innerHTML = MKG.tm.length? MKG.tm.map((t,i) => `<span style="padding:6px 12px; background:rgba(139,92,246,0.12); border:1px solid #8b5cf6; border-radius:14px; color:#c4b5fd; font-size:0.85rem; display:inline-flex; gap:6px; align-items:center;">™ ${t} <button onclick="mkgDelTm(${i})" style="background:none; border:none; color:#ef4444; cursor:pointer; font-size:1rem; padding:0;">×</button></span>`).join('') : '<div style="color:var(--text-dim);">ยังไม่มี TM ส่วนตัว</div>';
+}
+function mkgTmAdd(){
+  const inp = document.getElementById('mkg-tm-add');
+  const v = (inp.value||'').trim(); if (!v) return;
+  if (!MKG.tm.includes(v)) MKG.tm.unshift(v);
+  inp.value = ''; mkgPersist(MKG_KEYS.tm, MKG.tm); mkgRenderTm();
+}
+function mkgDelTm(i){ MKG.tm.splice(i,1); mkgPersist(MKG_KEYS.tm, MKG.tm); mkgRenderTm(); }
+
+/* ===== History ===== */
+function mkgRenderHist(){
+  const box = document.getElementById('mkg-hist-list'); if (!box) return;
+  if (!MKG.hist.length) { box.innerHTML = '<div style="color:var(--text-dim);">ยังไม่มีประวัติ</div>'; return; }
+  box.innerHTML = MKG.hist.map(h => {
+    const d = new Date(h.ts);
+    return `<div style="padding:12px 14px; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; display:flex; justify-content:space-between; align-items:center;">
+      <div><div style="font-weight:600; color:var(--text);">${d.toLocaleString('th-TH')}</div><div style="color:var(--text-dim); font-size:0.82rem;">รวม ${h.count} รูป — สำเร็จ ${h.ok} — ถูกกรอง ${h.rej}</div></div>
+      <div style="font-size:1.2rem;">${h.ok > h.rej ? '✅' : '⚠️'}</div>
+    </div>`;
+  }).join('');
+}
+function mkgClearHist(){ if(!confirm('ล้างประวัติทั้งหมด?')) return; MKG.hist = []; mkgPersist(MKG_KEYS.hist, MKG.hist); mkgRenderHist(); }
+
+/* ===== Settings ===== */
+function mkgSetLoad(){
+  document.getElementById('mkg-set-style').value = MKG.set.style || 'Vintage Retro';
+  document.getElementById('mkg-set-audience').value = MKG.set.audience || '';
+  document.getElementById('mkg-set-tm').checked = !!MKG.set.tm;
+  document.getElementById('mkg-set-history').checked = !!MKG.set.hist;
+}
+function mkgSetSave(){
+  MKG.set = {
+    style: document.getElementById('mkg-set-style').value,
+    audience: document.getElementById('mkg-set-audience').value,
+    tm: document.getElementById('mkg-set-tm').checked,
+    hist: document.getElementById('mkg-set-history').checked
+  };
+  mkgPersist(MKG_KEYS.set, MKG.set); showToast('บันทึก Settings แล้ว');
+}
+function mkgSetReset(){ MKG.set = { style:'Vintage Retro', audience:'', tm:true, hist:true }; mkgPersist(MKG_KEYS.set, MKG.set); mkgSetLoad(); showToast('รีเซ็ตแล้ว'); }
+
+/* ===== AI API ===== */
+function mkgApiLoad(){
+  document.getElementById('mkg-api-prov').value = MKG.api.prov || 'mock';
+  document.getElementById('mkg-api-key').value = MKG.api.key || '';
+  document.getElementById('mkg-api-mi').value = MKG.api.mi || '';
+  document.getElementById('mkg-api-h10').value = MKG.api.h10 || '';
+  mkgApiUpdateStatus();
+}
+function mkgApiSave(){
+  MKG.api = {
+    prov: document.getElementById('mkg-api-prov').value,
+    key: document.getElementById('mkg-api-key').value,
+    mi: document.getElementById('mkg-api-mi').value,
+    h10: document.getElementById('mkg-api-h10').value
+  };
+  mkgPersist(MKG_KEYS.api, MKG.api); mkgApiUpdateStatus(); showToast('บันทึก API แล้ว');
+}
+function mkgApiClear(){ MKG.api = { prov:'mock', key:'', mi:'', h10:'' }; mkgPersist(MKG_KEYS.api, MKG.api); mkgApiLoad(); showToast('ล้างเรียบร้อย'); }
+function mkgApiTest(){ const s = MKG.api.prov === 'mock' ? '✅ Mock พร้อมใช้งาน' : (MKG.api.key ? '✅ มี API key — พร้อมเรียกจริงเมื่อเปิดใช้งาน' : '⚠️ ยังไม่มี API key สำหรับ ' + MKG.api.prov); showToast(s); }
+function mkgApiUpdateStatus(){
+  const s = document.getElementById('mkg-api-status'); if (!s) return;
+  const parts = [];
+  if (MKG.api.prov && MKG.api.prov !== 'mock') parts.push('Provider: ' + MKG.api.prov);
+  if (MKG.api.key) parts.push('AI Key ✓');
+  if (MKG.api.mi) parts.push('Merch Informer ✓');
+  if (MKG.api.h10) parts.push('Helium 10 ✓');
+  if (parts.length) { s.innerHTML = '🟢 ตั้งค่าแล้ว: ' + parts.join(' · '); s.style.color = '#10b981'; }
+  else { s.innerHTML = '⚪ ยังไม่ได้ตั้งค่า — โหมด Mock พร้อมใช้งาน'; s.style.color = 'var(--text-dim)'; }
+}
+
+/* ===== Initialize MKG + Amazon Hub on DOMContentLoaded ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  try { amzRenderNiches(); } catch(e){}
+  try { mkgRenderTm(); } catch(e){}
+  try { mkgUpdateFileStatus(); } catch(e){}
+  try { mkgRenderTable(); } catch(e){}
 });
 </script>
 </body>
