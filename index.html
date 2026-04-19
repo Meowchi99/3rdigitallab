@@ -1583,7 +1583,7 @@ const TM_OFFICES = [
   { flag: '🇯🇵', country: 'Japan',   office: 'JPO J-PlatPat', url: _q => `https://www.j-platpat.inpit.go.jp/s0100` }
 ];
 function renderTMFlags() {
-  const box = document.getElementById('tm-flags'); if (\!box) return;
+  const box = document.getElementById('tm-flags'); if (!box) return;
   box.innerHTML = TM_OFFICES.map((o, i) => `
     <button class="tm-flag" onclick="openTM(${i})">
       <span class="tf-flag">${o.flag}</span>
@@ -1592,7 +1592,7 @@ function renderTMFlags() {
 }
 function openTM(i) {
   const q = (document.getElementById('tm-q').value || '').trim();
-  if (\!q) { toast('กรุณากรอกคำที่ต้องการตรวจ', 'err'); return; }
+  if (!q) { toast('กรุณากรอกคำที่ต้องการตรวจ', 'err'); return; }
   window.open(TM_OFFICES[i].url(q), '_blank');
 }
 
@@ -1606,7 +1606,7 @@ function calcBSR() {
   const cat  = document.getElementById('bsr-cat').value;
   const price = +document.getElementById('bsr-price').value || 0;
   const mkt  = document.getElementById('bsr-market').value;
-  if (\!rank || rank < 1) { toast('กรุณากรอก BSR', 'err'); return; }
+  if (!rank || rank < 1) { toast('กรุณากรอก BSR', 'err'); return; }
   const salesDay = (BSR_K[cat] * BSR_MARKET[mkt]) / Math.pow(rank, 0.72);
   const salesMonth = salesDay * 30;
   const royalty = Math.max(0, price - 8) * salesMonth;
@@ -1637,7 +1637,7 @@ const LIST_PRICE = {
 };
 const MARKET_MULT = { us:1.0, uk:0.95, de:1.05, fr:1.05, it:1.05, es:1.05, jp:1.10 };
 function calcRoyalty() {
-  const t = document.getElementById('ro-type'); if (\!t) return;
+  const t = document.getElementById('ro-type'); if (!t) return;
   const type = t.value, c = document.getElementById('ro-color').value, price = +document.getElementById('ro-price').value || 0, mkt = document.getElementById('ro-market').value;
   const cost = (LIST_PRICE[type][c] || 0) * (MARKET_MULT[mkt] || 1);
   const royalty = Math.max(0, price - cost);
@@ -1656,12 +1656,12 @@ function calcRoyalty() {
    =========================================================== */
 const TIER_NEXT = { 10: 25, 25: 100, 100: 500, 500: 1000, 1000: 2000, 2000: 4000, 4000: 8000, 8000: null };
 function updateTier() {
-  const sel = document.getElementById('tr-cur'); if (\!sel) return;
+  const sel = document.getElementById('tr-cur'); if (!sel) return;
   const cur = +sel.value;
   const sold = +document.getElementById('tr-sold').value || 0;
   const next = TIER_NEXT[cur];
   const out = document.getElementById('tr-out');
-  if (\!next) {
+  if (!next) {
     out.innerHTML = `<div class="stat-grid"><div class="stat"><div class="stat-label">Status</div><div class="stat-value" style="color:var(--c-yellow)">🏆 Top Tier 8000</div></div></div>`;
     return;
   }
@@ -1695,10 +1695,10 @@ function findNiches() {
   const aud  = document.getElementById('nf-aud').value.trim() || 'ทั่วไป';
   const season = document.getElementById('nf-season').value;
   const comp = document.getElementById('nf-comp').value;
-  if (\!seed) { toast('กรุณากรอก Seed keyword', 'err'); return; }
+  if (!seed) { toast('กรุณากรอก Seed keyword', 'err'); return; }
   let base = null;
   for (const key of Object.keys(NICHE_BANK)) if (seed.includes(key)) { base = NICHE_BANK[key]; break; }
-  if (\!base) base = [`${seed} Mom`,`${seed} Dad`,`${seed} Squad`,`${seed} Club`,`${seed} Life`,`Best ${seed} Ever`];
+  if (!base) base = [`${seed} Mom`,`${seed} Dad`,`${seed} Squad`,`${seed} Club`,`${seed} Life`,`Best ${seed} Ever`];
   const heats = ['🔥 Hot','⭐ Trending','🌱 Emerging','💎 Niche','🚀 Rising'];
   const out = base.slice(0,5).map((n, i) => {
     const heatIdx = comp === 'low' ? 2+i : comp === 'medium' ? i : Math.min(i+1, 4);
@@ -1729,7 +1729,7 @@ function expandPrompts() {
   const mix   = document.getElementById('pe-mix').value;
   const style = document.getElementById('pe-style').value;
   const count = +document.getElementById('pe-count').value;
-  if (\!niche) { toast('กรุณากรอก Niche / Theme', 'err'); return; }
+  if (!niche) { toast('กรุณากรอก Niche / Theme', 'err'); return; }
   const styles = (mix === 'same') ? Array(count).fill(style) : shuffle(STYLE_MIX.slice()).slice(0, count);
   const rows = styles.map((s, i) => {
     const p = buildPrompt(niche, s);
@@ -1745,9 +1745,9 @@ function expandPrompts() {
 function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function copyAll(containerId) {
   const c = document.getElementById(containerId);
-  if (\!c) return;
+  if (!c) return;
   const rows = c.querySelectorAll('[data-prompt]');
-  if (\!rows.length) { toast('ยังไม่มี Prompt — กด Generate ก่อน', 'err'); return; }
+  if (!rows.length) { toast('ยังไม่มี Prompt — กด Generate ก่อน', 'err'); return; }
   const all = Array.from(rows).map((r,i) => `${i+1}. ${decodeURIComponent(r.dataset.prompt)}`).join('\n\n');
   copyText(all);
 }
@@ -1776,7 +1776,7 @@ function mkgSyncCols() {
     const col = th.dataset.col;
     const chk = document.getElementById('mkg-' + map[col]);
     const on  = chk ? chk.checked : true;
-    th.classList.toggle('off', \!on);
+    th.classList.toggle('off', !on);
     const idx = th.cellIndex;
     document.querySelectorAll(`#mkg-table tr`).forEach(tr => {
       if (tr.children[idx]) tr.children[idx].style.display = on ? '' : 'none';
@@ -1785,7 +1785,7 @@ function mkgSyncCols() {
 }
 function mkgAddFiles(evt) {
   const files = Array.from(evt.target.files || []).filter(f => f.type.startsWith('image/'));
-  if (\!files.length) return;
+  if (!files.length) return;
   files.forEach(f => {
     const reader = new FileReader();
     reader.onload = e => {
@@ -1797,8 +1797,8 @@ function mkgAddFiles(evt) {
   evt.target.value = '';
 }
 function mkgRender() {
-  const tbody = document.getElementById('mkg-tbody'); if (\!tbody) return;
-  if (\!MKG.rows.length) {
+  const tbody = document.getElementById('mkg-tbody'); if (!tbody) return;
+  if (!MKG.rows.length) {
     tbody.innerHTML = `<tr class="mkg-empty-row"><td colspan="8">เลือกรูปและกด "สร้าง Keywords" เพื่อเริ่มต้น</td></tr>`;
   } else {
     tbody.innerHTML = MKG.rows.map((r, i) => {
@@ -1831,7 +1831,7 @@ function mkgSelectAll() { MKG.rows.forEach(r => r.selected = true); mkgRender();
 function mkgCancelSelect() { MKG.rows.forEach(r => r.selected = false); mkgRender(); }
 function mkgDeleteSelected() {
   const before = MKG.rows.length;
-  MKG.rows = MKG.rows.filter(r => \!r.selected);
+  MKG.rows = MKG.rows.filter(r => !r.selected);
   toast(`ลบแล้ว ${before - MKG.rows.length} รูป`, 'ok');
   mkgRender();
 }
@@ -1845,7 +1845,7 @@ function mkgGuessNiche(filename) {
 function mkgTruncate(s, n) { return s.length > n ? s.slice(0, n-1).trim() + '…' : s; }
 async function mkgGenerate() {
   const selected = MKG.rows.filter(r => r.selected);
-  if (\!selected.length) { toast('ยังไม่ได้เลือกรูป', 'err'); return; }
+  if (!selected.length) { toast('ยังไม่ได้เลือกรูป', 'err'); return; }
   if (MKG.running) { toast('กำลังทำงานอยู่', 'err'); return; }
   MKG.running = true; MKG.stop = false; MKG.paused = false;
   const enBrand = document.getElementById('mkg-en-brand').checked;
@@ -1856,7 +1856,7 @@ async function mkgGenerate() {
   const sharedBrand = document.getElementById('mkg-brand-name').value.trim();
   for (const r of selected) {
     if (MKG.stop) break;
-    while (MKG.paused && \!MKG.stop) await new Promise(res => setTimeout(res, 200));
+    while (MKG.paused && !MKG.stop) await new Promise(res => setTimeout(res, 200));
     r.status = 'running'; mkgRender();
     await new Promise(res => setTimeout(res, 450));
     try {
@@ -1876,16 +1876,16 @@ async function mkgGenerate() {
   toast('สร้าง Listing เสร็จแล้ว', 'ok');
 }
 function mkgStop()  { MKG.stop = true; MKG.paused = false; toast('หยุดแล้ว', 'ok'); }
-function mkgPause() { MKG.paused = \!MKG.paused; toast(MKG.paused ? 'หยุดชั่วคราว' : 'ทำงานต่อ', 'ok'); }
+function mkgPause() { MKG.paused = !MKG.paused; toast(MKG.paused ? 'หยุดชั่วคราว' : 'ทำงานต่อ', 'ok'); }
 function mkgCheckTM() {
   const sel = MKG.rows.filter(r => r.selected && (r.brand || r.title));
-  if (\!sel.length) { toast('ยังไม่มีรูปที่พร้อมตรวจ — สร้าง Listing ก่อน', 'err'); return; }
+  if (!sel.length) { toast('ยังไม่มีรูปที่พร้อมตรวจ — สร้าง Listing ก่อน', 'err'); return; }
   const q = encodeURIComponent(sel[0].brand || sel[0].title);
   window.open(`https://tmsearch.uspto.gov/search/search-information?searchText=${q}`, '_blank');
   toast(`เปิด USPTO ตรวจ TM`, 'ok');
 }
 function mkgExport() {
-  if (\!MKG.rows.length) { toast('ไม่มีข้อมูลให้ export', 'err'); return; }
+  if (!MKG.rows.length) { toast('ไม่มีข้อมูลให้ export', 'err'); return; }
   const header = ['#','Filename','Title','Brand','BP1','BP2','Description','Status'];
   const rows = MKG.rows.map((r, i) => [ i+1, r.name, (r.title||'').replace(/"/g,'""'), (r.brand||'').replace(/"/g,'""'), (r.bp1||'').replace(/"/g,'""'), (r.bp2||'').replace(/"/g,'""'), (r.desc||'').replace(/"/g,'""'), r.status ]);
   const csv = '\uFEFF' + [header, ...rows].map(r => r.map(c => `"${c}"`).join(',')).join('\n');
@@ -1898,8 +1898,8 @@ function mkgExport() {
   toast('Export สำเร็จ', 'ok');
 }
 function mkgClear() {
-  if (\!MKG.rows.length) return;
-  if (\!confirm('ล้างข้อมูลทั้งหมด?')) return;
+  if (!MKG.rows.length) return;
+  if (!confirm('ล้างข้อมูลทั้งหมด?')) return;
   MKG.rows = []; mkgRender(); toast('ล้างแล้ว', 'ok');
 }
 (function initTitleToggle(){
