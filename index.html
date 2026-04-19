@@ -745,6 +745,68 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 28px; margin-top: 
 @media (max-width:900px){ #mkg-gen { grid-template-columns: 1fr !important; } .amz-grid-2 { grid-template-columns: 1fr !important; } }
 #mkg-table th, #mkg-table td { vertical-align: top; }
 
+
+/* ==== Feature card clickable ==== */
+.feature-card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,212,255,0.15); border-color: rgba(0,212,255,0.35); }
+.feature-card:active { transform: translateY(-2px); }
+.feature-card::after {
+  content:'คลิกเพื่อเปิดเครื่องมือ →'; display:block; margin-top:14px;
+  font-size:.78rem; font-weight:700; color: rgba(0,212,255,0.85);
+  text-transform: uppercase; letter-spacing: .05em;
+}
+/* Panel pulse when activated from card click */
+@keyframes tkFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(0,212,255,.55); }
+  70%  { box-shadow: 0 0 0 24px rgba(0,212,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,212,255,0); }
+}
+.tk-flash { animation: tkFlash 1.1s ease-out 1; border-radius: 16px; }
+
+/* Free-features badge */
+.free-for-all {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 14px; border-radius:999px; font-weight:700; font-size:.8rem;
+  background: linear-gradient(135deg, #10b981, #059669); color:#fff;
+  box-shadow: 0 4px 14px rgba(16,185,129,.25);
+}
+.free-for-all::before { content:'✓'; font-weight:900; }
+
+/* Simple auth modal */
+.auth-overlay {
+  position: fixed; inset:0; background: rgba(6,10,24,.78); backdrop-filter: blur(6px);
+  display:none; align-items:center; justify-content:center; z-index: 9999;
+}
+.auth-overlay.open { display:flex; }
+.auth-modal {
+  background: #0d1530; border:1px solid var(--border, #223); border-radius:18px;
+  padding: 28px; width: min(420px, 92vw); box-shadow: 0 40px 120px rgba(0,0,0,.6);
+}
+.auth-modal h3 { margin:0 0 4px; font-size:1.3rem; font-weight:800; }
+.auth-modal p  { margin: 4px 0 14px; color: var(--text-dim, #93a4c7); font-size:.9rem; }
+.auth-modal input {
+  width:100%; padding:11px 14px; margin:6px 0; border:1px solid var(--border, #223);
+  border-radius:10px; background:#0a1126; color:#fff; font-size:.95rem;
+}
+.auth-modal .auth-actions { display:flex; gap:10px; margin-top:14px; }
+.auth-modal .auth-actions .btn { flex:1; }
+.auth-switch { margin-top:12px; text-align:center; color: var(--text-dim, #93a4c7); font-size:.85rem; }
+.auth-switch a { color:#00d4ff; text-decoration:underline; cursor:pointer; }
+.auth-note {
+  margin-top: 10px; padding:10px 12px; background: rgba(16,185,129,.1);
+  border:1px solid rgba(16,185,129,.3); border-radius:10px; font-size:.82rem; color:#5eead4;
+}
+.auth-close { position:absolute; top:12px; right:16px; background:transparent; border:0; color:#fff; font-size:1.4rem; cursor:pointer; opacity:.6; }
+.auth-close:hover { opacity: 1; }
+
+/* Logged-in chip in nav */
+.user-chip {
+  display:inline-flex; align-items:center; gap:6px; padding:6px 12px;
+  background: rgba(0,212,255,.12); border:1px solid rgba(0,212,255,.35);
+  border-radius: 999px; color:#00d4ff; font-weight:700; font-size:.82rem;
+}
+.user-chip .user-logout { background:none; border:0; color:#ff6b6b; cursor:pointer; font-size:.85rem; }
+
 </style>
 </head>
 
@@ -766,7 +828,7 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 28px; margin-top: 
       <li><a href="#features">ฟีเจอร์</a></li>
       <li><a href="#tools">เครื่องมือ</a></li>
       <li><a href="#about">เกี่ยวกับเรา</a></li>
-      <li><a href="#pricing">ราคา</a></li>
+      <li><a href="#features" style="color:#10b981; font-weight:700;">✓ ฟรีทุกฟีเจอร์</a></li>
       <li id="nav-auth-slot">
         <button class="btn btn-ghost btn-sm" onclick="openAuth('login')">เข้าสู่ระบบ</button>
         <button class="btn btn-primary btn-sm" onclick="openAuth('signup')">สมัครสมาชิก</button>
@@ -826,6 +888,7 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 28px; margin-top: 
       <div class="section-eyebrow">6 Tabs หลัก · ครบทุกขั้นตอน</div>
       <h2 class="section-title">เครื่องมือที่ออกแบบมาเฉพาะ POD</h2>
       <p class="section-sub">จากไอเดียไปจนถึงดีไซน์ขึ้นร้าน — ใช้งานได้จริงในทุกขั้นของเวิร์กโฟลว์</p>
+      <p style="margin-top:8px;"><span class="free-for-all">ฟรีทุกฟีเจอร์สำหรับสมาชิก · ไม่มี Pro / ไม่มีล็อก</span></p>
     </div>
 
     <div class="features">
@@ -1158,7 +1221,7 @@ footer { border-top: 1px solid var(--border); padding: 50px 0 28px; margin-top: 
 
       <!-- ========== MERCH KEYWORD GENERATOR (SEO Listing) ========== -->
       <div class="widget" id="toolkit-tabs" style="grid-column: 1 / -1;">
-      <div class="widget-head"><div class="widget-title">🧰 Toolkit — 6 เครื่องมือในตัวเดียว</div><div style="color:var(--text-dim);font-size:0.85rem;">ใช้งานได้ครบทุก Tab — localStorage เก็บข้อมูลในเครื่องคุณเท่านั้น</div></div>
+      <div class="widget-head"><div class="widget-title">🧰 Toolkit — 6 เครื่องมือในตัวเดียว <span class="free-for-all" style="margin-left:10px;">ฟรีทุกฟีเจอร์สำหรับสมาชิก</span></div><div style="color:var(--text-dim);font-size:0.85rem;">ใช้งานได้ครบทุก Tab — localStorage เก็บข้อมูลในเครื่องคุณเท่านั้น</div></div>
       <div class="widget-full" style="padding:0;">
         <div class="mkg-tabs" role="tablist">
           <button class="mkg-tab active" data-tk-tab="t1" onclick="tkTab('t1', this)">🔍 Tab 1 — Research &amp; Prompt</button>
@@ -2423,6 +2486,156 @@ document.addEventListener('DOMContentLoaded', () => {
   try { mkgUpdateFileStatus(); } catch(e){}
   try { mkgRenderTable(); } catch(e){}
 });
+
+
+/* ===========================================================
+   10) FEATURE-CARD CLICK → TOOLKIT PANEL + SIMPLE AUTH
+   =========================================================== */
+(function(){
+  function activateToolkitTab(n){
+    var tabBtn = document.querySelector('[data-tk-tab="t'+n+'"]');
+    var panel  = document.getElementById('tk-t'+n);
+    var tabs   = document.getElementById('toolkit-tabs');
+    if (tabBtn && typeof tkTab === 'function') {
+      tkTab('t'+n, tabBtn);
+    }
+    if (tabs) {
+      tabs.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+    if (panel) {
+      setTimeout(function(){
+        panel.classList.remove('tk-flash');
+        void panel.offsetWidth;
+        panel.classList.add('tk-flash');
+        setTimeout(function(){ panel.classList.remove('tk-flash'); }, 1400);
+      }, 500);
+    }
+  }
+  window.openToolkit = activateToolkitTab;
+
+  function wireFeatureCards(){
+    var cards = document.querySelectorAll('.feature-card');
+    cards.forEach(function(card, i){
+      var n = i + 1;
+      if (n < 1 || n > 6) return;
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', 'เปิดเครื่องมือ Tab ' + n);
+      card.addEventListener('click', function(){ activateToolkitTab(n); });
+      card.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activateToolkitTab(n); }
+      });
+    });
+  }
+
+  /* ---- Simple local auth ---- */
+  var AUTH_KEY = 'pod_user_v1';
+  function getUser(){
+    try { return JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); } catch(e){ return null; }
+  }
+  function setUser(u){ localStorage.setItem(AUTH_KEY, JSON.stringify(u)); }
+  function clearUser(){ localStorage.removeItem(AUTH_KEY); }
+
+  window.openAuth = function(mode){
+    mode = mode || 'signup';
+    var ov = document.getElementById('auth-overlay'); if (!ov) return;
+    ov.dataset.mode = mode;
+    document.getElementById('auth-title').textContent = (mode==='login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก');
+    document.getElementById('auth-submit').textContent = (mode==='login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิก');
+    document.getElementById('auth-subtitle').textContent = (mode==='login'
+      ? 'เข้าสู่ระบบด้วยอีเมล + รหัสผ่านที่สมัครไว้'
+      : 'ฟรี · ได้ทุกฟีเจอร์ · ข้อมูลเก็บในเครื่องคุณเท่านั้น');
+    var sw = document.getElementById('auth-switch');
+    if (mode === 'login') {
+      sw.innerHTML = 'ยังไม่มีบัญชี? <a onclick="openAuth(\'signup\')">สมัครที่นี่</a>';
+    } else {
+      sw.innerHTML = 'มีบัญชีแล้ว? <a onclick="openAuth(\'login\')">เข้าสู่ระบบ</a>';
+    }
+    ov.classList.add('open');
+    setTimeout(function(){ document.getElementById('auth-email').focus(); }, 50);
+  };
+  window.closeAuth = function(){
+    var ov = document.getElementById('auth-overlay'); if (ov) ov.classList.remove('open');
+  };
+  window.submitAuth = function(){
+    var ov = document.getElementById('auth-overlay');
+    var mode = (ov && ov.dataset.mode) || 'signup';
+    var em = (document.getElementById('auth-email').value || '').trim().toLowerCase();
+    var nm = (document.getElementById('auth-name').value  || '').trim();
+    var pw = (document.getElementById('auth-pw').value    || '').trim();
+    if (!em || em.indexOf('@') < 0) { alert('กรุณาใส่อีเมลที่ถูกต้อง'); return; }
+    if (pw.length < 4) { alert('รหัสผ่านต้องมีอย่างน้อย 4 ตัว'); return; }
+    if (mode === 'signup') {
+      setUser({ email: em, name: nm || em.split('@')[0], pw: pw, since: Date.now() });
+      renderAuthSlot();
+      closeAuth();
+      if (typeof showToast === 'function') showToast('ยินดีต้อนรับ! ใช้ได้ทุกฟีเจอร์ฟรี ✨');
+      else alert('ยินดีต้อนรับ! ใช้ได้ทุกฟีเจอร์ฟรี');
+    } else {
+      var u = getUser();
+      if (!u || u.email !== em || u.pw !== pw) {
+        alert('อีเมล/รหัสผ่านไม่ถูกต้อง — ถ้ายังไม่มีบัญชี ให้กด "สมัครที่นี่"');
+        return;
+      }
+      renderAuthSlot();
+      closeAuth();
+      if (typeof showToast === 'function') showToast('เข้าสู่ระบบแล้ว ยินดีต้อนรับกลับ ' + (u.name||''));
+    }
+  };
+  window.logoutUser = function(){
+    clearUser();
+    renderAuthSlot();
+    if (typeof showToast === 'function') showToast('ออกจากระบบแล้ว');
+  };
+
+  function renderAuthSlot(){
+    var slot = document.getElementById('nav-auth-slot'); if (!slot) return;
+    var u = getUser();
+    if (u) {
+      slot.innerHTML = '<span class="user-chip">👤 ' + (u.name || u.email) + ' · <button class="user-logout" onclick="logoutUser()">ออก</button></span>';
+    } else {
+      slot.innerHTML = '<button class="btn btn-ghost btn-sm" onclick="openAuth(\'login\')">เข้าสู่ระบบ</button> ' +
+                       '<button class="btn btn-primary btn-sm" onclick="openAuth(\'signup\')">สมัครสมาชิก</button>';
+    }
+  }
+  window.renderAuthSlot = renderAuthSlot;
+
+  document.addEventListener('DOMContentLoaded', function(){
+    wireFeatureCards();
+    renderAuthSlot();
+    // ESC to close auth
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closeAuth();
+    });
+    // Click overlay (outside modal) to close
+    var ov = document.getElementById('auth-overlay');
+    if (ov) ov.addEventListener('click', function(e){
+      if (e.target === ov) closeAuth();
+    });
+  });
+})();
+
 </script>
+
+<!-- ============ SIMPLE LOCAL AUTH ============ -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-modal" style="position:relative;">
+    <button class="auth-close" onclick="closeAuth()" aria-label="ปิด">×</button>
+    <h3 id="auth-title">สมัครสมาชิก</h3>
+    <p id="auth-subtitle">ฟรี · ได้ทุกฟีเจอร์ · ข้อมูลเก็บในเครื่องคุณเท่านั้น</p>
+    <input type="email" id="auth-email" placeholder="อีเมล" autocomplete="email"/>
+    <input type="text"  id="auth-name"  placeholder="ชื่อ (ตัวเลือก)" autocomplete="name"/>
+    <input type="password" id="auth-pw" placeholder="รหัสผ่าน (ขั้นต่ำ 4 ตัว)" autocomplete="new-password"/>
+    <div class="auth-actions">
+      <button class="btn btn-primary" id="auth-submit" onclick="submitAuth()">สมัครสมาชิก</button>
+      <button class="btn btn-ghost" onclick="closeAuth()">ยกเลิก</button>
+    </div>
+    <div class="auth-note">
+      ✓ สมัครแล้วใช้ได้ทุกฟีเจอร์ · ฟรีตลอด · ข้อมูลเก็บใน localStorage เฉพาะเครื่องคุณ
+    </div>
+    <div class="auth-switch" id="auth-switch"></div>
+  </div>
+</div>
+
 </body>
 </html>
