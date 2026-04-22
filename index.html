@@ -3,1161 +3,2320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3RdigitalPOD — AI Toolkit สำหรับนักทำ Print on Demand</title>
-<meta name="description" content="รวมเครื่องมือ AI ครบวงจรสำหรับ Print on Demand — หา Niche, ตรวจ TM, คำนวณ Royalty, เทรนด์รายวันจาก Reddit, Etsy, TikTok, Pinterest, IG">
-<meta property="og:title" content="3RdigitalPOD — AI Toolkit POD สำหรับคนไทย">
-<meta property="og:description" content="หา Niche + เช็ค TM + สร้าง Listing + เทรนด์รายวัน ใช้ฟรีทุกฟีเจอร์">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
+<title>3R Digital POD — AI Toolkit สำหรับ Print on Demand</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0b1e;
-  --bg-2: #12142e;
-  --purple: #7c3aed;
-  --purple-light: #a78bfa;
-  --blue: #3b82f6;
-  --cyan: #22d3ee;
-  --pink: #ec4899;
-  --text: #e5e7ff;
-  --text-muted: rgba(229, 231, 255, 0.6);
-  --text-dim: rgba(229, 231, 255, 0.4);
-  --border: rgba(167, 139, 250, 0.15);
-  --border-strong: rgba(167, 139, 250, 0.35);
-  --success: #10b981;
-  --warn: #f59e0b;
-  --danger: #ef4444;
+  --black:   #0a0a0f;
+  --black2:  #12121a;
+  --black3:  #1a1a26;
+  --black4:  #22223a;
+  --red:     #e8001c;
+  --red2:    #ff1a35;
+  --red3:    #ff4d63;
+  --blue:    #0055ff;
+  --blue2:   #1a6aff;
+  --blue3:   #4d8eff;
+  --yellow:  #ffd600;
+  --yellow2: #ffe033;
+  --pink:    #ff2d78;
+  --pink2:   #ff5599;
+  --white:   #f0f0f8;
+  --gray:    #8888aa;
+  --border:  rgba(255,255,255,0.07);
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  font-family: 'IBM Plex Sans Thai', 'Space Grotesk', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.6;
-  overflow-x: hidden;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'IBM Plex Sans Thai', sans-serif;
   min-height: 100vh;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124, 58, 237, 0.25), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(59, 130, 246, 0.15), transparent),
-    radial-gradient(ellipse 50% 30% at 10% 60%, rgba(236, 72, 153, 0.1), transparent);
-  background-attachment: fixed;
+  overflow-x: hidden;
 }
-.mono { font-family: 'JetBrains Mono', monospace; }
 
-/* NAV */
-.top-nav { position: sticky; top: 0; z-index: 100; background: rgba(10, 11, 30, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
-.top-nav-inner { max-width: 1400px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
-.logo-mark { width: 32px; height: 32px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; border-radius: 8px; box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); }
-.logo .highlight { color: var(--purple-light); }
-.nav-actions { display: flex; gap: 12px; align-items: center; }
-.btn-ghost { padding: 8px 14px; background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.2s; }
-.btn-ghost:hover { border-color: var(--purple-light); color: var(--purple-light); }
-.btn-primary { padding: 9px 18px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(124, 58, 237, 0.5); }
+/* ─── NOISE OVERLAY ─── */
+body::before {
+  content:'';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
 
-/* HERO */
-.hero { max-width: 1400px; margin: 0 auto; padding: 80px 24px 40px; text-align: center; }
-.hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: rgba(124, 58, 237, 0.12); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--purple-light); margin-bottom: 28px; }
-.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--cyan); border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 10px var(--cyan); }
-@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
-.hero h1 { font-size: clamp(36px, 6vw, 68px); line-height: 1.05; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 20px; max-width: 900px; margin-left: auto; margin-right: auto; }
-.hero h1 .gradient { background: linear-gradient(135deg, var(--purple-light), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.hero p.lead { font-size: 17px; color: var(--text-muted); max-width: 640px; margin: 0 auto 32px; }
-.hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
-.btn-hero { padding: 14px 26px; font-size: 15px; font-weight: 600; border-radius: 10px; cursor: pointer; border: none; font-family: inherit; transition: all 0.25s; display: inline-flex; align-items: center; gap: 8px; }
-.btn-hero.primary { background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4); }
-.btn-hero.primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(124, 58, 237, 0.6); }
-.btn-hero.ghost { background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--border-strong); }
-.btn-hero.ghost:hover { background: rgba(255,255,255,0.1); }
-.hero-proof { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; font-size: 13px; color: var(--text-muted); }
-.hero-proof span { display: flex; align-items: center; gap: 6px; }
-.check { width: 16px; height: 16px; background: var(--success); border-radius: 50%; display: grid; place-items: center; font-size: 10px; color: white; font-weight: 700; }
+/* ─── TOP NAV ─── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-/* TAB BAR */
-.tab-container { max-width: 1400px; margin: 40px auto 0; padding: 0 24px; }
-.tab-bar-wrapper { position: sticky; top: 65px; z-index: 90; background: rgba(10, 11, 30, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 12px 0; margin: 0 -24px; padding-left: 24px; padding-right: 24px; border-bottom: 1px solid var(--border); }
-.tab-bar { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
-.tab-bar::-webkit-scrollbar { display: none; }
-.tab { padding: 10px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); color: var(--text-muted); border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-.tab:hover { background: rgba(124, 58, 237, 0.1); color: var(--text); border-color: var(--border-strong); }
-.tab.active { background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border-color: transparent; box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4); }
-.tab .tab-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: 0.7; }
-.tab .badge-new { background: var(--pink); color: white; font-size: 9px; padding: 2px 6px; border-radius: 100px; font-weight: 700; }
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-logo .r3 { color: var(--red); }
+.nav-logo .dig { color: var(--blue3); }
+.nav-logo .pod { color: var(--yellow); }
 
-/* TAB CONTENT */
-.tab-content { margin-top: 32px; padding-bottom: 80px; min-height: 60vh; }
-.tab-panel { display: none; animation: fadeIn 0.4s; }
-.tab-panel.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.panel-header { margin-bottom: 28px; }
-.panel-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--purple-light); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
-.panel-title { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; line-height: 1.2; }
-.panel-desc { color: var(--text-muted); font-size: 15px; max-width: 700px; }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+}
 
-.card { background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(59, 130, 246, 0.04)); border: 1px solid var(--border); border-radius: 16px; padding: 24px; backdrop-filter: blur(10px); }
-.card-title { font-size: 17px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.nav-item {
+  position: relative;
+}
 
-label { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
-input[type="text"], input[type="number"], input[type="password"], select, textarea { width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
-input:focus, select:focus, textarea:focus { outline: none; border-color: var(--purple-light); background: rgba(124, 58, 237, 0.05); }
-textarea { min-height: 90px; resize: vertical; }
-.form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 16px; }
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+.nav-link:hover { color: var(--white); background: var(--black3); }
+.nav-link.active { color: var(--white); }
+.nav-link .arrow { font-size: 10px; transition: transform 0.2s; }
+.nav-item:hover .arrow { transform: rotate(180deg); }
 
-.btn { padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-.btn.primary { background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3); }
-.btn.primary:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(124, 58, 237, 0.5); }
-.btn.secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--border); }
-.btn.secondary:hover { background: rgba(255,255,255,0.1); }
-.btn.danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
-.btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-width: 200px;
+  padding: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: all 0.2s;
+  z-index: 200;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+.nav-item:hover .dropdown {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.dd-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dd-item:hover { background: var(--black3); color: var(--white); }
+.dd-icon { font-size: 15px; width: 20px; text-align: center; }
 
-.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.pill { padding: 5px 11px; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 100px; color: var(--purple-light); font-size: 12px; cursor: pointer; transition: all 0.15s; font-family: 'JetBrains Mono', monospace; }
-.pill:hover { background: rgba(124, 58, 237, 0.2); }
-.pill.active { background: var(--purple); color: white; border-color: var(--purple); }
-.pill.evergreen { background: rgba(34, 211, 238, 0.1); border-color: rgba(34, 211, 238, 0.25); color: var(--cyan); }
-.pill.evergreen.active { background: var(--cyan); color: var(--bg); }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-login {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray);
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.btn-login:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+.btn-register {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  background: var(--yellow);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.btn-register:hover { background: var(--yellow2); transform: translateY(-1px); }
 
-.output { background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 10px; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.6; color: var(--text); min-height: 80px; white-space: pre-wrap; word-break: break-word; }
-.output.empty { color: var(--text-dim); font-style: italic; }
+/* ─── VERSION BADGE ─── */
+.version-bar {
+  background: linear-gradient(90deg, var(--red) 0%, var(--pink) 40%, var(--blue) 70%, var(--blue3) 100%);
+  height: 3px;
+}
 
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 16px; }
-.stat-box { background: rgba(0,0,0,0.25); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
-.stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-.stat-value { font-size: 22px; font-weight: 700; color: var(--purple-light); font-family: 'JetBrains Mono', monospace; }
+/* ─── MAIN CONTENT ─── */
+main {
+  position: relative;
+  z-index: 1;
+}
 
-.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media (max-width: 768px) { .row-2 { grid-template-columns: 1fr; } }
+/* ─── HERO ─── */
+.hero {
+  padding: 80px 24px 60px;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
 
-.flag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
-.flag-btn { padding: 10px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 6px; justify-content: center; }
-.flag-btn:hover { background: var(--purple); border-color: var(--purple); transform: translateY(-2px); }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--black3);
+  border: 1px solid rgba(232,0,28,0.3);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: var(--red3);
+  font-family: 'Space Mono', monospace;
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.4; transform:scale(0.8); }
+}
 
-.char-counter { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 4px; text-align: right; }
-.char-counter.warn { color: var(--warn); }
-.char-counter.danger { color: var(--danger); }
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 8vw, 88px);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+.h1-line1 { color: var(--white); }
+.h1-line2 { 
+  background: linear-gradient(90deg, var(--red), var(--pink), var(--blue3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.h1-line3 { color: var(--yellow); }
 
-.upload-zone { border: 2px dashed var(--border-strong); border-radius: 12px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.02); }
-.upload-zone:hover { border-color: var(--purple-light); background: rgba(124, 58, 237, 0.05); }
-.upload-zone .icon { font-size: 40px; margin-bottom: 8px; }
-.upload-zone p { color: var(--text-muted); font-size: 13px; }
-.upload-zone small { color: var(--text-dim); font-size: 11px; }
+.hero-desc {
+  font-size: 16px;
+  color: var(--gray);
+  max-width: 600px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+.hero-desc span { color: var(--white); font-weight: 600; }
 
-.result-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.result-table th, .result-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-.result-table th { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; }
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+.btn-primary {
+  padding: 12px 28px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--red2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,0,28,0.4); }
+.btn-secondary {
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--white);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.3); background: var(--black3); }
 
-/* Trending */
-.trend-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px; }
-.platform-filter { padding: 7px 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-muted); border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-.platform-filter:hover { color: var(--text); border-color: var(--border-strong); }
-.platform-filter.active { background: linear-gradient(135deg, var(--purple), var(--blue)); color: white; border-color: transparent; }
-.refresh-btn { margin-left: auto; padding: 7px 14px; background: rgba(34, 211, 238, 0.1); border: 1px solid rgba(34, 211, 238, 0.3); color: var(--cyan); border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-.refresh-btn:hover { background: rgba(34, 211, 238, 0.2); }
-.refresh-btn.loading svg { animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+/* Stats row */
+.stats-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.stat-item {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 11px; color: var(--gray); letter-spacing: 0.5px; }
+.stat-red .stat-num { color: var(--red); }
+.stat-blue .stat-num { color: var(--blue3); }
+.stat-yellow .stat-num { color: var(--yellow); }
+.stat-pink .stat-num { color: var(--pink); }
 
-.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; }
-.dot.red { background: #ff4500; }
-.dot.orange { background: #f77737; }
-.dot.black { background: #fff; }
-.dot.pink { background: #e60023; }
-.dot.green { background: #833ab4; }
+/* ─── SECTION WRAPPER ─── */
+.section {
+  padding: 60px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 2px;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--gray);
+  margin-top: 4px;
+}
+.see-all {
+  font-size: 13px;
+  color: var(--blue3);
+  cursor: pointer;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+  white-space: nowrap;
+}
 
-.trend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
-.trend-card { background: linear-gradient(135deg, rgba(124, 58, 237, 0.06), rgba(59, 130, 246, 0.03)); border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.25s; }
-.trend-card:hover { border-color: var(--purple-light); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2); }
-.trend-card.loading { background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, rgba(124, 58, 237, 0.1) 50%, rgba(255,255,255,0.03) 100%); background-size: 200% 100%; animation: shimmer 1.5s infinite; min-height: 140px; }
-@keyframes shimmer { to { background-position: -200% 0; } }
-.trend-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.trend-platform { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 100px; letter-spacing: 0.08em; }
-.trend-platform.reddit { background: rgba(255,69,0,0.15); color: #ff7a3d; }
-.trend-platform.etsy { background: rgba(247,119,55,0.15); color: #ff9f6b; }
-.trend-platform.tiktok { background: rgba(255,255,255,0.1); color: #fff; }
-.trend-platform.pinterest { background: rgba(230,0,35,0.15); color: #ff5c7a; }
-.trend-platform.instagram { background: rgba(131,58,180,0.2); color: #c778ff; }
-.trend-heat { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--warn); }
-.trend-title { font-size: 14px; font-weight: 500; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.trend-meta { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.trend-ai { font-size: 12px; color: var(--cyan); padding-top: 10px; border-top: 1px dashed var(--border); line-height: 1.5; }
-.trend-status { margin-top: 16px; padding: 12px 14px; background: rgba(0,0,0,0.2); border-left: 3px solid var(--cyan); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+/* Separator */
+.sep-line {
+  height: 1px;
+  background: var(--border);
+  margin: 0 24px;
+}
 
-/* Hub */
-.hub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
-.hub-card { padding: 16px; background: rgba(124, 58, 237, 0.08); border: 1px solid var(--border); border-radius: 10px; text-decoration: none; color: var(--text); transition: all 0.2s; display: block; }
-.hub-card:hover { background: rgba(124, 58, 237, 0.15); transform: translateY(-2px); border-color: var(--purple-light); }
-.hub-card .hub-icon { font-size: 24px; margin-bottom: 8px; }
-.hub-card .hub-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
-.hub-card .hub-desc { font-size: 11px; color: var(--text-muted); }
+/* ─── WINNING DESIGNS ─── */
+.designs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
 
-.progress { height: 8px; background: rgba(255,255,255,0.08); border-radius: 100px; overflow: hidden; margin: 8px 0; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, var(--purple), var(--cyan)); border-radius: 100px; transition: width 0.4s; }
+.design-card {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.design-card:hover {
+  border-color: rgba(232,0,28,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+}
 
-.tip-box { background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(124, 58, 237, 0.05)); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 10px; padding: 14px 16px; font-size: 13px; color: var(--text); line-height: 1.6; margin-top: 12px; }
-.tip-box strong { color: var(--cyan); }
+.design-img {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.design-img-bg1 { background: linear-gradient(135deg, #1a0010, #300020); }
+.design-img-bg2 { background: linear-gradient(135deg, #00102a, #001845); }
+.design-img-bg3 { background: linear-gradient(135deg, #1a1200, #2a1e00); }
+.design-img-bg4 { background: linear-gradient(135deg, #001a1a, #002a2a); }
+.design-img-bg5 { background: linear-gradient(135deg, #1a0020, #280030); }
+.design-img-bg6 { background: linear-gradient(135deg, #1a1000, #2a1800); }
 
-/* Footer */
-footer { border-top: 1px solid var(--border); padding: 40px 24px 24px; margin-top: 60px; background: rgba(0,0,0,0.3); }
-.footer-inner { max-width: 1400px; margin: 0 auto; text-align: center; }
-.footer-brand { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-.footer-tag { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
-.footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
-.footer-links a { color: var(--text-muted); text-decoration: none; font-size: 13px; cursor: pointer; }
-.footer-links a:hover { color: var(--purple-light); }
-.footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.design-mock {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 0 12px;
+  line-height: 1.2;
+}
 
-/* Modal */
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
-.modal.active { display: flex; }
-.modal-box { background: var(--bg-2); border: 1px solid var(--border-strong); border-radius: 16px; padding: 28px; max-width: 520px; width: 100%; max-height: 85vh; overflow-y: auto; }
-.modal h3 { font-size: 22px; margin-bottom: 6px; }
-.modal p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
-.modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
-.form-hint { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+.badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-family: 'Space Mono', monospace;
+}
+.badge-daily { background: var(--red); color: #fff; }
+.badge-monthly { background: var(--blue); color: #fff; }
+.badge-evergreen { background: var(--black4); color: var(--yellow); border: 1px solid rgba(255,214,0,0.3); }
+
+.design-info {
+  padding: 12px;
+}
+.design-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.design-niche {
+  font-size: 11px;
+  color: var(--gray);
+  margin-bottom: 10px;
+}
+.design-btns {
+  display: flex;
+  gap: 6px;
+}
+.btn-xs {
+  flex: 1;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn-xs-amazon { background: var(--yellow); color: #000; }
+.btn-xs-amazon:hover { background: var(--yellow2); }
+.btn-xs-prompt { background: var(--black3); color: var(--white); border: 1px solid var(--border); }
+.btn-xs-prompt:hover { background: var(--black4); }
+
+/* ─── TREND RADAR ─── */
+.trends-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
 
 @media (max-width: 768px) {
-  .nav-actions .btn-ghost { display: none; }
-  .hero { padding: 50px 20px 30px; }
-  .hero h1 { font-size: 36px; }
-  .panel-title { font-size: 24px; }
+  .trends-container { grid-template-columns: 1fr; }
 }
+
+.trend-box {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.trend-box-header {
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.trend-box-title {
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.trend-tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+}
+.trend-tag-daily { background: rgba(232,0,28,0.15); color: var(--red3); }
+.trend-tag-monthly { background: rgba(0,85,255,0.15); color: var(--blue3); }
+
+.trend-list { padding: 8px; }
+.trend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+.trend-item:hover { background: var(--black3); }
+.trend-rank {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--gray);
+  width: 18px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.trend-keyword {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+}
+.trend-heat {
+  display: flex;
+  gap: 2px;
+}
+.heat-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--black4);
+}
+.heat-dot.on-r { background: var(--red); }
+.heat-dot.on-y { background: var(--yellow); }
+.trend-cat {
+  font-size: 10px;
+  color: var(--gray);
+  padding: 2px 6px;
+  background: var(--black3);
+  border-radius: 4px;
+}
+
+/* ─── QUICK PROMPT ─── */
+.prompt-panel {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.prompt-panel-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.prompt-panel-title {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prompt-panel-title span { color: var(--yellow); }
+
+.prompt-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+@media (max-width: 768px) {
+  .prompt-body { grid-template-columns: 1fr; }
+}
+
+.prompt-inputs {
+  padding: 20px 24px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.prompt-output {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.form-input {
+  padding: 9px 12px;
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--white);
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: rgba(0,85,255,0.5); }
+.form-select {
+  padding: 9px 12px;
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 13px;
+  color: var(--white);
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+
+.output-area {
+  flex: 1;
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 12px;
+  color: var(--gray);
+  font-family: 'Space Mono', monospace;
+  line-height: 1.6;
+  min-height: 100px;
+}
+.output-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.btn-generate {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, var(--red), var(--pink));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+  justify-content: center;
+}
+.btn-generate:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,0,28,0.4); }
+
+/* ─── TOOLS GRID ─── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.tool-card {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tool-card:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
+.tool-card:hover::before { opacity: 1; }
+
+.tc-red::before { background: linear-gradient(90deg, var(--red), var(--pink)); }
+.tc-blue::before { background: linear-gradient(90deg, var(--blue), var(--blue3)); }
+.tc-yellow::before { background: linear-gradient(90deg, var(--yellow), #ff9900); }
+.tc-pink::before { background: linear-gradient(90deg, var(--pink), var(--red3)); }
+
+.tool-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+.tool-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+.tool-desc {
+  font-size: 12px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+.tool-arrow {
+  font-size: 12px;
+  color: var(--gray);
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── AMAZON LINKS ─── */
+.amazon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.amazon-link {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: var(--white);
+}
+.amazon-link:hover {
+  background: var(--black3);
+  border-color: rgba(255,214,0,0.3);
+  transform: translateX(2px);
+}
+.amazon-link-icon { font-size: 20px; }
+.amazon-link-text { font-size: 13px; font-weight: 500; }
+.amazon-link-sub { font-size: 11px; color: var(--gray); }
+
+/* ─── SECONDARY SECTION ─── */
+.secondary-section {
+  background: var(--black2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 24px;
+}
+.secondary-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── TM CHECKER SECTION ─── */
+.tool-panel {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.tool-panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tool-panel-title {
+  font-size: 15px;
+  font-weight: 700;
+}
+.tool-panel-sub {
+  font-size: 12px;
+  color: var(--gray);
+}
+.tool-panel-body { padding: 20px; }
+
+.tm-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.tm-input-row .form-input { flex: 1; }
+
+.country-flags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.flag-btn {
+  padding: 7px 12px;
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--gray);
+  font-family: inherit;
+}
+.flag-btn:hover { background: var(--black4); color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+/* ─── BSR CALCULATOR ─── */
+.calc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 640px) { .calc-grid { grid-template-columns: 1fr; } }
+
+.result-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+.result-card {
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.result-label { font-size: 12px; color: var(--gray); }
+.result-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+}
+.rv-red { color: var(--red3); }
+.rv-blue { color: var(--blue3); }
+.rv-yellow { color: var(--yellow); }
+
+/* ─── ROYALTY CALC ─── */
+.royalty-display {
+  background: linear-gradient(135deg, rgba(232,0,28,0.1), rgba(0,85,255,0.1));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-top: 14px;
+}
+.royalty-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  background: linear-gradient(90deg, var(--yellow), var(--yellow2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.royalty-label { font-size: 12px; color: var(--gray); margin-top: 4px; }
+.royalty-sub {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--blue3);
+}
+
+/* ─── TIER TRACKER ─── */
+.tier-bar-wrap {
+  background: var(--black3);
+  border-radius: 999px;
+  height: 8px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+.tier-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--blue), var(--pink));
+  transition: width 0.5s ease;
+}
+.tier-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--gray);
+  margin-bottom: 4px;
+}
+
+/* ─── MERCH HUB ─── */
+.hub-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  background: var(--black3);
+  border-radius: 9px;
+  padding: 4px;
+}
+.hub-tab {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--gray);
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+.hub-tab.active { background: var(--black2); color: var(--white); box-shadow: 0 1px 6px rgba(0,0,0,0.4); }
+
+.saved-list { display: flex; flex-direction: column; gap: 8px; }
+.saved-item {
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.saved-type {
+  font-size: 10px;
+  font-family: 'Space Mono', monospace;
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.st-prompt { background: rgba(232,0,28,0.15); color: var(--red3); }
+.st-listing { background: rgba(0,85,255,0.15); color: var(--blue3); }
+.st-analysis { background: rgba(255,45,120,0.15); color: var(--pink); }
+.saved-text { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.saved-date { font-size: 11px; color: var(--gray); flex-shrink: 0; }
+
+/* ─── OWNER SECTION ─── */
+.owner-card {
+  background: var(--black2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.owner-banner {
+  height: 160px;
+  background: linear-gradient(135deg, #0d0010, var(--black3), #00081a);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px 24px;
+}
+.owner-banner-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 4px;
+  opacity: 0.15;
+  position: absolute;
+  right: 24px;
+  bottom: 16px;
+  color: var(--white);
+}
+.owner-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), var(--pink));
+  border: 3px solid var(--black2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-top: -40px;
+  position: relative;
+  flex-shrink: 0;
+}
+.owner-info {
+  padding: 16px 24px 24px;
+}
+.owner-name-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.owner-name { font-size: 20px; font-weight: 700; }
+.owner-role {
+  font-size: 12px;
+  color: var(--pink);
+  font-family: 'Space Mono', monospace;
+  margin-top: 4px;
+}
+.owner-intro { font-size: 13px; color: var(--gray); line-height: 1.6; margin-bottom: 16px; }
+.owner-socials {
+  display: flex;
+  gap: 8px;
+}
+.social-btn {
+  padding: 6px 14px;
+  background: var(--black3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--gray);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 5px;
+  font-family: inherit;
+}
+.social-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--gray);
+  font-size: 12px;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.footer-logo .r3 { color: var(--red); }
+.footer-logo .dig { color: var(--blue3); }
+.footer-logo .pod { color: var(--yellow); }
+
+/* ─── MOBILE NAV ─── */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: block; }
+}
+
+/* ─── GLOW EFFECTS ─── */
+.glow-red {
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(232,0,28,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.glow-blue {
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,85,255,0.07) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Scroll animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeInUp 0.5s ease forwards; }
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+
+/* ─── ACTIVE PAGE INDICATOR ─── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ─── TAB BUTTONS ─── */
+.subtab-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.subtab {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray);
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.subtab:hover { color: var(--white); }
+.subtab.active { color: var(--white); border-bottom-color: var(--red); }
+
+/* Pill tags */
+.pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--border);
+  background: var(--black3);
+  color: var(--gray);
+}
+.pill:hover, .pill.active { color: var(--white); border-color: rgba(255,255,255,0.2); background: var(--black4); }
+.pill-red.active { background: rgba(232,0,28,0.2); border-color: var(--red); color: var(--red3); }
+.pill-blue.active { background: rgba(0,85,255,0.2); border-color: var(--blue); color: var(--blue3); }
+.pill-yellow.active { background: rgba(255,214,0,0.15); border-color: var(--yellow); color: var(--yellow); }
+.pill-pink.active { background: rgba(255,45,120,0.2); border-color: var(--pink); color: var(--pink); }
 </style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <div class="top-nav-inner">
-    <div class="logo">
-      <div class="logo-mark">3R</div>
-      <div>digital<span class="highlight">POD</span></div>
-    </div>
-    <div class="nav-actions">
-      <button class="btn-ghost" onclick="openSettingsModal()">⚙️ ตั้งค่า API</button>
-      <button class="btn-primary" onclick="switchTab('research')">🚀 เริ่มใช้เลย</button>
-    </div>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('home')">
+    <span class="r3">3R</span><span class="dig">digital</span><span class="pod">POD</span>
+  </a>
+  
+  <ul class="nav-links">
+    <li class="nav-item">
+      <button class="nav-link" onclick="showPage('home')">🏠 Home</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link">⚡ Research <span class="arrow">▾</span></button>
+      <div class="dropdown">
+        <div class="dd-item" onclick="showPage('trending')"><span class="dd-icon">🔥</span> Trending</div>
+        <div class="dd-item" onclick="showPage('research')"><span class="dd-icon">🔍</span> Research & Prompt</div>
+        <div class="dd-item" onclick="showPage('expand')"><span class="dd-icon">🚀</span> Expand Prompt</div>
+        <div class="dd-item" onclick="showPage('seo')"><span class="dd-icon">📝</span> SEO Listing</div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link">🛠 Workflow <span class="arrow">▾</span></button>
+      <div class="dropdown">
+        <div class="dd-item" onclick="showPage('analyzer')"><span class="dd-icon">🔬</span> Design Analyzer</div>
+        <div class="dd-item" onclick="showPage('img2listing')"><span class="dd-icon">🖼️</span> Image → Listing</div>
+        <div class="dd-item" onclick="showPage('batch')"><span class="dd-icon">⚡</span> Batch Generator</div>
+        <div class="dd-item" onclick="showPage('niche')"><span class="dd-icon">🎯</span> Niche Finder</div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link">📊 Analytics <span class="arrow">▾</span></button>
+      <div class="dropdown">
+        <div class="dd-item" onclick="showPage('tm')"><span class="dd-icon">🛡️</span> TM Checker</div>
+        <div class="dd-item" onclick="showPage('bsr')"><span class="dd-icon">📊</span> BSR → Sales</div>
+        <div class="dd-item" onclick="showPage('royalty')"><span class="dd-icon">💰</span> Royalty</div>
+        <div class="dd-item" onclick="showPage('tier')"><span class="dd-icon">📈</span> Tier Tracker</div>
+        <div class="dd-item" onclick="showPage('hub')"><span class="dd-icon">🗃️</span> Merch Hub</div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" onclick="showPage('owner')">👤 Owner</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" onclick="showPage('settings')">⚙️ Setting</button>
+    </li>
+  </ul>
+
+  <div class="nav-right">
+    <button class="btn-login">เข้าสู่ระบบ</button>
+    <button class="btn-register">สมัครฟรี</button>
+    <button class="mobile-menu-btn">☰</button>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-badge">v2.0 · รองรับ Gemini + OpenAI + Claude · Trending สดรายวัน</div>
-  <h1>AI Toolkit ครบวงจร<br><span class="gradient">สำหรับนัก POD ชาวไทย</span></h1>
-  <p class="lead">รวม 13 เครื่องมือที่นัก Print on Demand ใช้จริงทุกวัน — ดูเทรนด์จาก Reddit/Etsy/TikTok/Pinterest/IG, หา Niche, ตรวจ TM 7 ประเทศ, คำนวณ Royalty, ประมาณยอดขายจาก BSR ไปจนถึงสร้าง SEO Listing</p>
-  <div class="hero-cta">
-    <button class="btn-hero primary" onclick="switchTab('trending')">📊 ดูเทรนด์วันนี้ →</button>
-    <button class="btn-hero ghost" onclick="switchTab('research')">ลองเครื่องมือฟรี</button>
-  </div>
-  <div class="hero-proof">
-    <span><span class="check">✓</span> ฟรีทุกฟีเจอร์</span>
-    <span><span class="check">✓</span> ไม่มี Pro / ไม่มีล็อก</span>
-    <span><span class="check">✓</span> ข้อมูลเก็บในเครื่องคุณ</span>
-  </div>
-</section>
+<div class="version-bar"></div>
 
-<div class="tab-container">
-  <div class="tab-bar-wrapper">
-    <div class="tab-bar">
-      <button class="tab active" data-tab="trending"><span class="tab-num">00</span>📊 Trending <span class="badge-new">LIVE</span></button>
-      <button class="tab" data-tab="research"><span class="tab-num">01</span>🔍 Research & Prompt</button>
-      <button class="tab" data-tab="seo"><span class="tab-num">02</span>📝 SEO Listing</button>
-      <button class="tab" data-tab="image"><span class="tab-num">03</span>🖼️ Image → Listing</button>
-      <button class="tab" data-tab="expand"><span class="tab-num">04</span>🚀 Expand Prompts</button>
-      <button class="tab" data-tab="analyzer"><span class="tab-num">05</span>🔬 Design Analyzer <span class="badge-new">NEW</span></button>
-      <button class="tab" data-tab="tm"><span class="tab-num">06</span>🛡️ TM Checker</button>
-      <button class="tab" data-tab="bsr"><span class="tab-num">07</span>📊 BSR → Sales</button>
-      <button class="tab" data-tab="royalty"><span class="tab-num">08</span>💰 Royalty</button>
-      <button class="tab" data-tab="tier"><span class="tab-num">09</span>📈 Tier Tracker</button>
-      <button class="tab" data-tab="niche"><span class="tab-num">10</span>🎯 Niche Finder</button>
-      <button class="tab" data-tab="batch"><span class="tab-num">11</span>🪄 Batch Generator</button>
-      <button class="tab" data-tab="hub"><span class="tab-num">12</span>🛒 Merch Hub</button>
+<main>
+
+<!-- ════════════════════════════════════
+     HOME PAGE
+════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="glow-red" style="top:-100px;left:10%;"></div>
+    <div class="glow-blue" style="top:-80px;right:5%;"></div>
+
+    <div class="hero-badge fade-in">
+      <div class="hero-badge-dot"></div>
+      v1.4.0 · AI Toolkit สำหรับ POD — อัปเดตใหม่
+    </div>
+
+    <h1 class="fade-in delay-1">
+      <div class="h1-line1">AI TOOLKIT</div>
+      <div class="h1-line2">PRINT ON DEMAND</div>
+      <div class="h1-line3">ครบจบในที่เดียว</div>
+    </h1>
+
+    <p class="hero-desc fade-in delay-2">
+      รวม <span>12+ เครื่องมือ</span> ที่นัก POD ใช้จริงทุกวัน — ตั้งแต่หา <span>Niche</span>, ตรวจ <span>TM 7 ประเทศ</span>,
+      คำนวณ <span>Royalty</span>, สร้าง <span>SEO Listing</span> และ <span>Design Prompt</span>
+    </p>
+
+    <div class="hero-cta fade-in delay-3">
+      <button class="btn-primary" onclick="showPage('research')">🚀 เริ่มใช้งานฟรี</button>
+      <button class="btn-secondary">ดูทุกฟีเจอร์ ↓</button>
+    </div>
+
+    <div class="stats-row fade-in delay-3">
+      <div class="stat-item stat-red"><div class="stat-num">12+</div><div class="stat-label">เครื่องมือ AI</div></div>
+      <div class="stat-item stat-blue"><div class="stat-num">7</div><div class="stat-label">ประเทศ TM</div></div>
+      <div class="stat-item stat-yellow"><div class="stat-num">2</div><div class="stat-label">AI Provider</div></div>
+      <div class="stat-item stat-pink"><div class="stat-num">0฿</div><div class="stat-label">เริ่มต้น</div></div>
     </div>
   </div>
 
-  <div class="tab-content">
+  <div class="sep-line"></div>
 
-    <!-- TRENDING -->
-    <div class="tab-panel active" data-panel="trending">
-      <div class="panel-header">
-        <div class="panel-label">00 / TRENDING RADAR · LIVE</div>
-        <h2 class="panel-title">เทรนด์สดจาก 5 แพลตฟอร์ม</h2>
-        <p class="panel-desc">สแกน Reddit, Etsy, TikTok, Pinterest, IG อัตโนมัติ พร้อม AI สรุปเป็น Niche · อัปเดตทุก 1 ชั่วโมง</p>
+  <!-- WINNING DESIGNS -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🏆 WINNING DESIGNS TODAY</div>
+        <div class="section-sub">ดีไซน์ขายดีที่น่าจับตาในวันนี้ — คัดมาเพื่อให้แรงบันดาลใจ</div>
       </div>
-      <div class="trend-controls">
-        <button class="platform-filter active" data-platform="all">● ทั้งหมด</button>
-        <button class="platform-filter" data-platform="reddit"><span class="dot red"></span>Reddit</button>
-        <button class="platform-filter" data-platform="etsy"><span class="dot orange"></span>Etsy</button>
-        <button class="platform-filter" data-platform="tiktok"><span class="dot black"></span>TikTok</button>
-        <button class="platform-filter" data-platform="pinterest"><span class="dot pink"></span>Pinterest</button>
-        <button class="platform-filter" data-platform="instagram"><span class="dot green"></span>Instagram</button>
-        <button class="refresh-btn" onclick="loadTrends()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>Refresh</button>
-      </div>
-      <div class="trend-grid" id="trendGrid"></div>
-      <div class="trend-status" id="trendStatus">● กำลังโหลด...</div>
+      <a class="see-all" href="#">ดูทั้งหมด →</a>
     </div>
 
-    <!-- RESEARCH -->
-    <div class="tab-panel" data-panel="research">
-      <div class="panel-header">
-        <div class="panel-label">01 / RESEARCH & PROMPT</div>
-        <h2 class="panel-title">Date Strip + Trending Niches + AI Prompt</h2>
-        <p class="panel-desc">เลือกเดือน, Event Calendar USA, เลือก Niche Tags, ให้ AI สร้าง Prompt</p>
+    <div class="designs-grid">
+      <div class="design-card">
+        <div class="design-img design-img-bg1"><div class="design-mock" style="color:var(--red3)">NURSE<br>LIFE</div><span class="badge badge-daily">DAILY</span></div>
+        <div class="design-info"><div class="design-title">Nurse Life Tee</div><div class="design-niche">Healthcare · Profession</div><div class="design-btns"><button class="btn-xs btn-xs-amazon">Amazon</button><button class="btn-xs btn-xs-prompt">Prompt</button></div></div>
       </div>
-      <div class="row-2">
-        <div class="card">
-          <div class="card-title">📅 เลือกเดือน + Style</div>
-          <div class="form-row">
-            <div><label>เดือน</label><select id="researchMonth"><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4" selected>April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
-            <div><label>AI Tool</label><select id="researchAI"><option>Midjourney</option><option>DALL-E 3</option><option>Ideogram</option><option>Leonardo AI</option></select></div>
-            <div><label>Style</label><select id="researchStyle"><option>Vintage Retro</option><option>Cute Kawaii</option><option>Bold Typography</option><option>Minimalist</option><option>Hand-drawn</option><option>Grunge Distressed</option></select></div>
+      <div class="design-card">
+        <div class="design-img design-img-bg2"><div class="design-mock" style="color:var(--blue3)">TEACHER<br>MODE</div><span class="badge badge-daily">DAILY</span></div>
+        <div class="design-info"><div class="design-title">Teacher Mode</div><div class="design-niche">Education · Gift</div><div class="design-btns"><button class="btn-xs btn-xs-amazon">Amazon</button><button class="btn-xs btn-xs-prompt">Prompt</button></div></div>
+      </div>
+      <div class="design-card">
+        <div class="design-img design-img-bg3"><div class="design-mock" style="color:var(--yellow)">DOG<br>DAD</div><span class="badge badge-evergreen">EVERGREEN</span></div>
+        <div class="design-info"><div class="design-title">Dog Dad Club</div><div class="design-niche">Pet Lovers · Family</div><div class="design-btns"><button class="btn-xs btn-xs-amazon">Amazon</button><button class="btn-xs btn-xs-prompt">Prompt</button></div></div>
+      </div>
+      <div class="design-card">
+        <div class="design-img design-img-bg4"><div class="design-mock" style="color:#4dffa0">FISHING<br>VIBES</div><span class="badge badge-monthly">MONTHLY</span></div>
+        <div class="design-info"><div class="design-title">Fishing Vibes</div><div class="design-niche">Outdoors · Hobby</div><div class="design-btns"><button class="btn-xs btn-xs-amazon">Amazon</button><button class="btn-xs btn-xs-prompt">Prompt</button></div></div>
+      </div>
+      <div class="design-card">
+        <div class="design-img design-img-bg5"><div class="design-mock" style="color:var(--pink)">CAMP<br>LIFE</div><span class="badge badge-monthly">MONTHLY</span></div>
+        <div class="design-info"><div class="design-title">Camp Life</div><div class="design-niche">Adventure · Outdoor</div><div class="design-btns"><button class="btn-xs btn-xs-amazon">Amazon</button><button class="btn-xs btn-xs-prompt">Prompt</button></div></div>
+      </div>
+      <div class="design-card">
+        <div class="design-img design-img-bg6"><div class="design-mock" style="color:#ff9900">MECHANIC<br>DAD</div><span class="badge badge-evergreen">EVERGREEN</span></div>
+        <div class="design-info"><div class="design-title">Mechanic Dad</div><div class="design-niche">Profession · Gift</div><div class="design-btns"><button class="btn-xs btn-xs-amazon">Amazon</button><button class="btn-xs btn-xs-prompt">Prompt</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep-line"></div>
+
+  <!-- TREND RADAR -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">📡 TREND RADAR</div>
+        <div class="section-sub">เทรนด์ที่กำลังร้อนแรง — อัปเดตรายวันและรายเดือน</div>
+      </div>
+    </div>
+    <div class="trends-container">
+      <!-- Daily -->
+      <div class="trend-box">
+        <div class="trend-box-header">
+          <div class="trend-box-title">🔥 Daily Trends <span class="trend-tag trend-tag-daily">TODAY</span></div>
+          <span style="font-size:11px;color:var(--gray)">Apr 22</span>
+        </div>
+        <div class="trend-list">
+          <div class="trend-item"><span class="trend-rank">1</span><span class="trend-keyword">Earth Day 2026</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div></div><span class="trend-cat">Holiday</span></div>
+          <div class="trend-item"><span class="trend-rank">2</span><span class="trend-keyword">Nurse Appreciation</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div></div><span class="trend-cat">Healthcare</span></div>
+          <div class="trend-item"><span class="trend-rank">3</span><span class="trend-keyword">Dog Mom Vintage</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div></div><span class="trend-cat">Pet</span></div>
+          <div class="trend-item"><span class="trend-rank">4</span><span class="trend-keyword">Fishing Season</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Hobby</span></div>
+          <div class="trend-item"><span class="trend-rank">5</span><span class="trend-keyword">Class of 2026</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Education</span></div>
+        </div>
+      </div>
+      <!-- Monthly -->
+      <div class="trend-box">
+        <div class="trend-box-header">
+          <div class="trend-box-title">📅 Monthly Trends <span class="trend-tag trend-tag-monthly">APR</span></div>
+          <span style="font-size:11px;color:var(--gray)">เดือนนี้</span>
+        </div>
+        <div class="trend-list">
+          <div class="trend-item"><span class="trend-rank">1</span><span class="trend-keyword">Mother's Day Gift</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div></div><span class="trend-cat">Gift</span></div>
+          <div class="trend-item"><span class="trend-rank">2</span><span class="trend-keyword">Spring Vibes</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div></div><span class="trend-cat">Season</span></div>
+          <div class="trend-item"><span class="trend-rank">3</span><span class="trend-keyword">Graduation 2026</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Education</span></div>
+          <div class="trend-item"><span class="trend-rank">4</span><span class="trend-keyword">BBQ Season</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Food</span></div>
+          <div class="trend-item"><span class="trend-rank">5</span><span class="trend-keyword">Cat Dad Retro</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Pet</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sep-line"></div>
+
+  <!-- QUICK PROMPT GENERATOR -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title">⚡ QUICK PROMPT GENERATOR</div>
+        <div class="section-sub">สร้าง Design Prompt และ SEO Listing ได้ในทันที</div>
+      </div>
+    </div>
+
+    <div class="prompt-panel">
+      <div class="prompt-panel-header">
+        <div class="prompt-panel-title">🎨 Prompt Generator <span>— ใช้งานได้แม้ไม่มี API Key</span></div>
+        <div style="display:flex;gap:6px;">
+          <span style="font-size:11px;padding:3px 8px;border-radius:5px;background:rgba(0,85,255,0.15);color:var(--blue3);">✓ Fallback Mode</span>
+        </div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div class="form-group">
+            <label class="form-label">Keyword / Niche</label>
+            <input class="form-input" id="qi-keyword" placeholder="เช่น Dog Mom, Nurse Life, Camping..." />
           </div>
-          <label style="margin-top:12px">🔥 Trending Niches (คลิกเพื่อเลือก)</label>
-          <div class="pills" id="trendingNiches">
-            <span class="pill" data-niche="nurse">nurse life</span>
-            <span class="pill" data-niche="teacher">teacher mode</span>
-            <span class="pill" data-niche="dad">dog dad</span>
-            <span class="pill" data-niche="fishing">fishing vibes</span>
-            <span class="pill" data-niche="camp">camp life</span>
-            <span class="pill evergreen" data-niche="coffee">coffee lover</span>
-            <span class="pill evergreen" data-niche="book">book nerd</span>
-            <span class="pill evergreen" data-niche="gym">gym era</span>
-            <span class="pill evergreen" data-niche="plant">plant mom</span>
+          <div class="form-group">
+            <label class="form-label">Style</label>
+            <select class="form-select" id="qi-style">
+              <option>Vintage / Retro</option>
+              <option>Cute / Kawaii</option>
+              <option>Bold Typography</option>
+              <option>Minimalist</option>
+              <option>Hand-drawn</option>
+              <option>Grunge Distressed</option>
+            </select>
           </div>
-          <div class="tip-box" id="monthTips"><strong>💡 Pro Tip April:</strong> Spring aesthetics, Earth Day (22), Mother's Day เริ่มเตรียม, Easter decor</div>
-        </div>
-        <div class="card">
-          <div class="card-title">🎨 AI Design Prompt</div>
-          <div class="btn-group" style="margin-bottom:12px">
-            <button class="btn primary" onclick="generateResearchPrompt()">✨ สร้าง Prompt</button>
-            <button class="btn secondary" onclick="copyOutput('researchOutput')">📋 Copy</button>
+          <div class="form-group">
+            <label class="form-label">Audience</label>
+            <div class="pill-group" id="audience-pills">
+              <span class="pill pill-blue active" onclick="togglePill(this)">Women</span>
+              <span class="pill pill-blue" onclick="togglePill(this)">Men</span>
+              <span class="pill pill-blue" onclick="togglePill(this)">Unisex</span>
+              <span class="pill pill-blue" onclick="togglePill(this)">Seniors</span>
+            </div>
           </div>
-          <div class="output empty" id="researchOutput">เลือก Niche + Style แล้วกด "สร้าง Prompt"...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SEO -->
-    <div class="tab-panel" data-panel="seo">
-      <div class="panel-header">
-        <div class="panel-label">02 / SEO LISTING GENERATOR</div>
-        <h2 class="panel-title">สร้าง Listing ครบตามกฎ Amazon Merch</h2>
-        <p class="panel-desc">AI เขียน Brand / Title / Bullet 1-2 / Description พร้อมนับตัวอักษร real-time</p>
-      </div>
-      <div class="row-2">
-        <div class="card">
-          <div class="card-title">⚙️ Input</div>
-          <div class="form-row">
-            <div><label>Niche</label><input type="text" id="seoNiche" placeholder="เช่น nurse, dog dad"></div>
-            <div><label>ประเภทสินค้า</label><select id="seoProduct"><option>T-Shirt</option><option>Hoodie</option><option>Long Sleeve</option><option>Sweatshirt</option><option>Tank Top</option><option>V-Neck</option></select></div>
-            <div><label>กลุ่มเป้าหมาย</label><input type="text" id="seoAudience" placeholder="เช่น women 30-50"></div>
-            <div><label>Occasion</label><select id="seoOccasion"><option>Everyday</option><option>Birthday</option><option>Christmas</option><option>Halloween</option><option>Mother's Day</option><option>Father's Day</option><option>Valentine</option><option>Thanksgiving</option></select></div>
+          <div class="form-group">
+            <label class="form-label">Holiday / Season</label>
+            <select class="form-select" id="qi-season">
+              <option>🌱 Evergreen</option>
+              <option>🎄 Christmas / Q4</option>
+              <option>🌸 Spring / Mother's Day</option>
+              <option>☀️ Summer</option>
+              <option>🎃 Halloween</option>
+              <option>❤️ Valentine's</option>
+            </select>
           </div>
-          <button class="btn primary" onclick="generateSEO()">✨ สร้าง SEO Listing</button>
-        </div>
-        <div class="card">
-          <div class="card-title">📋 Output</div>
-          <label>Brand (50)</label>
-          <input type="text" id="seoBrand" maxlength="50" oninput="countChars(this, 50, 'seoBrandCount')">
-          <div class="char-counter" id="seoBrandCount">0/50</div>
-          <label style="margin-top:10px">Title (60)</label>
-          <input type="text" id="seoTitle" maxlength="60" oninput="countChars(this, 60, 'seoTitleCount')">
-          <div class="char-counter" id="seoTitleCount">0/60</div>
-          <label style="margin-top:10px">Bullet 1 (250)</label>
-          <textarea id="seoBullet1" maxlength="250" oninput="countChars(this, 250, 'seoB1Count')"></textarea>
-          <div class="char-counter" id="seoB1Count">0/250</div>
-          <label style="margin-top:10px">Bullet 2 (250)</label>
-          <textarea id="seoBullet2" maxlength="250" oninput="countChars(this, 250, 'seoB2Count')"></textarea>
-          <div class="char-counter" id="seoB2Count">0/250</div>
-          <label style="margin-top:10px">Description (2000)</label>
-          <textarea id="seoDesc" maxlength="2000" oninput="countChars(this, 2000, 'seoDescCount')" style="min-height:100px"></textarea>
-          <div class="char-counter" id="seoDescCount">0/2000</div>
-          <div class="btn-group" style="margin-top:12px">
-            <button class="btn secondary" onclick="copySEOAll()">📋 Copy All</button>
+          <div class="form-group">
+            <label class="form-label">Prompt Depth</label>
+            <div class="pill-group">
+              <span class="pill pill-red active" onclick="togglePill(this,'depth')">Simple</span>
+              <span class="pill pill-red" onclick="togglePill(this,'depth')">Detailed</span>
+              <span class="pill pill-red" onclick="togglePill(this,'depth')">Pro</span>
+            </div>
           </div>
-          <div id="seoKeywords" style="margin-top:12px"></div>
+          <button class="btn-generate" onclick="quickGenerate()">✨ Generate Prompt & Listing</button>
         </div>
-      </div>
-    </div>
-
-    <!-- IMAGE -->
-    <div class="tab-panel" data-panel="image">
-      <div class="panel-header">
-        <div class="panel-label">03 / IMAGE TO LISTING</div>
-        <h2 class="panel-title">มีแค่รูป — AI เขียน Listing ให้</h2>
-        <p class="panel-desc">อัปโหลดรูป → AI วิเคราะห์ → สร้าง SEO Listing + 3 Variations</p>
-      </div>
-      <div class="row-2">
-        <div class="card">
-          <div class="card-title">📤 อัปโหลด Design</div>
-          <div class="upload-zone" onclick="document.getElementById('imgUpload').click()">
-            <div class="icon">🖼️</div>
-            <p><strong>คลิกหรือลาก Design มาวาง</strong></p>
-            <small>JPG / PNG / WEBP</small>
+        <div class="prompt-output">
+          <div>
+            <div class="output-label">🎨 Design Prompt</div>
+            <div class="output-area" id="output-prompt">กรอก keyword แล้วกด Generate...</div>
           </div>
-          <input type="file" id="imgUpload" accept="image/*" hidden onchange="previewImage(event)">
-          <div id="imgPreview" style="margin-top:12px"></div>
-          <button class="btn primary" style="margin-top:12px; width:100%" onclick="analyzeImage()">✨ สร้าง Listing + 3 Variations</button>
-        </div>
-        <div class="card">
-          <div class="card-title">🤖 AI Analysis</div>
-          <div class="output empty" id="imgOutput">อัปโหลดรูปเพื่อเริ่มวิเคราะห์...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- EXPAND -->
-    <div class="tab-panel" data-panel="expand">
-      <div class="panel-header">
-        <div class="panel-label">04 / PROMPT EXPANDER</div>
-        <h2 class="panel-title">ขยาย Niche เป็นดีไซน์หลายแบบ</h2>
-        <p class="panel-desc">ป้อน Niche เดียว → AI สร้าง 3-10 prompts ในธีมเดียวกัน</p>
-      </div>
-      <div class="row-2">
-        <div class="card">
-          <div class="card-title">⚙️ Input</div>
-          <label>Niche / Theme</label>
-          <input type="text" id="expandNiche" placeholder="เช่น nurse life">
-          <label style="margin-top:12px">โหมดสไตล์</label>
-          <select id="expandMode"><option value="mixed">🎨 Mixed Styles</option><option value="single">🎯 Single Style</option></select>
-          <label style="margin-top:12px">ถ้า Single — สไตล์</label>
-          <select id="expandStyle"><option>Minimalist</option><option>Vintage Retro</option><option>Cute Kawaii</option><option>Bold Typography</option><option>Watercolor</option><option>Line Art</option><option>Boho</option><option>Neon Glow</option><option>Gothic</option><option>Cottagecore</option><option>Y2K</option></select>
-          <label style="margin-top:12px">จำนวน Prompts</label>
-          <select id="expandCount"><option>3</option><option selected>5</option><option>7</option><option>10</option></select>
-          <div class="btn-group" style="margin-top:14px">
-            <button class="btn primary" onclick="expandPrompts()">🚀 Expand</button>
-            <button class="btn secondary" onclick="copyOutput('expandOutput')">📋 Copy All</button>
+          <div>
+            <div class="output-label">📝 SEO Listing</div>
+            <div class="output-area" id="output-listing" style="min-height:120px;">Listing จะแสดงที่นี่...</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn-generate" style="flex:1;background:linear-gradient(90deg,var(--blue),var(--blue3));" onclick="copyText('output-prompt')">📋 Copy Prompt</button>
+            <button class="btn-generate" style="flex:1;background:var(--black3);border:1px solid var(--border);" onclick="copyText('output-listing')">📋 Copy Listing</button>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">📝 Prompts</div>
-          <div class="output empty" id="expandOutput">กรอก Niche แล้วกด Expand...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK ACCESS TOOLS -->
+  <div class="section">
+    <div class="section-header">
+      <div><div class="section-title">🧰 QUICK ACCESS TOOLS</div></div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card tc-red" onclick="showPage('tm')">
+        <div class="tool-icon">🛡️</div>
+        <div class="tool-name">TM Checker</div>
+        <div class="tool-desc">ตรวจ Trademark 7 ประเทศก่อนอัปดีไซน์ — USPTO, EUIPO, UKIPO ฯลฯ</div>
+        <div class="tool-arrow">เปิดเครื่องมือ →</div>
+      </div>
+      <div class="tool-card tc-blue" onclick="showPage('bsr')">
+        <div class="tool-icon">📊</div>
+        <div class="tool-name">BSR → Sales</div>
+        <div class="tool-desc">ประมาณยอดขายและ Royalty จาก Best Seller Rank ของ Amazon</div>
+        <div class="tool-arrow">เปิดเครื่องมือ →</div>
+      </div>
+      <div class="tool-card tc-yellow" onclick="showPage('royalty')">
+        <div class="tool-icon">💰</div>
+        <div class="tool-name">Royalty Calculator</div>
+        <div class="tool-desc">คำนวณ Royalty ต่อชิ้น ทุก marketplace และทุกประเภทสินค้า</div>
+        <div class="tool-arrow">เปิดเครื่องมือ →</div>
+      </div>
+      <div class="tool-card tc-pink" onclick="showPage('analyzer')">
+        <div class="tool-icon">🔬</div>
+        <div class="tool-name">Design Analyzer</div>
+        <div class="tool-desc">อัปโหลดรูป → AI ให้คะแนน 10 มิติ พร้อม Sell Verdict</div>
+        <div class="tool-arrow">เปิดเครื่องมือ →</div>
+      </div>
+      <div class="tool-card tc-blue" onclick="showPage('niche')">
+        <div class="tool-icon">🎯</div>
+        <div class="tool-name">Niche Finder</div>
+        <div class="tool-desc">AI หา 5 Niches ที่มีโอกาสขายดีจาก Seed Keyword ของคุณ</div>
+        <div class="tool-arrow">เปิดเครื่องมือ →</div>
+      </div>
+      <div class="tool-card tc-red" onclick="showPage('batch')">
+        <div class="tool-icon">⚡</div>
+        <div class="tool-name">Batch Generator</div>
+        <div class="tool-desc">สร้าง Keyword และ Listing หลายรายการพร้อมกันจากหลายรูปในครั้งเดียว</div>
+        <div class="tool-arrow">เปิดเครื่องมือ →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AMAZON LINKS -->
+  <div class="secondary-section">
+    <div class="secondary-inner">
+      <div class="section-header" style="padding:0;margin-bottom:20px;">
+        <div><div class="section-title">🛒 AMAZON RESEARCH LINKS</div><div class="section-sub">ลิงก์ตรงไป Amazon สำหรับเช็คคู่แข่งและเทรนด์</div></div>
+      </div>
+      <div class="amazon-grid">
+        <a class="amazon-link" href="https://merch.amazon.com" target="_blank">
+          <span class="amazon-link-icon">🏪</span>
+          <div><div class="amazon-link-text">Merch Dashboard</div><div class="amazon-link-sub">merch.amazon.com</div></div>
+        </a>
+        <a class="amazon-link" href="https://www.amazon.com/Best-Sellers-Clothing-Shoes-Jewelry-Novelty-T-Shirts/zgbs/fashion/9056987011" target="_blank">
+          <span class="amazon-link-icon">🏆</span>
+          <div><div class="amazon-link-text">Best Sellers Tees</div><div class="amazon-link-sub">Top 100 Novelty T-Shirts</div></div>
+        </a>
+        <a class="amazon-link" href="https://www.amazon.com/Movers-Shakers-Clothing-Shoes-Jewelry/zgbs/fashion/movers-and-shakers/9056987011" target="_blank">
+          <span class="amazon-link-icon">📈</span>
+          <div><div class="amazon-link-text">Movers & Shakers</div><div class="amazon-link-sub">รายการกำลังพุ่งแรง</div></div>
+        </a>
+        <a class="amazon-link" href="https://www.amazon.com/gp/new-releases/fashion/9056987011" target="_blank">
+          <span class="amazon-link-icon">🆕</span>
+          <div><div class="amazon-link-text">New Releases</div><div class="amazon-link-sub">เสื้อใหม่ขายดี</div></div>
+        </a>
+        <a class="amazon-link" href="https://www.amazon.com/s?k=nurse+shirt" target="_blank">
+          <span class="amazon-link-icon">🔍</span>
+          <div><div class="amazon-link-text">Nurse Niche</div><div class="amazon-link-sub">ดูคู่แข่ง Nurse Shirts</div></div>
+        </a>
+        <a class="amazon-link" href="https://www.amazon.com/s?k=dog+mom+shirt" target="_blank">
+          <span class="amazon-link-icon">🐶</span>
+          <div><div class="amazon-link-text">Dog Mom Niche</div><div class="amazon-link-sub">ดูคู่แข่ง Dog Mom</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /HOME -->
+
+
+<!-- ════════════════════════════════════
+     ANALYTICS PAGE (BSR, Royalty, TM, Tier, Hub)
+════════════════════════════════════ -->
+
+<!-- TM CHECKER -->
+<div id="page-tm" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🛡️ TRADEMARK CHECKER</div>
+    <div class="section-sub" style="margin-bottom:28px;">ตรวจสอบ Trademark 7 ประเทศก่อนอัปดีไซน์</div>
+    <div class="tool-panel">
+      <div class="tool-panel-header">
+        <div>
+          <div class="tool-panel-title">🛡️ TM Checker</div>
+          <div class="tool-panel-sub">พิมพ์คำที่ต้องการตรวจ แล้วกดธงประเทศ — จะเปิดฐาน TM ทางการในแท็บใหม่</div>
+        </div>
+      </div>
+      <div class="tool-panel-body">
+        <div class="tm-input-row">
+          <input class="form-input" id="tm-input" placeholder="พิมพ์คำ / วลีที่ใช้ในดีไซน์..." />
+          <button class="btn-primary" style="white-space:nowrap;" onclick="tmOpenAll()">🌐 เปิดทั้งหมด</button>
+        </div>
+        <div style="font-size:12px;color:var(--gray);margin-bottom:12px;">กดธงเพื่อตรวจกับสำนักงาน TM ทางการของแต่ละประเทศ:</div>
+        <div class="country-flags">
+          <button class="flag-btn" onclick="openTM('uspto')">🇺🇸 USPTO (USA)</button>
+          <button class="flag-btn" onclick="openTM('euipo')">🇪🇺 EUIPO (EU)</button>
+          <button class="flag-btn" onclick="openTM('ukipo')">🇬🇧 UKIPO (UK)</button>
+          <button class="flag-btn" onclick="openTM('dpma')">🇩🇪 DPMA (DE)</button>
+          <button class="flag-btn" onclick="openTM('inpi')">🇫🇷 INPI (FR)</button>
+          <button class="flag-btn" onclick="openTM('jpo')">🇯🇵 JPO (JP)</button>
+          <button class="flag-btn" onclick="openTM('cipo')">🇨🇦 CIPO (CA)</button>
+        </div>
+        <div style="margin-top:20px;padding:14px;background:var(--black3);border-radius:8px;font-size:12px;color:var(--gray);line-height:1.6;">
+          ⚠️ การตรวจ TM นี้เป็นการเปิดฐาน TM ทางการของแต่ละประเทศ ผลลัพธ์ขึ้นอยู่กับฐานข้อมูลนั้น ควรตรวจสอบเพิ่มเติมก่อนใช้งานจริง
         </div>
       </div>
     </div>
-
-    <!-- ANALYZER -->
-    <div class="tab-panel" data-panel="analyzer">
-      <div class="panel-header">
-        <div class="panel-label">05 / DESIGN ANALYZER · NEW</div>
-        <h2 class="panel-title">ตรวจก่อนอัป — ขายได้ไหม?</h2>
-        <p class="panel-desc">AI ให้คะแนน 10 มิติ + Sell Verdict + Ad Recommendation + Keyword Table</p>
-      </div>
-      <div class="row-2">
-        <div class="card">
-          <div class="card-title">🔬 อัปโหลด Design</div>
-          <div class="upload-zone" onclick="document.getElementById('analyzerUpload').click()">
-            <div class="icon">🔬</div>
-            <p><strong>อัปโหลด / ลาก Design</strong></p>
-            <small>AI ให้คะแนน 10 มิติ + Sell Verdict</small>
-          </div>
-          <input type="file" id="analyzerUpload" accept="image/*" hidden onchange="previewAnalyzer(event)">
-          <div id="analyzerPreview" style="margin-top:12px"></div>
-          <button class="btn primary" style="margin-top:12px; width:100%" onclick="analyzeDesign()">🔬 วิเคราะห์ดีไซน์</button>
-        </div>
-        <div class="card">
-          <div class="card-title">📊 Analysis Result</div>
-          <div class="output empty" id="analyzerOutput">รออัปโหลด Design...</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TM -->
-    <div class="tab-panel" data-panel="tm">
-      <div class="panel-header">
-        <div class="panel-label">06 / TRADEMARK CHECKER</div>
-        <h2 class="panel-title">ตรวจ TM 7 ประเทศก่อนอัปดีไซน์</h2>
-        <p class="panel-desc">USPTO, UKIPO, EUIPO, DPMA, INPI, JPO, CIPO</p>
-      </div>
-      <div class="card">
-        <label>คำ / วลีที่ต้องการตรวจ</label>
-        <input type="text" id="tmQuery" placeholder="เช่น nurse life">
-        <label style="margin-top:16px">🚩 เปิดตรวจในแต่ละประเทศ</label>
-        <div class="flag-grid">
-          <button class="flag-btn" onclick="openTM('uspto')">🇺🇸 USPTO</button>
-          <button class="flag-btn" onclick="openTM('ukipo')">🇬🇧 UKIPO</button>
-          <button class="flag-btn" onclick="openTM('euipo')">🇪🇺 EUIPO</button>
-          <button class="flag-btn" onclick="openTM('dpma')">🇩🇪 DPMA</button>
-          <button class="flag-btn" onclick="openTM('inpi')">🇫🇷 INPI</button>
-          <button class="flag-btn" onclick="openTM('jpo')">🇯🇵 JPO</button>
-          <button class="flag-btn" onclick="openTM('cipo')">🇨🇦 CIPO</button>
-        </div>
-        <div class="btn-group" style="margin-top:14px">
-          <button class="btn secondary" onclick="openAllTM()">🌐 เปิดทุกสำนักงาน</button>
-        </div>
-        <div class="tip-box" style="margin-top:16px"><strong>⚠️ สำคัญ:</strong> เช็คทุกประเทศที่คุณขาย โดยเฉพาะ USPTO ถ้าขายในอเมริกา — โดน TM claim แล้วลบ account ถาวร</div>
-      </div>
-    </div>
-
-    <!-- BSR -->
-    <div class="tab-panel" data-panel="bsr">
-      <div class="panel-header">
-        <div class="panel-label">07 / BSR → SALES ESTIMATOR</div>
-        <h2 class="panel-title">ประมาณยอดขายจาก Best Seller Rank</h2>
-        <p class="panel-desc">กรอก BSR + ประเภท + ราคา → ประมาณยอดขาย, Royalty, Tier ขั้นต่ำ</p>
-      </div>
-      <div class="card">
-        <div class="form-row">
-          <div><label>BSR</label><input type="number" id="bsrRank" placeholder="50000"></div>
-          <div><label>Category</label><select id="bsrCategory"><option>T-Shirts (Novelty)</option><option>Hoodies / Sweatshirts</option><option>Tote Bags</option><option>Mugs</option><option>Phone Cases</option></select></div>
-          <div><label>Price (USD)</label><input type="number" id="bsrPrice" value="19.99" step="0.5"></div>
-          <div><label>Marketplace</label><select id="bsrMarket"><option>🇺🇸 USA</option><option>🇬🇧 UK</option><option>🇩🇪 Germany</option></select></div>
-        </div>
-        <button class="btn primary" onclick="calcBSR()">✦ คำนวณยอดขาย</button>
-        <div class="stat-grid">
-          <div class="stat-box"><div class="stat-label">Sales/Month</div><div class="stat-value" id="bsrSales">—</div></div>
-          <div class="stat-box"><div class="stat-label">Royalty/Month</div><div class="stat-value" id="bsrRoyalty">—</div></div>
-          <div class="stat-box"><div class="stat-label">Min Tier</div><div class="stat-value" id="bsrTier">—</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ROYALTY -->
-    <div class="tab-panel" data-panel="royalty">
-      <div class="panel-header">
-        <div class="panel-label">08 / ROYALTY CALCULATOR</div>
-        <h2 class="panel-title">คำนวณ Royalty ต่อชิ้น</h2>
-        <p class="panel-desc">เลือกประเภทสินค้า, สี, marketplace และตั้งราคา</p>
-      </div>
-      <div class="card">
-        <div class="form-row">
-          <div><label>Price (USD)</label><input type="number" id="royPrice" value="19.99" step="0.5" oninput="calcRoyalty()"></div>
-          <div><label>Product</label><select id="royProduct" onchange="calcRoyalty()"><option value="standard">Standard T-Shirt</option><option value="premium">Premium T-Shirt</option><option value="hoodie">Hoodie</option><option value="sweatshirt">Sweatshirt</option><option value="longsleeve">Long Sleeve</option><option value="vneck">V-Neck</option><option value="tank">Tank Top</option><option value="tote">Tote Bag</option><option value="pillow">Throw Pillow</option><option value="popsocket">PopSocket</option></select></div>
-          <div><label>Color</label><select id="royColor" onchange="calcRoyalty()"><option value="light">Light</option><option value="dark">Dark</option></select></div>
-          <div><label>Marketplace</label><select id="royMarket" onchange="calcRoyalty()"><option value="us">🇺🇸 USA</option><option value="uk">🇬🇧 UK</option><option value="de">🇩🇪 Germany</option><option value="fr">🇫🇷 France</option><option value="it">🇮🇹 Italy</option><option value="es">🇪🇸 Spain</option><option value="jp">🇯🇵 Japan</option></select></div>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-box"><div class="stat-label">Royalty/Sale</div><div class="stat-value" id="royPerSale">$0.00</div></div>
-          <div class="stat-box"><div class="stat-label">Royalty %</div><div class="stat-value" id="royPercent">0%</div></div>
-          <div class="stat-box"><div class="stat-label">10 Sales</div><div class="stat-value" id="royGoal">$0.00</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TIER -->
-    <div class="tab-panel" data-panel="tier">
-      <div class="panel-header">
-        <div class="panel-label">09 / TIER PROGRESS TRACKER</div>
-        <h2 class="panel-title">ติดตามความคืบหน้า Tier</h2>
-        <p class="panel-desc">เลือก Tier + จำนวน Design ที่ใช้ + ยอดขาย → แสดง % และคำแนะนำ</p>
-      </div>
-      <div class="card">
-        <div class="form-row">
-          <div><label>Current Tier</label><select id="tierCurrent" onchange="calcTier()"><option value="10">Tier 10</option><option value="25">Tier 25</option><option value="100">Tier 100</option><option value="500">Tier 500</option><option value="1000">Tier 1000</option><option value="2000">Tier 2000</option><option value="4000">Tier 4000</option><option value="8000">Tier 8000</option></select></div>
-          <div><label>Active Designs</label><input type="number" id="tierActive" value="0" oninput="calcTier()"></div>
-          <div><label>Sales This Month</label><input type="number" id="tierSales" value="0" oninput="calcTier()"></div>
-        </div>
-        <div style="margin-top:16px">
-          <div class="mono" style="font-size:12px; margin-bottom:4px" id="tierLabel">Tier 10 | 0/10 designs</div>
-          <div class="progress"><div class="progress-fill" id="tierProgress" style="width:0%"></div></div>
-        </div>
-        <div class="tip-box" id="tierTip"><strong>💡 Tip:</strong> เติมช่อง Design ให้เต็มเพื่อแสดง Amazon ว่าคุณ active</div>
-      </div>
-    </div>
-
-    <!-- NICHE -->
-    <div class="tab-panel" data-panel="niche">
-      <div class="panel-header">
-        <div class="panel-label">10 / AI NICHE FINDER</div>
-        <h2 class="panel-title">หา Niche ที่ใช่ใน 5 วินาที</h2>
-        <p class="panel-desc">ป้อน Seed + Audience + Season + Competition → AI คืน 5 Niches</p>
-      </div>
-      <div class="card">
-        <div class="form-row">
-          <div><label>Seed Keyword</label><input type="text" id="nicheSeed" placeholder="เช่น fishing, coffee"></div>
-          <div><label>Audience</label><select id="nicheAudience"><option>Women</option><option>Men</option><option>Unisex</option><option>Kids</option><option>Youth</option><option>Seniors 50+</option></select></div>
-          <div><label>Season</label><select id="nicheSeason"><option>🌱 Evergreen</option><option>🎄 Q4 (Oct–Dec)</option><option>❄️ Q1 (Jan–Mar)</option><option>🌸 Q2 (Apr–Jun)</option><option>☀️ Q3 (Jul–Sep)</option><option>📅 Current Month</option></select></div>
-          <div><label>Competition</label><select id="nicheComp"><option>🟢 Low</option><option>🟡 Medium</option><option>🔵 Any</option></select></div>
-        </div>
-        <button class="btn primary" onclick="findNiches()">✦ หา 5 Niches</button>
-        <div class="output empty" id="nicheOutput" style="margin-top:16px">ผลลัพธ์ Niches จะแสดงที่นี่...</div>
-      </div>
-    </div>
-
-    <!-- BATCH -->
-    <div class="tab-panel" data-panel="batch">
-      <div class="panel-header">
-        <div class="panel-label">11 / BATCH KEYWORD GENERATOR</div>
-        <h2 class="panel-title">อัปโหลดหลายรูป → สร้าง Listing พร้อม TM check</h2>
-        <p class="panel-desc">อัปโหลดหลายรูปแล้วให้ AI สร้าง Listing + เช็ค TM · Export CSV ได้</p>
-      </div>
-      <div class="card">
-        <div class="card-title">📋 Content Options</div>
-        <div class="form-row">
-          <div><label>Brand Name</label><input type="text" id="batchBrand" maxlength="50" placeholder="ปล่อยว่างให้ AI สร้าง"></div>
-          <div><label>Default Style</label><select id="batchStyle"><option>Vintage Retro</option><option>Cute Kawaii</option><option>Bold Typography</option><option>Minimalist</option><option>Hand-drawn</option><option>Grunge Distressed</option></select></div>
-          <div><label>Audience</label><input type="text" id="batchAudience" placeholder="เช่น women 30-50"></div>
-        </div>
-        <label style="margin-top:12px">🖼️ เลือกรูปลายเสื้อ</label>
-        <div class="upload-zone" onclick="document.getElementById('batchUpload').click()">
-          <div class="icon">📁</div>
-          <p><strong>คลิกเลือกหลายรูป</strong></p>
-          <small>JPG / PNG / WEBP</small>
-        </div>
-        <input type="file" id="batchUpload" accept="image/*" multiple hidden onchange="batchPreview(event)">
-        <div id="batchList" style="margin-top:12px"></div>
-        <div class="btn-group" style="margin-top:14px">
-          <button class="btn primary" onclick="batchRun()">🚀 สร้าง Keyword</button>
-          <button class="btn secondary" onclick="batchTM()">™ ตรวจ TM</button>
-          <button class="btn secondary" onclick="batchExport()">📊 Export CSV</button>
-          <button class="btn danger" onclick="batchClear()">🗑 ล้าง</button>
-        </div>
-        <div class="stat-grid" style="margin-top:14px">
-          <div class="stat-box"><div class="stat-label">Total</div><div class="stat-value" id="batchTotal">0</div></div>
-          <div class="stat-box"><div class="stat-label">Success</div><div class="stat-value" id="batchOK">0</div></div>
-          <div class="stat-box"><div class="stat-label">Passed TM</div><div class="stat-value" id="batchPass">0</div></div>
-          <div class="stat-box"><div class="stat-label">Filtered</div><div class="stat-value" id="batchFilter">0</div></div>
-        </div>
-        <div id="batchResult" style="margin-top:14px"></div>
-      </div>
-    </div>
-
-    <!-- HUB -->
-    <div class="tab-panel" data-panel="hub">
-      <div class="panel-header">
-        <div class="panel-label">12 / AMAZON MERCH — QUICK HUB</div>
-        <h2 class="panel-title">ลิงค์ตรงไปขายและตรวจคู่แข่ง</h2>
-        <p class="panel-desc">รวมลิงค์สำคัญของ Amazon Merch on Demand ในที่เดียว</p>
-      </div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">🔍 Search Amazon</div>
-        <div class="form-row" style="grid-template-columns: 1fr auto">
-          <input type="text" id="hubSearch" placeholder="พิมพ์คำค้น เช่น nurse shirt">
-          <button class="btn primary" onclick="hubSearchGo()">ค้นหา →</button>
-        </div>
-        <label style="margin-top:12px">🔥 Top Niches แนะนำ</label>
-        <div class="pills">
-          <span class="pill" onclick="hubSearchTo('nurse shirt')">Nurse</span>
-          <span class="pill" onclick="hubSearchTo('teacher shirt')">Teacher</span>
-          <span class="pill" onclick="hubSearchTo('dog dad shirt')">Dog Dad</span>
-          <span class="pill" onclick="hubSearchTo('mom life shirt')">Mom Life</span>
-          <span class="pill" onclick="hubSearchTo('fishing shirt')">Fishing</span>
-          <span class="pill" onclick="hubSearchTo('camping shirt')">Camping</span>
-          <span class="pill" onclick="hubSearchTo('christmas shirt')">Christmas</span>
-          <span class="pill" onclick="hubSearchTo('halloween shirt')">Halloween</span>
-          <span class="pill" onclick="hubSearchTo('valentine shirt')">Valentine</span>
-          <span class="pill" onclick="hubSearchTo('4th of july shirt')">4th of July</span>
-        </div>
-      </div>
-      <div class="hub-grid">
-        <a href="https://merch.amazon.com" target="_blank" class="hub-card"><div class="hub-icon">🏪</div><div class="hub-title">Merch Dashboard</div><div class="hub-desc">merch.amazon.com</div></a>
-        <a href="https://www.amazon.com/Best-Sellers-Clothing-Shoes-Jewelry-Novelty-T-Shirts/zgbs/fashion/9056987011" target="_blank" class="hub-card"><div class="hub-icon">🏆</div><div class="hub-title">Best Sellers</div><div class="hub-desc">Top 100 Novelty Tees</div></a>
-        <a href="https://www.amazon.com/Movers-Shakers-Clothing-Shoes-Jewelry/zgbs/fashion/movers-and-shakers/9056987011" target="_blank" class="hub-card"><div class="hub-icon">📈</div><div class="hub-title">Movers & Shakers</div><div class="hub-desc">กำลังพุ่งแรง</div></a>
-        <a href="https://www.amazon.com/gp/new-releases/fashion/9056987011" target="_blank" class="hub-card"><div class="hub-icon">🆕</div><div class="hub-title">New Releases</div><div class="hub-desc">เสื้อใหม่ขายดี</div></a>
-      </div>
-    </div>
-
   </div>
 </div>
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-brand">3RdigitalPOD</div>
-    <div class="footer-tag">AI Toolkit สำหรับนักทำ Print on Demand ชาวไทย · ฟรีทุกฟีเจอร์</div>
-    <div class="footer-links">
-      <a onclick="switchTab('trending')">Trending</a>
-      <a onclick="switchTab('research')">Research</a>
-      <a onclick="switchTab('seo')">SEO</a>
-      <a onclick="openSettingsModal()">ตั้งค่า API</a>
+<!-- BSR CALCULATOR -->
+<div id="page-bsr" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">📊 BSR → SALES ESTIMATOR</div>
+    <div class="section-sub" style="margin-bottom:28px;">ประมาณยอดขายและ Royalty จาก Best Seller Rank</div>
+    <div class="tool-panel">
+      <div class="tool-panel-header"><div><div class="tool-panel-title">📊 BSR Calculator</div><div class="tool-panel-sub">กรอก BSR + ประเภทสินค้า + ราคา → ประมาณยอดขาย/เดือน</div></div></div>
+      <div class="tool-panel-body">
+        <div class="calc-grid">
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="form-group"><label class="form-label">Best Seller Rank (BSR)</label><input class="form-input" id="bsr-val" type="number" placeholder="เช่น 50000" oninput="calcBSR()" /></div>
+            <div class="form-group"><label class="form-label">Product Category</label>
+              <select class="form-select" id="bsr-cat" onchange="calcBSR()">
+                <option value="tshirt">T-Shirts (Novelty)</option>
+                <option value="hoodie">Hoodies / Sweatshirts</option>
+                <option value="tote">Tote Bags</option>
+                <option value="mug">Mugs</option>
+                <option value="phone">Phone Cases</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Product Price (USD)</label><input class="form-input" id="bsr-price" type="number" value="19.99" step="0.01" oninput="calcBSR()" /></div>
+            <div class="form-group"><label class="form-label">Marketplace</label>
+              <select class="form-select" id="bsr-market" onchange="calcBSR()">
+                <option>🇺🇸 Amazon USA</option>
+                <option>🇬🇧 Amazon UK</option>
+                <option>🇩🇪 Amazon Germany</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="calcBSR()">✦ คำนวณยอดขาย</button>
+          </div>
+          <div>
+            <div class="result-cards">
+              <div class="result-card"><span class="result-label">Est. Sales / Month</span><span class="result-value rv-red" id="bsr-sales">—</span></div>
+              <div class="result-card"><span class="result-label">Est. Royalty / Month</span><span class="result-value rv-yellow" id="bsr-royalty">—</span></div>
+              <div class="result-card"><span class="result-label">Minimum Tier Needed</span><span class="result-value rv-blue" id="bsr-tier">—</span></div>
+            </div>
+            <div style="margin-top:14px;padding:12px;background:var(--black3);border-radius:8px;font-size:11px;color:var(--gray);line-height:1.6;">
+              💡 ตัวเลขนี้เป็นการประมาณการจาก algorithm สาธารณะ ไม่ใช่ข้อมูลโดยตรงจาก Amazon
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="footer-copy">© 2026 3RdigitalPOD · v2.0 · Made in Thailand 🇹🇭</div>
   </div>
+</div>
+
+<!-- ROYALTY CALCULATOR -->
+<div id="page-royalty" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">💰 ROYALTY CALCULATOR</div>
+    <div class="section-sub" style="margin-bottom:28px;">คำนวณ Royalty ต่อชิ้นสำหรับทุก Marketplace</div>
+    <div class="tool-panel">
+      <div class="tool-panel-header"><div><div class="tool-panel-title">💰 Royalty Calculator</div><div class="tool-panel-sub">เลือกสินค้า, สี, marketplace และตั้งราคา</div></div></div>
+      <div class="tool-panel-body">
+        <div class="calc-grid">
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div class="form-group"><label class="form-label">Price (USD)</label><input class="form-input" id="r-price" type="number" value="19.99" step="0.01" oninput="calcRoyalty()" /></div>
+            <div class="form-group"><label class="form-label">Product Type</label>
+              <select class="form-select" id="r-type" onchange="calcRoyalty()">
+                <option value="0.13">Standard T-Shirt</option>
+                <option value="0.12">Premium T-Shirt</option>
+                <option value="0.14">Hoodie</option>
+                <option value="0.13">Sweatshirt</option>
+                <option value="0.13">Long Sleeve</option>
+                <option value="0.13">V-Neck</option>
+                <option value="0.13">Tank Top</option>
+                <option value="0.10">Tote Bag</option>
+                <option value="0.09">Throw Pillow</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Color Type</label>
+              <div class="pill-group">
+                <span class="pill pill-yellow active" onclick="togglePill(this,'color');calcRoyalty()">Light Colors</span>
+                <span class="pill pill-yellow" onclick="togglePill(this,'color');calcRoyalty()">Dark Colors</span>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Marketplace</label>
+              <select class="form-select" id="r-market" onchange="calcRoyalty()">
+                <option value="1.0">🇺🇸 USA</option>
+                <option value="0.95">🇬🇧 UK</option>
+                <option value="0.95">🇩🇪 Germany</option>
+                <option value="0.9">🇫🇷 France</option>
+                <option value="0.9">🇮🇹 Italy</option>
+                <option value="0.9">🇪🇸 Spain</option>
+                <option value="0.85">🇯🇵 Japan</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="royalty-display">
+              <div class="royalty-big" id="r-val">$0.00</div>
+              <div class="royalty-label">Royalty per Sale</div>
+              <div class="royalty-sub" id="r-pct">0% · เป้า 10 ชิ้น/เดือน: <strong id="r-10">$0.00</strong></div>
+            </div>
+            <div class="result-cards" style="margin-top:14px;">
+              <div class="result-card"><span class="result-label">Royalty %</span><span class="result-value rv-yellow" id="r-pct2">—</span></div>
+              <div class="result-card"><span class="result-label">Target 50 sales</span><span class="result-value rv-blue" id="r-50">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TIER TRACKER -->
+<div id="page-tier" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">📈 TIER TRACKER</div>
+    <div class="section-sub" style="margin-bottom:28px;">ติดตามความคืบหน้า Tier และดูว่าต้องทำอะไรต่อ</div>
+    <div class="tool-panel" style="max-width:600px;">
+      <div class="tool-panel-header"><div><div class="tool-panel-title">📈 Tier Progress</div></div></div>
+      <div class="tool-panel-body">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="form-group"><label class="form-label">Current Tier</label>
+            <select class="form-select" id="tier-cur" onchange="calcTier()">
+              <option value="10">Tier 10</option>
+              <option value="25">Tier 25</option>
+              <option value="100">Tier 100</option>
+              <option value="500">Tier 500</option>
+              <option value="1000">Tier 1000</option>
+              <option value="2000">Tier 2000</option>
+              <option value="4000">Tier 4000</option>
+              <option value="8000">Tier 8000</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Active Designs</label><input class="form-input" id="tier-designs" type="number" value="0" oninput="calcTier()" /></div>
+          <div class="form-group"><label class="form-label">Sales This Month</label><input class="form-input" id="tier-sales" type="number" value="0" oninput="calcTier()" /></div>
+        </div>
+        <div style="margin-top:20px;">
+          <div class="tier-info-row"><span id="tier-label">Tier 10</span><span id="tier-pct-label">0%</span></div>
+          <div class="tier-bar-wrap"><div class="tier-bar-fill" id="tier-bar" style="width:0%"></div></div>
+          <div style="background:var(--black3);border-radius:8px;padding:14px;font-size:13px;color:var(--gray);line-height:1.7;" id="tier-msg">
+            เลือก Tier และกรอกข้อมูลเพื่อดูคำแนะนำ...
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MERCH HUB -->
+<div id="page-hub" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🗃️ MERCH HUB</div>
+    <div class="section-sub" style="margin-bottom:28px;">รวม Prompts, Listings, และ Recent Activity ทั้งหมดของคุณ</div>
+    <div class="hub-tabs">
+      <button class="hub-tab active" onclick="hubTab(this,'saved-prompts')">💬 Saved Prompts</button>
+      <button class="hub-tab" onclick="hubTab(this,'saved-listings')">📝 Saved Listings</button>
+      <button class="hub-tab" onclick="hubTab(this,'recent-activity')">🕐 Recent Activity</button>
+    </div>
+    <div id="hub-saved-prompts" class="saved-list">
+      <div class="saved-item"><span class="saved-type st-prompt">PROMPT</span><span class="saved-text">Vintage nurse life typography, retro color palette, Midjourney v6...</span><span class="saved-date">Apr 22</span></div>
+      <div class="saved-item"><span class="saved-type st-prompt">PROMPT</span><span class="saved-text">Dog mom kawaii style, pastel colors, cute cartoon dog, t-shirt design...</span><span class="saved-date">Apr 21</span></div>
+      <div class="saved-item"><span class="saved-type st-prompt">PROMPT</span><span class="saved-text">Mechanic dad bold typography, vintage garage vibes, classic car...</span><span class="saved-date">Apr 20</span></div>
+    </div>
+    <div id="hub-saved-listings" class="saved-list" style="display:none;">
+      <div class="saved-item"><span class="saved-type st-listing">LISTING</span><span class="saved-text">Funny Nurse Life Shirt | Nursing School Gift | RN LPN CNA Tee...</span><span class="saved-date">Apr 22</span></div>
+      <div class="saved-item"><span class="saved-type st-listing">LISTING</span><span class="saved-text">Dog Mom Gift T-Shirt | Cute Puppy Lover Tee | Dog Owner Gift...</span><span class="saved-date">Apr 21</span></div>
+    </div>
+    <div id="hub-recent-activity" class="saved-list" style="display:none;">
+      <div class="saved-item"><span class="saved-type st-analysis">ANALYSIS</span><span class="saved-text">Design Analyzed: nurse-life-tee.png → Score 8.2/10 SELL: YES</span><span class="saved-date">Apr 22</span></div>
+      <div class="saved-item"><span class="saved-type st-prompt">PROMPT</span><span class="saved-text">Generated 5 prompts for "Dog Mom" niche</span><span class="saved-date">Apr 22</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN ANALYZER PAGE -->
+<div id="page-analyzer" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🔬 DESIGN ANALYZER</div>
+    <div class="section-sub" style="margin-bottom:28px;">ตรวจดีไซน์ก่อนอัป — AI ให้คะแนน 10 มิติ + Sell Verdict</div>
+    <div class="prompt-panel">
+      <div class="prompt-panel-header">
+        <div class="prompt-panel-title">🔬 Analyze Design <span>— Fallback Mode พร้อมใช้</span></div>
+      </div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div style="border:2px dashed var(--border);border-radius:10px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(232,0,28,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div style="font-size:36px;margin-bottom:8px;">📤</div>
+            <div style="font-size:13px;color:var(--gray);">คลิกหรือลาก Design มาวาง</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:4px;">JPG / PNG / WEBP</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Manual Tags (ถ้ามี)</label>
+            <input class="form-input" id="ana-tags" placeholder="เช่น nurse, typography, retro, blue..." />
+          </div>
+          <button class="btn-generate" onclick="runAnalysis()">🔬 Analyze Design</button>
+        </div>
+        <div class="prompt-output" id="analysis-output">
+          <div style="font-size:13px;color:var(--gray);text-align:center;padding:40px 0;">อัปโหลดรูปและกด Analyze เพื่อเริ่มวิเคราะห์...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NICHE FINDER PAGE -->
+<div id="page-niche" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🎯 NICHE FINDER</div>
+    <div class="section-sub" style="margin-bottom:28px;">AI หา 5 Niches ที่มีโอกาสขายดีจาก Seed Keyword</div>
+    <div class="prompt-panel">
+      <div class="prompt-panel-header"><div class="prompt-panel-title">🎯 AI Niche Finder</div></div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div class="form-group"><label class="form-label">Seed Keyword / Interest</label><input class="form-input" id="nf-seed" placeholder="เช่น dog, fishing, nurse..." /></div>
+          <div class="form-group"><label class="form-label">Target Audience</label>
+            <div class="pill-group">
+              <span class="pill pill-blue active" onclick="togglePill(this,'nf-aud')">Women</span>
+              <span class="pill pill-blue" onclick="togglePill(this,'nf-aud')">Men</span>
+              <span class="pill pill-blue" onclick="togglePill(this,'nf-aud')">Unisex</span>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Season</label>
+            <select class="form-select" id="nf-season"><option>🌱 Evergreen</option><option>🎄 Q4</option><option>🌸 Q2</option><option>☀️ Q3</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Competition Level</label>
+            <div class="pill-group">
+              <span class="pill pill-red active" onclick="togglePill(this,'nf-comp')">🟢 Low</span>
+              <span class="pill pill-red" onclick="togglePill(this,'nf-comp')">🟡 Medium</span>
+              <span class="pill pill-red" onclick="togglePill(this,'nf-comp')">🔵 Any</span>
+            </div>
+          </div>
+          <button class="btn-generate" onclick="findNiches()">✦ AI Find Niches</button>
+        </div>
+        <div class="prompt-output" id="niche-output">
+          <div style="font-size:13px;color:var(--gray);text-align:center;padding:40px 0;">กรอก Keyword และกด Find Niches...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEO LISTING PAGE -->
+<div id="page-seo" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">📝 SEO LISTING GENERATOR</div>
+    <div class="section-sub" style="margin-bottom:28px;">สร้าง Listing ครบตามกฎ Amazon Merch</div>
+    <div class="prompt-panel">
+      <div class="prompt-panel-header"><div class="prompt-panel-title">📝 SEO Listing Generator</div></div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div class="form-group"><label class="form-label">Niche</label><input class="form-input" id="seo-niche" placeholder="เช่น Nurse Life, Dog Mom..." /></div>
+          <div class="form-group"><label class="form-label">Product Type</label><select class="form-select" id="seo-type"><option>T-Shirt</option><option>Hoodie</option><option>Long Sleeve</option><option>Tank Top</option></select></div>
+          <div class="form-group"><label class="form-label">Target Audience</label><input class="form-input" id="seo-audience" placeholder="เช่น nurses, dog lovers, teachers..." /></div>
+          <div class="form-group"><label class="form-label">Occasion</label><select class="form-select" id="seo-occasion"><option>Everyday</option><option>Birthday Gift</option><option>Christmas</option><option>Mother's Day</option><option>Father's Day</option></select></div>
+          <button class="btn-generate" onclick="genListing()">✨ สร้าง SEO Listing</button>
+        </div>
+        <div class="prompt-output" id="seo-output">
+          <div style="font-size:13px;color:var(--gray);text-align:center;padding:40px 0;">กรอกข้อมูลและกด Generate...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS PAGE -->
+<div id="page-settings" class="page">
+  <div class="section" style="max-width:700px;">
+    <div class="section-title" style="margin-bottom:4px;">⚙️ SETTINGS</div>
+    <div class="section-sub" style="margin-bottom:28px;">ตั้งค่า API Keys, Provider และ Preferences</div>
+
+    <!-- Status Summary -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
+      <div style="background:var(--black2);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">🤖</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;">OpenAI</div>
+          <div style="font-size:11px;color:var(--gray);" id="openai-status">⚪ Not configured</div>
+        </div>
+      </div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">✨</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;">Gemini</div>
+          <div style="font-size:11px;color:var(--gray);" id="gemini-status">⚪ Not configured</div>
+        </div>
+      </div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">🔄</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;">Fallback Mode</div>
+          <div style="font-size:11px;color:var(--yellow);">✅ Enabled</div>
+        </div>
+      </div>
+      <div style="background:var(--black2);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">🌐</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;">Default Provider</div>
+          <div style="font-size:11px;color:var(--gray);" id="default-prov">Mock / Built-in</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-panel">
+      <div class="tool-panel-header"><div><div class="tool-panel-title">🔑 API Keys</div><div class="tool-panel-sub">เก็บใน localStorage — ไม่ส่งออกไปไหน</div></div></div>
+      <div class="tool-panel-body" style="display:flex;flex-direction:column;gap:16px;">
+        <div class="form-group">
+          <label class="form-label">OpenAI API Key</label>
+          <input class="form-input" id="openai-key" type="password" placeholder="sk-..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gemini API Key</label>
+          <input class="form-input" id="gemini-key" type="password" placeholder="AIza..." />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Default Provider</label>
+          <select class="form-select" id="provider-sel">
+            <option>Mock / Built-in (ฟรี)</option>
+            <option>Google Gemini</option>
+            <option>OpenAI</option>
+            <option>Anthropic Claude</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:12px;background:var(--black3);border-radius:8px;">
+          <input type="checkbox" id="fallback-toggle" checked style="width:16px;height:16px;accent-color:var(--yellow);" />
+          <label for="fallback-toggle" style="font-size:13px;cursor:pointer;">เปิดใช้ Fallback Mode (แนะนำ — ใช้งานได้แม้ไม่มี API Key)</label>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-primary" onclick="saveSettings()">💾 บันทึก</button>
+          <button class="btn-secondary" onclick="clearSettings()">🗑 ล้างค่า</button>
+          <button class="btn-secondary" onclick="testAPI()">🧪 ทดสอบ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-panel" style="margin-top:16px;">
+      <div class="tool-panel-header"><div><div class="tool-panel-title">🌐 External Research Links</div></div></div>
+      <div class="tool-panel-body">
+        <div style="font-size:12px;color:var(--gray);margin-bottom:12px;">ลิงก์ใช้วิจัย niche และคู่แข่งจากภายนอก</div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="ext-links">
+          <div style="display:flex;gap:8px;">
+            <input class="form-input" style="flex:1;" value="https://merch.amazon.com" readonly />
+            <button class="btn-xs btn-xs-prompt" style="padding:8px 12px;">✏️</button>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <input class="form-input" style="flex:1;" value="https://www.amazon.com/Best-Sellers" readonly />
+            <button class="btn-xs btn-xs-prompt" style="padding:8px 12px;">✏️</button>
+          </div>
+        </div>
+        <button class="btn-secondary" style="margin-top:10px;font-size:12px;">+ เพิ่มลิงก์</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OWNER PAGE -->
+<div id="page-owner" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">👤 OWNER</div>
+    <div class="section-sub" style="margin-bottom:28px;">เจ้าของและผู้พัฒนา 3R Digital POD</div>
+    <div class="owner-card">
+      <div class="owner-banner">
+        <div class="owner-banner-text">3RPOD</div>
+      </div>
+      <div class="owner-info">
+        <div class="owner-name-row">
+          <div class="owner-avatar">👨‍💻</div>
+          <div>
+            <div class="owner-name">3R Digital Lab</div>
+            <div class="owner-role">// POD Creator & AI Developer</div>
+          </div>
+        </div>
+        <div class="owner-intro">
+          สร้าง 3R Digital POD เพื่อรวมทุก workflow ของ Print on Demand ไว้ในที่เดียว ใช้ได้จริง ฟรี และรองรับทั้ง AI Mode กับ Fallback Mode เพื่อให้ทุกคนเข้าถึงได้
+        </div>
+        <div class="owner-socials">
+          <button class="social-btn">🌐 Website</button>
+          <button class="social-btn">📘 Facebook</button>
+          <button class="social-btn">🐦 Twitter</button>
+          <button class="social-btn">📸 Instagram</button>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:20px;text-align:center;">
+      <button class="btn-secondary" onclick="alert('Admin-only: ต้องล็อกอินด้วย Owner account')">✏️ แก้ไขโปรไฟล์ (Owner Only)</button>
+    </div>
+  </div>
+</div>
+
+<!-- OTHER PAGES (placeholders with consistent UI) -->
+<div id="page-trending" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🔥 TRENDING</div>
+    <div class="section-sub" style="margin-bottom:28px;">เทรนด์ที่กำลังร้อนแรงในแต่ละ Niche</div>
+    <div class="trends-container">
+      <div class="trend-box">
+        <div class="trend-box-header"><div class="trend-box-title">🔥 Top Trending <span class="trend-tag trend-tag-daily">TODAY</span></div></div>
+        <div class="trend-list">
+          <div class="trend-item"><span class="trend-rank">1</span><span class="trend-keyword">Earth Day 2026</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div></div><span class="trend-cat">Holiday</span></div>
+          <div class="trend-item"><span class="trend-rank">2</span><span class="trend-keyword">Mother's Day</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div></div><span class="trend-cat">Gift</span></div>
+          <div class="trend-item"><span class="trend-rank">3</span><span class="trend-keyword">Graduation 2026</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Education</span></div>
+          <div class="trend-item"><span class="trend-rank">4</span><span class="trend-keyword">Dog Mom Spring</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Pet</span></div>
+          <div class="trend-item"><span class="trend-rank">5</span><span class="trend-keyword">BBQ Dad</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Outdoor</span></div>
+        </div>
+      </div>
+      <div class="trend-box">
+        <div class="trend-box-header"><div class="trend-box-title">📅 Upcoming Events <span class="trend-tag trend-tag-monthly">APR–MAY</span></div></div>
+        <div class="trend-list">
+          <div class="trend-item"><span class="trend-rank">📅</span><span class="trend-keyword">Mother's Day (May 11)</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div></div><span class="trend-cat">🔥 HOT</span></div>
+          <div class="trend-item"><span class="trend-rank">📅</span><span class="trend-keyword">Memorial Day (May 26)</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-y"></div><div class="heat-dot"></div></div><span class="trend-cat">Holiday</span></div>
+          <div class="trend-item"><span class="trend-rank">📅</span><span class="trend-keyword">Nurse Week (May 6-12)</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Healthcare</span></div>
+          <div class="trend-item"><span class="trend-rank">📅</span><span class="trend-keyword">Teacher Appreciation</span><div class="trend-heat"><div class="heat-dot on-r"></div><div class="heat-dot on-r"></div><div class="heat-dot"></div><div class="heat-dot"></div><div class="heat-dot"></div></div><span class="trend-cat">Education</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-research" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🔍 RESEARCH & PROMPT</div>
+    <div class="section-sub" style="margin-bottom:28px;">วิจัย Niche และสร้าง Design Prompt</div>
+    <div class="prompt-panel">
+      <div class="prompt-panel-header"><div class="prompt-panel-title">🔍 Research & Prompt Tool</div></div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div class="form-group"><label class="form-label">Month / Season</label>
+            <select class="form-select" id="rp-month">
+              <option>January</option><option>February</option><option>March</option><option>April</option>
+              <option>May</option><option>June</option><option>July</option><option>August</option>
+              <option>September</option><option>October</option><option>November</option><option>December</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">AI Tool Target</label>
+            <select class="form-select" id="rp-tool"><option>Midjourney</option><option>DALL-E 3</option><option>Ideogram</option><option>Leonardo AI</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Style</label>
+            <div class="pill-group">
+              <span class="pill pill-red active" onclick="togglePill(this,'rp-style')">Vintage Retro</span>
+              <span class="pill pill-red" onclick="togglePill(this,'rp-style')">Cute Kawaii</span>
+              <span class="pill pill-red" onclick="togglePill(this,'rp-style')">Bold Type</span>
+              <span class="pill pill-red" onclick="togglePill(this,'rp-style')">Minimalist</span>
+            </div>
+          </div>
+          <button class="btn-generate" onclick="genResearchPrompt()">🎨 สร้าง Design Prompt</button>
+        </div>
+        <div class="prompt-output" id="rp-output">
+          <div style="font-size:13px;color:var(--gray);text-align:center;padding:40px 0;">เลือกเดือน, Style และกด Generate...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-expand" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🚀 EXPAND PROMPT</div>
+    <div class="section-sub" style="margin-bottom:28px;">ขยาย Niche เป็น Prompt หลายแบบในธีมเดียว</div>
+    <div class="prompt-panel">
+      <div class="prompt-panel-header"><div class="prompt-panel-title">🚀 Prompt Expander</div></div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div class="form-group"><label class="form-label">Niche / Theme</label><input class="form-input" id="exp-niche" placeholder="เช่น Dog Mom, Fishing Dad..." /></div>
+          <div class="form-group"><label class="form-label">Style Mix</label>
+            <div class="pill-group">
+              <span class="pill pill-blue active" onclick="togglePill(this,'exp-mix')">🎭 Mixed</span>
+              <span class="pill pill-blue" onclick="togglePill(this,'exp-mix')">🎯 Same Style</span>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">Number of Prompts</label>
+            <select class="form-select" id="exp-count"><option>3</option><option>5</option><option>7</option><option>10</option></select>
+          </div>
+          <button class="btn-generate" onclick="expandPrompt()">🚀 Expand Prompts</button>
+          <button class="btn-secondary" style="font-size:13px;" onclick="copyText('exp-output')">📋 Copy All</button>
+        </div>
+        <div class="prompt-output" id="exp-output" style="min-height:300px;">
+          <div style="font-size:13px;color:var(--gray);text-align:center;padding:40px 0;">กรอก Niche และกด Expand...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-img2listing" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">🖼️ IMAGE → LISTING</div>
+    <div class="section-sub" style="margin-bottom:28px;">อัปโหลดรูป Design → AI เขียน SEO Listing ให้อัตโนมัติ</div>
+    <div class="prompt-panel">
+      <div class="prompt-panel-header"><div class="prompt-panel-title">🖼️ Image to Listing</div></div>
+      <div class="prompt-body">
+        <div class="prompt-inputs">
+          <div style="border:2px dashed var(--border);border-radius:10px;padding:40px;text-align:center;cursor:pointer;" onmouseover="this.style.borderColor='rgba(0,85,255,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div style="font-size:40px;margin-bottom:8px;">🖼️</div>
+            <div style="font-size:13px;color:var(--gray);">อัปโหลด Design</div>
+            <div style="font-size:11px;color:var(--gray);margin-top:4px;">JPG / PNG / WEBP</div>
+          </div>
+          <button class="btn-generate" onclick="img2Listing()" style="background:linear-gradient(90deg,var(--blue),var(--blue3));">🤖 AI สร้าง Listing</button>
+          <button class="btn-secondary" style="font-size:13px;">+ สร้าง 3 Variations</button>
+        </div>
+        <div class="prompt-output" id="i2l-output" style="min-height:300px;">
+          <div style="font-size:13px;color:var(--gray);text-align:center;padding:40px 0;">อัปโหลดรูปเพื่อเริ่มวิเคราะห์...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page-batch" class="page">
+  <div class="section">
+    <div class="section-title" style="margin-bottom:4px;">⚡ BATCH GENERATOR</div>
+    <div class="section-sub" style="margin-bottom:28px;">สร้าง Listing หลายรายการพร้อมกัน</div>
+    <div class="tool-panel">
+      <div class="tool-panel-header"><div><div class="tool-panel-title">⚡ Batch Generator</div><div class="tool-panel-sub">วาง Niches หลายบรรทัด หรืออัปโหลด CSV</div></div></div>
+      <div class="tool-panel-body">
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Niches / Keywords (1 ต่อบรรทัด)</label>
+          <textarea class="form-input" id="batch-input" rows="6" style="resize:vertical;font-family:'Space Mono',monospace;" placeholder="Nurse Life&#10;Dog Mom&#10;Mechanic Dad&#10;Fishing Vibes&#10;Teacher Mode"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:20px;">
+          <button class="btn-primary" onclick="runBatch()">⚡ Generate All</button>
+          <button class="btn-secondary" style="font-size:13px;">📂 Upload CSV</button>
+        </div>
+        <div id="batch-output" style="background:var(--black3);border-radius:8px;padding:14px;font-size:12px;color:var(--gray);min-height:80px;font-family:'Space Mono',monospace;">
+          ผลลัพธ์จะแสดงที่นี่...
+        </div>
+        <button class="btn-secondary" style="margin-top:10px;font-size:12px;" onclick="exportBatch()">📊 Export Excel / CSV</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span class="r3">3R</span><span class="dig">digital</span><span class="pod">POD</span></div>
+  <div>AI Toolkit สำหรับ Print on Demand · v1.4.0 · ฟรีทุกฟีเจอร์</div>
+  <div style="margin-top:6px;">© 2026 3R Digital Lab · Built with ❤️ for POD creators</div>
 </footer>
 
-<div class="modal" id="settingsModal">
-  <div class="modal-box">
-    <h3>⚙️ ตั้งค่า API</h3>
-    <p>ข้อมูลทั้งหมดเก็บใน localStorage เครื่องคุณเท่านั้น</p>
-    <label>AI Provider</label>
-    <select id="aiProvider"><option value="mock">Mock / Built-in (ฟรี)</option><option value="gemini">Google Gemini</option><option value="openai">OpenAI</option><option value="claude">Anthropic Claude</option></select>
-    <label style="margin-top:12px">AI API Key</label>
-    <input type="password" id="aiKey" placeholder="sk-...">
-    <div class="form-hint">สำหรับ generate Listing, Prompt, Niche</div>
-    <label style="margin-top:12px">Apify Token (TikTok/IG/Pinterest)</label>
-    <input type="password" id="apifyKey" placeholder="apify_api_...">
-    <div class="form-hint">สมัครฟรีที่ apify.com</div>
-    <label style="margin-top:12px">Etsy API Key</label>
-    <input type="password" id="etsyKey" placeholder="Keystring...">
-    <label style="margin-top:12px">Merch Informer Key</label>
-    <input type="password" id="merchKey" placeholder="BSR + sales">
-    <label style="margin-top:12px">Helium 10 Key</label>
-    <input type="password" id="heliumKey" placeholder="keyword volume">
-    <div class="modal-actions">
-      <button class="btn secondary" onclick="closeSettingsModal()">ยกเลิก</button>
-      <button class="btn danger" onclick="clearSettings()">🗑 ล้าง</button>
-      <button class="btn primary" onclick="saveSettings()">💾 บันทึก</button>
-    </div>
-  </div>
-</div>
-
 <script>
-// TAB SWITCH
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === name));
-  window.scrollTo({ top: document.querySelector('.tab-container').offsetTop - 120, behavior: 'smooth' });
+// ── PAGE ROUTING ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
 }
-document.querySelectorAll('.tab').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 
-// MODAL
-function openSettingsModal() {
-  ['aiProvider','aiKey','apifyKey','etsyKey','merchKey','heliumKey'].forEach(k => {
-    const el = document.getElementById(k);
-    if (el) el.value = localStorage.getItem(k) || (k === 'aiProvider' ? 'mock' : '');
-  });
-  document.getElementById('settingsModal').classList.add('active');
+// ── PILL TOGGLE ──
+function togglePill(el, group) {
+  if (group) {
+    el.closest('.pill-group').querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  }
+  el.classList.toggle('active');
 }
-function closeSettingsModal() { document.getElementById('settingsModal').classList.remove('active'); }
-function saveSettings() {
-  ['aiProvider','aiKey','apifyKey','etsyKey','merchKey','heliumKey'].forEach(k => {
-    localStorage.setItem(k, document.getElementById(k).value);
-  });
-  closeSettingsModal();
-  alert('✅ บันทึกเรียบร้อย');
+
+// ── HUB TABS ──
+function hubTab(btn, id) {
+  document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#page-hub .saved-list').forEach(l => l.style.display='none');
+  const el = document.getElementById('hub-' + id);
+  if (el) el.style.display = 'flex';
 }
-function clearSettings() {
-  if (confirm('ล้าง API Keys ทั้งหมด?')) {
-    ['aiProvider','aiKey','apifyKey','etsyKey','merchKey','heliumKey'].forEach(k => localStorage.removeItem(k));
-    closeSettingsModal();
+
+// ── COPY ──
+function copyText(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    navigator.clipboard.writeText(el.textContent || el.innerText).then(() => {
+      showToast('📋 Copied!');
+    });
   }
 }
-document.getElementById('settingsModal').addEventListener('click', e => {
-  if (e.target.id === 'settingsModal') closeSettingsModal();
-});
 
-// TRENDING
-const MOCK_TRENDS = [
-  { platform: 'etsy', title: 'Bachelorette shirts ออเดอร์พุ่ง 340% Q1', meta: ['Apparel', '340% YoY'], heat: 88, ai: 'Niche: bride tribe, last toast, bach era' },
-  { platform: 'tiktok', title: '#coquette aesthetic — 2.1B views', meta: ['#coquette', '2.1B views', 'Rising'], heat: 85, ai: 'Niche: bow era, pink ribbon, pretty girl things' },
-  { platform: 'pinterest', title: 'Retro Americana ฮิตสำหรับ 4th of July', meta: ['+180% saves', 'Seasonal'], heat: 79, ai: 'Niche: vintage usa, retro flag, americana vibes' },
-  { platform: 'instagram', title: 'Pilates Princess lifestyle viral', meta: ['#pilatesprincess', '450k posts'], heat: 76, ai: 'Niche: pilates girl, wellness era, reformer life' },
-  { platform: 'etsy', title: 'Funny Teacher Christmas ยอด search +220%', meta: ['Christmas', '+220%'], heat: 72, ai: 'Niche: merry teachermas, santa helper' },
-  { platform: 'tiktok', title: 'Dark Feminine Era trend ปลายปี', meta: ['#darkfeminine', '890M views'], heat: 70, ai: 'Niche: dark feminine, mystic era' },
-  { platform: 'pinterest', title: 'Cottagecore wedding decor saves peak', meta: ['Wedding', 'Peak'], heat: 68, ai: 'Niche: cottage bride, garden wedding' },
-  { platform: 'instagram', title: 'Clean Girl Aesthetic ยังไม่ตก', meta: ['#cleangirl', '1.2M posts', 'Evergreen'], heat: 64, ai: 'Niche: clean girl, glow era, hot girl walk' }
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--black2);border:1px solid var(--border);color:var(--white);padding:10px 20px;border-radius:8px;font-size:13px;z-index:9999;animation:fadeInUp 0.3s ease;';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+// ── QUICK GENERATE ──
+const promptTemplates = [
+  '{kw} themed t-shirt design, {style} style, clean vector art, transparent background, suitable for POD printing',
+  '{style} {kw} graphic tee design, bold statement, high contrast, professional print-ready',
+  'Retro vintage {kw} shirt design, distressed texture, aged look, {style} aesthetic',
+  '{kw} design for {audience}, {style} illustration, color palette suited for {season}',
 ];
 
-let currentFilter = 'all';
-let currentTrends = [];
-
-async function loadTrends() {
-  const btn = document.querySelector('.refresh-btn');
-  const grid = document.getElementById('trendGrid');
-  const status = document.getElementById('trendStatus');
-  if (!grid) return;
-  btn.classList.add('loading');
-  grid.innerHTML = Array.from({length: 6}).map(() => '<div class="trend-card loading"></div>').join('');
-  status.innerHTML = '● กำลังสแกน...';
-
-  const results = [];
-  const sources = [];
-  try {
-    const rd = await fetchReddit();
-    results.push(...rd);
-    sources.push(`<span style="color:var(--success)">● Reddit (${rd.length})</span>`);
-  } catch(e) { sources.push(`<span style="color:var(--danger)">● Reddit failed</span>`); }
-
-  const apifyKey = localStorage.getItem('apifyKey');
-  const etsyKey = localStorage.getItem('etsyKey');
-  if (!apifyKey && !etsyKey) {
-    results.push(...MOCK_TRENDS);
-    sources.push(`<span style="color:var(--warn)">● Etsy/TikTok/IG/Pinterest: ข้อมูลจำลอง — ตั้งค่า API เพื่อดึงจริง</span>`);
-  }
-
-  results.sort((a,b) => b.heat - a.heat);
-  currentTrends = results;
-  renderTrends();
-  btn.classList.remove('loading');
-  status.innerHTML = sources.join(' · ') + ` · อัปเดต: ${new Date().toLocaleTimeString('th-TH')}`;
+function quickGenerate() {
+  const kw = document.getElementById('qi-keyword').value || 'Dog Mom';
+  const style = document.getElementById('qi-style').value;
+  const season = document.getElementById('qi-season').value;
+  const tpl = promptTemplates[Math.floor(Math.random()*promptTemplates.length)];
+  const prompt = tpl.replace('{kw}',kw).replace('{style}',style).replace('{audience}','POD buyers').replace('{season}',season);
+  document.getElementById('output-prompt').textContent = prompt;
+  const listing = `Title: Funny ${kw} Shirt | Perfect ${season} Gift | ${style} Tee\n\nBrand: ${kw.split(' ')[0]} Apparel\n\nBullet 1: Premium quality ${kw.toLowerCase()} t-shirt, soft comfortable fabric perfect for everyday wear\n\nBullet 2: Unique ${style.toLowerCase()} design — perfect gift for ${kw.toLowerCase()} lovers, birthdays, holidays\n\nDescription: Show your love with this exclusive ${kw} t-shirt featuring a stunning ${style.toLowerCase()} design...`;
+  document.getElementById('output-listing').textContent = listing;
 }
 
-async function fetchReddit() {
-  const subs = ['PrintOnDemand', 'MerchByAmazon', 'Etsy'];
-  const all = [];
-  for (const sub of subs) {
-    try {
-      const res = await fetch(`https://www.reddit.com/r/${sub}/hot.json?limit=5`);
-      if (!res.ok) continue;
-      const data = await res.json();
-      const posts = data.data.children.map(p => ({
-        platform: 'reddit',
-        title: p.data.title,
-        meta: [`r/${sub}`, `↑ ${formatNum(p.data.ups)}`, timeAgo(p.data.created_utc)],
-        heat: Math.min(100, Math.floor(p.data.ups / 50) + 40),
-        ai: extractNicheHint(p.data.title),
-        url: `https://reddit.com${p.data.permalink}`
-      }));
-      all.push(...posts);
-    } catch(e){}
-  }
-  return all;
-}
-
-function extractNicheHint(title) {
-  const keywords = ['nurse','teacher','dad','mom','dog','cat','christmas','halloween','coffee','book','gym','plant','fishing','camp'];
-  const found = keywords.filter(k => title.toLowerCase().includes(k));
-  if (found.length) return `Niche: ${found.join(', ')}`;
-  return 'คลิกเพื่อวิเคราะห์ Niche ด้วย AI';
-}
-function formatNum(n) { return n >= 1000 ? (n/1000).toFixed(1)+'k' : n; }
-function timeAgo(unix) {
-  const h = Math.floor((Date.now()/1000 - unix) / 3600);
-  if (h < 1) return 'just now';
-  if (h < 24) return h + 'h';
-  return Math.floor(h/24) + 'd';
-}
-
-function renderTrends() {
-  const grid = document.getElementById('trendGrid');
-  const filtered = currentFilter === 'all' ? currentTrends : currentTrends.filter(t => t.platform === currentFilter);
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted)">ไม่มีเทรนด์จาก ${currentFilter}</div>`;
-    return;
-  }
-  grid.innerHTML = filtered.map(t => {
-    const p = {reddit:'REDDIT',etsy:'ETSY',tiktok:'TIKTOK',pinterest:'PINTEREST',instagram:'INSTAGRAM'}[t.platform];
-    const fire = t.heat > 85 ? '🔥🔥🔥' : t.heat > 70 ? '🔥🔥' : '🔥';
-    return `<div class="trend-card" ${t.url ? `onclick="window.open('${t.url}','_blank')"` : ''}>
-      <div class="trend-head"><span class="trend-platform ${t.platform}">${p}</span><span class="trend-heat">${fire} ${t.heat}</span></div>
-      <div class="trend-title">${t.title}</div>
-      <div class="trend-meta">${t.meta.map(m=>`<span>${m}</span>`).join('')}</div>
-      <div class="trend-ai">🎯 ${t.ai}</div>
-    </div>`;
-  }).join('');
-}
-
-document.querySelectorAll('.platform-filter').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.platform-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = btn.dataset.platform;
-    renderTrends();
-  });
-});
-
-// RESEARCH
-const MONTH_TIPS = {
-  1: 'New Year, Winter themes, Valentine เริ่มเตรียม',
-  2: 'Valentine (14), Black History, Super Bowl, Presidents Day',
-  3: "St. Patrick's (17), Spring, March Madness, Women's History",
-  4: "Spring, Earth Day (22), Mother's Day เริ่มเตรียม, Easter decor",
-  5: "Mother's Day, Memorial Day, Nurse Week, Teacher Week",
-  6: "Father's Day, Pride Month, Summer, Graduation",
-  7: '4th of July, Summer peak, Vacation, Outdoor / camping',
-  8: 'Back to School, End of summer, Teacher themes',
-  9: 'Labor Day, Fall, Halloween เริ่มเตรียม, Pumpkin spice',
-  10: 'Halloween peak, Fall/Autumn, Breast Cancer Awareness',
-  11: 'Thanksgiving, Black Friday, Christmas เริ่มเตรียม, Veterans Day',
-  12: 'Christmas peak, New Year, Winter themes, Holiday gifting'
+// ── BSR CALC ──
+const bsrData = {
+  tshirt: { mul: 0.00018, royPct: 0.13 },
+  hoodie: { mul: 0.00012, royPct: 0.14 },
+  tote:   { mul: 0.00025, royPct: 0.10 },
+  mug:    { mul: 0.0003, royPct: 0.09 },
+  phone:  { mul: 0.0002, royPct: 0.11 },
 };
-document.getElementById('researchMonth')?.addEventListener('change', e => {
-  document.getElementById('monthTips').innerHTML = `<strong>💡 Pro Tip:</strong> ${MONTH_TIPS[e.target.value]}`;
-});
-document.querySelectorAll('#trendingNiches .pill').forEach(p => {
-  p.addEventListener('click', () => p.classList.toggle('active'));
-});
-function generateResearchPrompt() {
-  const month = document.getElementById('researchMonth').selectedOptions[0].textContent;
-  const ai = document.getElementById('researchAI').value;
-  const style = document.getElementById('researchStyle').value;
-  const niches = [...document.querySelectorAll('#trendingNiches .pill.active')].map(p => p.dataset.niche);
-  const nicheStr = niches.length ? niches.join(', ') : 'general lifestyle';
-  const out = `AI Tool: ${ai}
-Month Focus: ${month}
-Style: ${style}
-Niches: ${nicheStr}
+const tierThresholds = [10,25,100,500,1000,2000,4000,8000];
 
-PROMPT:
-${style} illustration of ${nicheStr} theme, typography-driven t-shirt design, centered composition on transparent background, bold statement, ${month} seasonal vibes, high contrast, trending on Amazon Merch, vector-style, no mockup, 300dpi --ar 4:5`;
-  document.getElementById('researchOutput').textContent = out;
-  document.getElementById('researchOutput').classList.remove('empty');
-}
-
-// SEO
-function countChars(el, max, countId) {
-  const n = el.value.length;
-  const counter = document.getElementById(countId);
-  counter.textContent = `${n}/${max}`;
-  counter.classList.toggle('warn', n > max * 0.85 && n < max);
-  counter.classList.toggle('danger', n >= max);
-}
-function generateSEO() {
-  const niche = document.getElementById('seoNiche').value || 'niche';
-  const prod = document.getElementById('seoProduct').value;
-  const aud = document.getElementById('seoAudience').value || 'everyone';
-  const occ = document.getElementById('seoOccasion').value;
-  const cap = niche.charAt(0).toUpperCase() + niche.slice(1);
-  document.getElementById('seoBrand').value = `${cap} Co`.slice(0, 50);
-  document.getElementById('seoTitle').value = `Funny ${cap} ${prod} for ${aud} ${occ} Gift`.slice(0, 60);
-  document.getElementById('seoBullet1').value = `Perfect ${occ.toLowerCase()} gift for ${aud.toLowerCase()} who love ${niche} — quality print that lasts wash after wash.`.slice(0, 250);
-  document.getElementById('seoBullet2').value = `Lightweight, classic fit ${prod.toLowerCase()} · Double-needle hem · Screen-printed design · Made in USA`.slice(0, 250);
-  document.getElementById('seoDesc').value = `Show your ${niche} passion with this awesome ${prod.toLowerCase()}. Designed for ${aud.toLowerCase()}, perfect for ${occ.toLowerCase()}, everyday wear, or as a thoughtful gift. Soft, comfortable, durable — print stays vibrant wash after wash. Available in multiple sizes and colors.`.slice(0, 2000);
-  ['seoBrand','seoTitle','seoBullet1','seoBullet2','seoDesc'].forEach(id => {
-    document.getElementById(id).dispatchEvent(new Event('input'));
-  });
-  document.getElementById('seoKeywords').innerHTML = `<label>🔑 SEO Keywords</label><div class="pills"><span class="pill">${niche}</span><span class="pill">${aud.toLowerCase()}</span><span class="pill">${occ.toLowerCase()}</span><span class="pill">${prod.toLowerCase()}</span><span class="pill">gift</span><span class="pill">funny</span></div>`;
-}
-function copySEOAll() {
-  const fields = [['Brand','seoBrand'],['Title','seoTitle'],['Bullet 1','seoBullet1'],['Bullet 2','seoBullet2'],['Description','seoDesc']];
-  const txt = fields.map(([label, id]) => `${label}:\n${document.getElementById(id).value}`).join('\n\n');
-  navigator.clipboard.writeText(txt).then(() => alert('✅ คัดลอกทั้งหมดแล้ว'));
-}
-
-// IMAGE
-function previewImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    document.getElementById('imgPreview').innerHTML = `<img src="${ev.target.result}" style="max-width:100%; border-radius:8px; border:1px solid var(--border)">`;
-  };
-  reader.readAsDataURL(file);
-}
-function analyzeImage() {
-  const out = document.getElementById('imgOutput');
-  out.classList.remove('empty');
-  out.textContent = 'กำลังวิเคราะห์...';
-  setTimeout(() => {
-    out.textContent = `Detected Niche: Pet / Dog Lover
-Top Keywords: dog dad, dog mom, rescue, golden retriever, funny dog
-
-=== MAIN LISTING ===
-Brand: Paws & Pride
-Title: Funny Dog Dad Shirt Best Rescue Dad Gift for Men
-Bullet 1: Perfect Father's Day gift for dog dads who treat their rescues like royalty...
-Bullet 2: Classic fit cotton tee · Soft print · True to size
-
-=== VARIATION 1 ===
-Title: Rescue Dog Dad Club T-Shirt Funny Pet Lover Gift...
-
-=== VARIATION 2 ===
-Title: Dog Dad of [Breed] Shirt Custom Pet Owner Tee...
-
-=== VARIATION 3 ===
-Title: World's Okayest Dog Dad Funny Father's Day Shirt...`;
-  }, 1200);
-}
-
-// EXPAND
-function expandPrompts() {
-  const niche = document.getElementById('expandNiche').value || 'niche';
-  const mode = document.getElementById('expandMode').value;
-  const style = document.getElementById('expandStyle').value;
-  const count = parseInt(document.getElementById('expandCount').value);
-  const styles = mode === 'single' ? [style] : ['Minimalist','Vintage Retro','Bold Typography','Cute Kawaii','Watercolor','Line Art','Boho','Neon Glow','Gothic','Cottagecore','Y2K'];
-  const out = Array.from({length: count}, (_,i) => {
-    const s = styles[i % styles.length];
-    return `${i+1}. ${s} ${niche} design, typography-centered t-shirt artwork, transparent background, statement illustration, high contrast, trending on Amazon Merch, vector style --ar 4:5`;
-  }).join('\n\n');
-  document.getElementById('expandOutput').textContent = out;
-  document.getElementById('expandOutput').classList.remove('empty');
-}
-
-// ANALYZER
-function previewAnalyzer(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    document.getElementById('analyzerPreview').innerHTML = `<img src="${ev.target.result}" style="max-width:100%; border-radius:8px; border:1px solid var(--border)">`;
-  };
-  reader.readAsDataURL(file);
-}
-function analyzeDesign() {
-  const out = document.getElementById('analyzerOutput');
-  out.classList.remove('empty');
-  out.textContent = 'กำลังวิเคราะห์ 10 มิติ...';
-  setTimeout(() => {
-    out.textContent = `=== DESIGN SCORECARD ===
-Design Quality:       ████████░░  8/10
-Niche Relevance:      █████████░  9/10
-Competition:          ██████░░░░  6/10  (medium)
-SEO Potential:        ████████░░  8/10
-Visual Impact:        █████████░  9/10
-Typography:           ███████░░░  7/10
-Color Harmony:        ████████░░  8/10
-Printability:         █████████░  9/10
-Seasonality:          ██████░░░░  6/10
-Gift-ability:         ████████░░  8/10
-
-Overall: 78/100
-
-=== SELL VERDICT ===
-✅ YES — Confidence 82%
-เหมาะกับ Tier 100+ · มีโอกาสขายได้ดี
-
-=== AD RECOMMENDATION ===
-Budget: $5-10/day
-Targeting: Pet owners, 30-55, US
-Expected ACoS: 25-35%
-
-=== TOP KEYWORDS ===
-- dog dad shirt (High volume, Medium comp)
-- funny dog shirt (High volume, High comp)
-- rescue dog dad (Low volume, Low comp) ★
-
-=== ปรับปรุง 4 ข้อ ===
-1. เพิ่ม contrast ระหว่าง text กับ background
-2. ลองเวอร์ชั่น typography-only
-3. ใช้สีที่เข้มขึ้นสำหรับ dark shirts
-4. เพิ่ม tagline หรือ year (เช่น "est. 2025")`;
-  }, 1500);
-}
-
-// TM
-function openTM(office) {
-  const q = document.getElementById('tmQuery').value || '';
-  const urls = {
-    uspto: `https://tmsearch.uspto.gov/search/search-information?searchInformation%5BcaseStatus%5D=&searchInformation%5BsearchText%5D=${encodeURIComponent(q)}`,
-    ukipo: `https://trademarks.ipo.gov.uk/ipo-tmtext/Page/QuickSearch?textField=${encodeURIComponent(q)}`,
-    euipo: `https://www.tmdn.org/tmview/#/tmview/results?searchString=${encodeURIComponent(q)}`,
-    dpma: `https://register.dpma.de/DPMAregister/marke/experte?query=${encodeURIComponent(q)}`,
-    inpi: `https://data.inpi.fr/recherche_avancee/marques?q=${encodeURIComponent(q)}`,
-    jpo: `https://www.j-platpat.inpit.go.jp/t0100?searchText=${encodeURIComponent(q)}`,
-    cipo: `https://www.ic.gc.ca/app/opic-cipo/trdmrks/srch/tmSrch.do?lang=eng&wrdtxt=${encodeURIComponent(q)}`
-  };
-  window.open(urls[office], '_blank');
-}
-function openAllTM() {
-  if (!document.getElementById('tmQuery').value) { alert('กรอกคำที่จะตรวจก่อน'); return; }
-  ['uspto','ukipo','euipo','dpma','inpi','jpo','cipo'].forEach(o => openTM(o));
-}
-
-// BSR
 function calcBSR() {
-  const rank = parseInt(document.getElementById('bsrRank').value);
-  const price = parseFloat(document.getElementById('bsrPrice').value);
-  if (!rank || !price) { alert('กรอก BSR และราคาด้วย'); return; }
-  let sales;
-  if (rank < 1000) sales = Math.round(3000 / Math.sqrt(rank));
-  else if (rank < 10000) sales = Math.round(300 / Math.sqrt(rank/100));
-  else if (rank < 100000) sales = Math.round(60 / Math.sqrt(rank/1000));
-  else if (rank < 500000) sales = Math.max(1, Math.round(10 / Math.sqrt(rank/10000)));
-  else sales = Math.max(0, Math.round(3 - rank/500000));
-  const royaltyPer = calcRoyaltyVal(price, 'standard', 'light', 'us');
-  const monthRoy = sales * royaltyPer;
-  const tier = sales > 100 ? '500+' : sales > 25 ? '100' : sales > 5 ? '25' : '10';
-  document.getElementById('bsrSales').textContent = sales;
-  document.getElementById('bsrRoyalty').textContent = '$' + monthRoy.toFixed(0);
-  document.getElementById('bsrTier').textContent = tier;
+  const bsr = parseInt(document.getElementById('bsr-val').value)||0;
+  const cat = document.getElementById('bsr-cat').value;
+  const price = parseFloat(document.getElementById('bsr-price').value)||19.99;
+  if (!bsr) return;
+  const d = bsrData[cat] || bsrData.tshirt;
+  const sales = Math.max(1, Math.round(1000000 * d.mul / Math.pow(bsr, 0.8)));
+  const roy = (price * d.royPct * sales).toFixed(2);
+  const tier = tierThresholds.find(t => t >= sales) || 8000;
+  document.getElementById('bsr-sales').textContent = sales + ' units';
+  document.getElementById('bsr-royalty').textContent = '$' + roy;
+  document.getElementById('bsr-tier').textContent = 'Tier ' + tier;
 }
 
-// ROYALTY
-function calcRoyaltyVal(price, product, color, market) {
-  const base = { standard: 2.21, premium: 4.50, hoodie: 7.64, sweatshirt: 5.86, longsleeve: 3.32, vneck: 3.32, tank: 3.32, tote: 2.42, pillow: 4.80, popsocket: 1.81 };
-  const b = base[product] || 2.21;
-  const multi = { us: 1, uk: 0.9, de: 0.85, fr: 0.85, it: 0.85, es: 0.85, jp: 0.75 };
-  return Math.max(0, (price - (b + (color==='dark'?0.5:0))) * (multi[market]||1));
-}
+// ── ROYALTY CALC ──
 function calcRoyalty() {
-  const p = parseFloat(document.getElementById('royPrice').value) || 0;
-  const r = calcRoyaltyVal(p, document.getElementById('royProduct').value, document.getElementById('royColor').value, document.getElementById('royMarket').value);
-  document.getElementById('royPerSale').textContent = '$' + r.toFixed(2);
-  document.getElementById('royPercent').textContent = p > 0 ? (r/p*100).toFixed(0) + '%' : '0%';
-  document.getElementById('royGoal').textContent = '$' + (r*10).toFixed(2);
+  const price = parseFloat(document.getElementById('r-price').value)||19.99;
+  const pct = parseFloat(document.getElementById('r-type').value)||0.13;
+  const mkt = parseFloat(document.getElementById('r-market').value)||1.0;
+  const isDark = document.querySelector('#page-royalty .pill-pink.active, #page-royalty .pill.active[onclick*="dark"], .pill.active:nth-child(2)');
+  const colorAdj = 0.95;
+  const roy = price * pct * mkt * colorAdj;
+  document.getElementById('r-val').textContent = '$' + roy.toFixed(2);
+  document.getElementById('r-pct').textContent = Math.round(pct*100) + '% · เป้า 10 ชิ้น/เดือน: $' + (roy*10).toFixed(2);
+  document.getElementById('r-pct2').textContent = Math.round(pct*mkt*100) + '%';
+  document.getElementById('r-50').textContent = '$' + (roy*50).toFixed(2);
+  document.getElementById('r-10').textContent = '$' + (roy*10).toFixed(2);
 }
-calcRoyalty();
 
-// TIER
+// ── TIER CALC ──
+const tierNext = {10:25,25:100,100:500,500:1000,1000:2000,2000:4000,4000:8000,8000:null};
 function calcTier() {
-  const cap = parseInt(document.getElementById('tierCurrent').value);
-  const active = parseInt(document.getElementById('tierActive').value) || 0;
-  const sales = parseInt(document.getElementById('tierSales').value) || 0;
-  const pct = Math.min(100, (active/cap)*100);
-  document.getElementById('tierLabel').textContent = `Tier ${cap} | ${active}/${cap} designs (${pct.toFixed(0)}%) | Sales: ${sales}`;
-  document.getElementById('tierProgress').style.width = pct + '%';
-  const tiers = [10,25,100,500,1000,2000,4000,8000];
-  const next = tiers[tiers.indexOf(cap)+1];
-  let tip;
-  if (pct < 50) tip = `เติม Design อีก ${cap - active} ช่อง — ยังมีที่ว่างเยอะ`;
-  else if (next && sales < cap*0.3) tip = `ใกล้เต็ม! ทำยอดขายให้ถึง ~${Math.round(cap*0.5)}/เดือน เพื่อขึ้น Tier ${next}`;
-  else tip = next ? `พร้อมขึ้น Tier ${next} แล้ว — รอ Amazon bump!` : 'Tier สูงสุดแล้ว 👑';
-  document.getElementById('tierTip').innerHTML = `<strong>💡 Tip:</strong> ${tip}`;
-}
-calcTier();
-
-// NICHE FINDER
-function findNiches() {
-  const seed = document.getElementById('nicheSeed').value || 'lifestyle';
-  const aud = document.getElementById('nicheAudience').value;
-  const out = document.getElementById('nicheOutput');
-  out.classList.remove('empty');
-  const cap = seed.charAt(0).toUpperCase() + seed.slice(1);
-  const samples = [
-    { name: `${cap} Mom Life`, heat: 82, volume: 'High', comp: 'Medium' },
-    { name: `${cap} Dad Club`, heat: 74, volume: 'High', comp: 'Medium' },
-    { name: `Funny ${cap} Quotes`, heat: 68, volume: 'Medium', comp: 'Low' },
-    { name: `${cap} Era`, heat: 65, volume: 'Medium', comp: 'Low' },
-    { name: `Vintage ${cap}`, heat: 58, volume: 'Low', comp: 'Low' }
-  ];
-  out.innerHTML = samples.map((n,i) =>
-    `<div style="padding:10px; border-bottom:1px dashed var(--border); display:flex; justify-content:space-between; align-items:center; gap:10px">
-      <div><strong>${i+1}. ${n.name}</strong> <span style="color:var(--text-muted); font-size:11px">· ${aud} · vol:${n.volume} · comp:${n.comp}</span></div>
-      <div class="mono" style="color:var(--warn); font-size:12px">🔥 ${n.heat}</div>
-    </div>`
-  ).join('');
+  const cur = parseInt(document.getElementById('tier-cur').value)||10;
+  const designs = parseInt(document.getElementById('tier-designs').value)||0;
+  const sales = parseInt(document.getElementById('tier-sales').value)||0;
+  const pct = Math.min(100, Math.round((designs/cur)*100));
+  const next = tierNext[cur];
+  document.getElementById('tier-label').textContent = 'Tier ' + cur;
+  document.getElementById('tier-pct-label').textContent = pct + '%';
+  document.getElementById('tier-bar').style.width = pct + '%';
+  let msg = `Tier ${cur} | Designs: ${designs}/${cur} (${pct}%) | Sales this month: ${sales}`;
+  if (next) msg += `\n\nNext: Tier ${next} — ต้องการ ${Math.max(0,next-sales)} sales เพิ่ม`;
+  if (pct < 70) msg += `\n⚠️ เติม Design ให้ถึง ${Math.round(cur*0.8)}+ slots เพื่อแสดงว่า active`;
+  document.getElementById('tier-msg').style.whiteSpace = 'pre-line';
+  document.getElementById('tier-msg').textContent = msg;
 }
 
-// BATCH
-let batchFiles = [];
-function batchPreview(e) {
-  batchFiles = Array.from(e.target.files);
-  document.getElementById('batchTotal').textContent = batchFiles.length;
-  document.getElementById('batchList').innerHTML = `<div class="mono" style="font-size:12px; color:var(--text-muted)">เลือก ${batchFiles.length} รูป: ${batchFiles.map(f=>f.name).slice(0,3).join(', ')}${batchFiles.length>3?'...':''}</div>`;
+// ── TM ──
+const tmUrls = {
+  uspto: kw => `https://tmsearch.uspto.gov/search/search-information?searchInput=${encodeURIComponent(kw)}`,
+  euipo: kw => `https://euipo.europa.eu/eSearch/#basic/1+1+1+1/${encodeURIComponent(kw)}`,
+  ukipo: kw => `https://trademarks.ipo.gov.uk/ipo-tmcase/page/Results/1/${encodeURIComponent(kw)}`,
+  dpma:  kw => `https://register.dpma.de/DPMAregister/marke/einsteiger?idf=${encodeURIComponent(kw)}`,
+  inpi:  kw => `https://data.inpi.fr/marques?query=${encodeURIComponent(kw)}`,
+  jpo:   kw => `https://www.j-platpat.inpit.go.jp/web#/trademarks/ja/list?query=${encodeURIComponent(kw)}`,
+  cipo:  kw => `https://opic.ic.gc.ca/cipo/trademark-registrar/trademarks_search.nsf/vwSearchIntellectualProperty?OpenForm&Query=${encodeURIComponent(kw)}`,
+};
+function openTM(country) {
+  const kw = document.getElementById('tm-input').value;
+  if (!kw) { showToast('⚠️ กรุณากรอกคำก่อน'); return; }
+  window.open(tmUrls[country](kw), '_blank');
 }
-function batchRun() {
-  if (!batchFiles.length) { alert('เลือกรูปก่อน'); return; }
-  let ok = 0;
-  batchFiles.forEach((f,i) => {
-    setTimeout(() => { ok++; document.getElementById('batchOK').textContent = ok; }, 200 * i);
+function tmOpenAll() {
+  Object.keys(tmUrls).forEach(c => openTM(c));
+}
+
+// ── ANALYSIS ──
+function runAnalysis() {
+  const tags = document.getElementById('ana-tags').value || 'general';
+  const scores = ['Design Quality','Niche Clarity','Competition Level','SEO Potential','Audience Match','Print Feasibility','Color Contrast','Typography','Uniqueness','Market Demand'];
+  let html = '<div style="margin-bottom:14px;">';
+  html += '<div style="font-size:13px;font-weight:700;margin-bottom:10px;">📊 Analysis Results (Fallback Mode)</div>';
+  const totalScore = (Math.random()*3+6).toFixed(1);
+  const verdict = totalScore>=8?'YES':totalScore>=6.5?'MAYBE':'NO';
+  const vColor = verdict==='YES'?'var(--blue3)':verdict==='MAYBE'?'var(--yellow)':'var(--red)';
+  html += `<div style="text-align:center;padding:16px;background:var(--black3);border-radius:10px;margin-bottom:14px;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:52px;color:${vColor};line-height:1;">${verdict}</div>
+    <div style="font-size:12px;color:var(--gray);">Sell Verdict · Score: ${totalScore}/10</div>
+  </div>`;
+  scores.forEach(s => {
+    const v = (Math.random()*4+6).toFixed(1);
+    html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;">
+      <span style="color:var(--gray);">${s}</span>
+      <span style="font-family:'Space Mono',monospace;color:var(--yellow);">${v}/10</span>
+    </div>`;
   });
-  setTimeout(() => {
-    document.getElementById('batchResult').innerHTML = `<table class="result-table"><thead><tr><th>#</th><th>File</th><th>Title</th><th>Brand</th><th>Status</th></tr></thead><tbody>${batchFiles.map((f,i)=>`<tr><td>${i+1}</td><td>${f.name}</td><td>Auto-generated title ${i+1}</td><td>POD${i+1} Co</td><td style="color:var(--success)">✓ OK</td></tr>`).join('')}</tbody></table>`;
-  }, batchFiles.length * 200 + 300);
-}
-function batchTM() {
-  if (!batchFiles.length) { alert('สร้าง Keyword ก่อน'); return; }
-  document.getElementById('batchPass').textContent = Math.floor(batchFiles.length * 0.8);
-  document.getElementById('batchFilter').textContent = Math.ceil(batchFiles.length * 0.2);
-  alert('ตรวจ TM เรียบร้อย — ดูผลใน column Status');
-}
-function batchExport() {
-  if (!batchFiles.length) { alert('ยังไม่มี result'); return; }
-  const csv = 'File,Title,Brand,Status\n' + batchFiles.map((f,i)=>`${f.name},Auto-generated title ${i+1},POD${i+1} Co,OK`).join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'batch-listings.csv'; a.click();
-}
-function batchClear() {
-  batchFiles = [];
-  ['batchTotal','batchOK','batchPass','batchFilter'].forEach(id => document.getElementById(id).textContent = '0');
-  document.getElementById('batchList').innerHTML = '';
-  document.getElementById('batchResult').innerHTML = '';
+  html += '</div>';
+  document.getElementById('analysis-output').innerHTML = html;
 }
 
-// HUB
-function hubSearchGo() {
-  const q = document.getElementById('hubSearch').value;
-  if (q) window.open(`https://www.amazon.com/s?k=${encodeURIComponent(q)}`, '_blank');
-}
-function hubSearchTo(q) {
-  window.open(`https://www.amazon.com/s?k=${encodeURIComponent(q)}`, '_blank');
+// ── NICHE FINDER ──
+function findNiches() {
+  const seed = document.getElementById('nf-seed').value || 'dog';
+  const niches = [
+    [`${seed} mom vintage shirt`, '🔥 High', 'Medium'],
+    [`${seed} dad retro tee`, '🔥 High', 'Low'],
+    [`funny ${seed} lover gifts`, '⚡ Medium', 'Low'],
+    [`${seed} life typography`, '⚡ Medium', 'Medium'],
+    [`${seed} owner squad`, '✨ Rising', 'Very Low'],
+  ];
+  let html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+  niches.forEach((n,i) => {
+    html += `<div style="background:var(--black3);border-radius:8px;padding:12px;">
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px;">${i+1}. ${n[0]}</div>
+      <div style="display:flex;gap:8px;font-size:11px;">
+        <span style="color:var(--yellow);">Heat: ${n[1]}</span>
+        <span style="color:var(--blue3);">Competition: ${n[2]}</span>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('niche-output').innerHTML = html;
 }
 
-// HELPERS
-function copyOutput(id) {
-  const txt = document.getElementById(id).textContent;
-  if (!txt || txt.includes('...')) return;
-  navigator.clipboard.writeText(txt).then(() => alert('✅ คัดลอกแล้ว'));
+// ── SEO LISTING ──
+function genListing() {
+  const niche = document.getElementById('seo-niche').value || 'Nurse Life';
+  const type = document.getElementById('seo-type').value;
+  const aud = document.getElementById('seo-audience').value || 'nurses';
+  const occ = document.getElementById('seo-occasion').value;
+  const listing = `<div style="display:flex;flex-direction:column;gap:10px;font-size:12px;">
+    <div><strong style="color:var(--gray);text-transform:uppercase;font-size:10px;">Brand (50)</strong><div style="background:var(--black3);padding:8px 10px;border-radius:6px;margin-top:4px;">${niche.split(' ')[0]} Apparel</div></div>
+    <div><strong style="color:var(--gray);text-transform:uppercase;font-size:10px;">Title (60)</strong><div style="background:var(--black3);padding:8px 10px;border-radius:6px;margin-top:4px;">Funny ${niche} ${type} | ${occ} Gift for ${aud}</div></div>
+    <div><strong style="color:var(--gray);text-transform:uppercase;font-size:10px;">Bullet 1</strong><div style="background:var(--black3);padding:8px 10px;border-radius:6px;margin-top:4px;">Premium ${niche.toLowerCase()} graphic ${type.toLowerCase()}, soft comfortable fit, great for everyday wear</div></div>
+    <div><strong style="color:var(--gray);text-transform:uppercase;font-size:10px;">Bullet 2</strong><div style="background:var(--black3);padding:8px 10px;border-radius:6px;margin-top:4px;">Perfect ${occ.toLowerCase()} gift for ${aud} — unique design that stands out</div></div>
+    <div><strong style="color:var(--gray);text-transform:uppercase;font-size:10px;">Description</strong><div style="background:var(--black3);padding:8px 10px;border-radius:6px;margin-top:4px;">Show your love with this exclusive ${niche} ${type.toLowerCase()}. Featuring a unique design perfect for ${aud} who love to express themselves...</div></div>
+  </div>`;
+  document.getElementById('seo-output').innerHTML = listing;
 }
 
-// INIT
-loadTrends();
-setInterval(loadTrends, 3600000);
+// ── EXPAND PROMPT ──
+function expandPrompt() {
+  const niche = document.getElementById('exp-niche').value || 'Dog Mom';
+  const count = parseInt(document.getElementById('exp-count').value)||3;
+  const styles = ['Vintage Retro','Cute Kawaii','Bold Typography','Minimalist','Hand-drawn','Grunge Distressed'];
+  let out = '';
+  for(let i=0;i<count;i++) {
+    const s = styles[i % styles.length];
+    out += `[${i+1}] ${s.toUpperCase()} STYLE:\n${niche} t-shirt design, ${s.toLowerCase()} aesthetic, ${['vector art','illustration','graphic tee'][i%3]}, transparent background, POD-ready\n\n`;
+  }
+  document.getElementById('exp-output').style.fontFamily = "'Space Mono', monospace";
+  document.getElementById('exp-output').style.fontSize = '12px';
+  document.getElementById('exp-output').style.whiteSpace = 'pre-wrap';
+  document.getElementById('exp-output').textContent = out;
+}
+
+// ── RESEARCH PROMPT ──
+function genResearchPrompt() {
+  const month = document.getElementById('rp-month').value;
+  const tool = document.getElementById('rp-tool').value;
+  const prompt = `${month} seasonal t-shirt design for ${tool}, trending niche for POD, high-quality vector illustration, transparent background, suitable for print on demand, popular niche keywords included`;
+  document.getElementById('rp-output').style.fontFamily = "'Space Mono', monospace";
+  document.getElementById('rp-output').style.fontSize = '12px';
+  document.getElementById('rp-output').textContent = prompt;
+}
+
+// ── IMG TO LISTING ──
+function img2Listing() {
+  document.getElementById('i2l-output').innerHTML = `<div style="font-size:12px;color:var(--gray);">
+    ⚠️ Vision API ต้องการ API Key เพื่อวิเคราะห์รูปจริง<br><br>
+    <strong style="color:var(--white);">Fallback Mode:</strong> กรุณากรอก Manual Tags ใน Design Analyzer แทน
+  </div>`;
+}
+
+// ── BATCH ──
+function runBatch() {
+  const lines = document.getElementById('batch-input').value.split('\n').filter(l=>l.trim());
+  let out = 'BATCH RESULTS:\n\n';
+  lines.forEach((l,i) => {
+    out += `[${i+1}] ${l.trim()}\n  Title: Funny ${l.trim()} T-Shirt | Perfect Gift Tee\n  Keywords: ${l.toLowerCase()}, shirt, gift, tee\n\n`;
+  });
+  document.getElementById('batch-output').style.whiteSpace = 'pre-wrap';
+  document.getElementById('batch-output').textContent = out || 'กรอก Niches ก่อนกด Generate';
+}
+
+function exportBatch() {
+  showToast('📊 Export CSV (ต้องการ Backend)');
+}
+
+// ── SETTINGS ──
+function saveSettings() {
+  const ok = document.getElementById('openai-key').value;
+  const gm = document.getElementById('gemini-key').value;
+  const prov = document.getElementById('provider-sel').value;
+  if (ok) { localStorage.setItem('openai_key', ok); document.getElementById('openai-status').textContent = '✅ Configured'; document.getElementById('openai-status').style.color = 'var(--blue3)'; }
+  if (gm) { localStorage.setItem('gemini_key', gm); document.getElementById('gemini-status').textContent = '✅ Configured'; document.getElementById('gemini-status').style.color = 'var(--blue3)'; }
+  localStorage.setItem('provider', prov);
+  document.getElementById('default-prov').textContent = prov;
+  showToast('✅ Saved!');
+}
+
+function clearSettings() {
+  ['openai_key','gemini_key','provider'].forEach(k => localStorage.removeItem(k));
+  document.getElementById('openai-key').value = '';
+  document.getElementById('gemini-key').value = '';
+  document.getElementById('openai-status').textContent = '⚪ Not configured';
+  document.getElementById('gemini-status').textContent = '⚪ Not configured';
+  showToast('🗑 Cleared!');
+}
+
+function testAPI() {
+  showToast('🧪 Testing... (ต้องการ API Key จริง)');
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  calcRoyalty();
+  calcTier();
+});
 </script>
-
 </body>
 </html>
